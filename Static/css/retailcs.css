@@ -1,0 +1,12 @@
+body.nav-md .nav_title {
+	border: 0;
+}
+
+body.nav-md .nav_title .site_title {
+	padding: 0px 10px; 
+	margin: 10px 0px;
+}
+
+body.nav-md .nav_title .site_title img {
+	width: 100%;
+}
