@@ -11,3 +11,44 @@ body.nav-md .nav_title .site_title img {
 	width: 100%;
 }
 
+
+
+/************* Page Actualización & Corrección *************/
+
+blockquote {
+    padding: 5px 15px;
+    margin: 10px 0px 20px;
+    font-size: 20px;
+    border-left: 5px solid #eee;
+}
+
+blockquote .subtitle {
+    display: block;
+    font-size: 70%;
+    line-height: 1.42857143;
+    color: #777;
+    font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+    text-transform: uppercase;
+}
+
+blockquote .subtitle:before {
+    content: '\2014 \00A0';
+}
+
+body .container .x_panel .x_title .panel_toolbox li > a {
+	color: #777 !important;
+}
+
+
+/************* Page Manual Grilla *************/
+
+body .container .x_panel .x_content .img-manual {
+	max-width: 100px;
+    display: block;
+    margin: 10px auto;
+}
+
+body .container .x_panel .x_content .thumbnail .caption {
+	text-align: center;
+}
+
