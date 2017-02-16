@@ -67,5 +67,12 @@ $(document).ready(function(){
         }
     });
 
+    $('.flex-container').height( 
+    	$(window).height() 
+    );
+
+    $('.reset_pass').click(function(){
+    	alert("falta mostrar contrasena");
+    });
 
 });

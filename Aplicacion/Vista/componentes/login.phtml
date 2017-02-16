@@ -20,77 +20,78 @@
   </head>
 
   <body class="login">
-    <div>
-      <a class="hiddenanchor" id="signup"></a>
-      <a class="hiddenanchor" id="signin"></a>
+    <a class="hiddenanchor" id="signup"></a>
+    <a class="hiddenanchor" id="signin"></a>
 
-      <div class="login_wrapper">
-        <div class="animate form login_form">
-          <section class="login_content">
-            <form>
-              <h1>Iniciar Sesión</h1>
-              <div class="div-retail">
-                <input type="text" id="usuario" class="form-control" placeholder="Usuario" required="" />
-              </div>
-              <div class="div-retail">
-                <input type="password" id="contrasena" class="form-control" placeholder="Contraseña" required="" />
-              </div>
-              <div>
-                <a class="btn btn-default submit" href="#" id="login-ingresar">Ingresar</a>
-                <a class="reset_pass" href="#">¿Olvidó su contraseña?</a>
-              </div>
-
-              <div class="clearfix"></div>
-
-              <div class="separator">
-                <!--<p class="change_link">New to site?
-                  <a href="#signup" class="to_register"> Create Account </a>
-                </p>
-                -->
+    <div class="login_wrapper">
+      <div class="animate login_form">
+        <section class="login_content">
+          <form class="flex-container">
+            <section class="flex-item">
+              <div></div>
+            </section>
+            <section class="flex-item form-item">
+              <div class="form">
+                <div class="form-group">
+                  <input type="text" id="usuario" class="form-control" placeholder="Usuario" required="" />
+                </div>
+                <div class="form-group">
+                  <input type="password" id="contrasena" class="form-control" placeholder="Contraseña" required="" />
+                  <span class="glyphicon glyphicon-eye-open form-control-feedback" aria-hidden="true"></span>
+                </div>
+                <div class="form-group">
+                  <btn class="btn btn-block btn-default submit"id="login-ingresar">Ingresar</btn>
+                </div>
+                <div class="form-group">
+                  <btn class="reset_pass">¿Olvidó su contraseña?</btn>
+                </div>
+              </div>                
+            </section>
+            <section class="flex-item">
+              <div class="author">
                 <div class="clearfix"></div>
                 <div>
-                  <!--<h1><i class="fa fa-paw"></i> Desarrollado por:</h1>-->
                   <h5>Desarrollado por:</h5>
                   <p><img src="../Static/images/logo-small-name-black.png" alt=""></p>
                 </div>
               </div>
-            </form>
-          </section>
-        </div>
+            </section>               
+          </form>
+        </section>
+      </div>
 
-        <div id="register" class="animate form registration_form">
-          <section class="login_content">
-            <form>
-              <h1>Crer Cuenta</h1>
-              <div>
-                <input type="text" class="form-control" placeholder="Usuario" required="" />
-              </div>
-              <div>
-                <input type="email" class="form-control" placeholder="Email" required="" />
-              </div>
-              <div>
-                <input type="password" class="form-control" placeholder="Contraseña" required="" />
-              </div>
-              <div>
-                <a class="btn btn-default submit" href="../">Enviar</a>
-              </div>
+      <div id="register" class="animate form registration_form">
+        <section class="login_content">
+          <form>
+            <h1>Crer Cuenta</h1>
+            <div>
+              <input type="text" class="form-control" placeholder="Usuario" required="" />
+            </div>
+            <div>
+              <input type="email" class="form-control" placeholder="Email" required="" />
+            </div>
+            <div>
+              <input type="password" class="form-control" placeholder="Contraseña" required="" />
+            </div>
+            <div>
+              <a class="btn btn-default submit" href="../">Enviar</a>
+            </div>
 
+            <div class="clearfix"></div>
+
+            <div class="separator">
+              <!--<p class="change_link">Already a member ?
+                <a href="#signin" class="to_register"> Log in </a>
+              </p>-->
               <div class="clearfix"></div>
-
-              <div class="separator">
-                <!--<p class="change_link">Already a member ?
-                  <a href="#signin" class="to_register"> Log in </a>
-                </p>-->
-                <div class="clearfix"></div>
-                <div>
-                  <!--<h1><i class="fa fa-paw"></i> Desarrollado por:</h1>-->
-                  <h5>Desarrollado por:</h5>
-                  <p><img src="../Static/images/logo-small-name-black.png" alt=""></p>
-                </div>
+              <div>
+                <!--<h1><i class="fa fa-paw"></i> Desarrollado por:</h1>-->
+                <h5>Desarrollado por:</h5>
+                <p><img src="../Static/images/logo-small-name-black.png" alt=""></p>
               </div>
-            </form>
-          </section>
-        </div>
+            </div>
+          </form>
+        </section>
       </div>
     </div>
 
