@@ -47,6 +47,8 @@ $(document).ready(function(){
 	});
 
 	$(document).on('click', '.collapse-list', function(){
+		$(this).css('background', '#F5F7FA');
+		$('.collapse-grilla').css('background', '#FFF');
 		var a = $('.col-md-55');
 		a.css('width', '100%');
 		a.find('.view-list').css('display', 'none');
@@ -54,9 +56,12 @@ $(document).ready(function(){
 		a.find('.caption-left').css({'display': 'block', 'float' : 'left'});
 		a.find('.caption-right').css({'display': 'block', 'float' : 'right'});
 		a.find('.br-list').css('display','none');
+		a.css('background', '#F5F7FA;')
 	});
 
 	$(document).on('click', '.collapse-grilla', function(){
+		$(this).css('background', '#F5F7FA');
+		$('.collapse-list').css('background', '#FFF');
 		var a = $('.col-md-55');
 		a.css('width', '20%');
 		a.find('.view-list').css('display', 'block');
@@ -64,6 +69,17 @@ $(document).ready(function(){
 		a.find('.caption-left').css({'display': 'block', 'float' : 'none'});
 		a.find('.caption-right').css({'display': 'block', 'float' : 'none'});
 		a.find('.br-list').css('display','block');
+	});
+
+
+	$(document).on('click', '.view-video', function(){
+
+		var url = $(this).parent().parent().parent().find('.iframe-video').attr('src');
+		var cadena = url.split('?');
+		url = cadena[0]+'?autoplay=1';
+
+		$('#modal-video').find('#modal-iframe').attr('src',url);
+		$('#modal-video').modal('show');
 	});
 
 });

@@ -40,18 +40,18 @@
                   <li class="active">
                     <a><i class="fa fa-home"></i> RMS.NET <span class="fa fa-chevron-down"></span></a>
                     <ul class="nav child_menu" style="display: block;">
-                      <li><a href="#" class="net-servicio" page="actualizacion" ser="rms">Actualizaciones</a></li>
-                      <li><a href="#" class="net-servicio" page="correccion" ser="rms">Correcciones</a></li>
-                      <li><a href="#" class="net-servicio" page="manual" ser="rms">Manuales</a></li>
-                      <li><a href="#" class="net-servicio" page="video" ser="rms">Videos</a></li>
+                      <li><a href="javascript:void(0)" class="net-servicio" page="actualizacion" ser="rms">Actualizaciones</a></li>
+                      <li><a href="javascript:void(0)" class="net-servicio" page="correccion" ser="rms">Correcciones</a></li>
+                      <li><a href="javascript:void(0)" class="net-servicio" page="manual" ser="rms">Manuales</a></li>
+                      <li><a href="javascript:void(0)" class="net-servicio" page="video" ser="rms">Videos</a></li>
                     </ul>
                   </li>
                   <li><a><i class="fa fa-edit"></i> POS.NET <span class="fa fa-chevron-down"></span></a>
                     <ul class="nav child_menu">
-                      <li><a href="#" class="net-servicio" page="actualizacion" ser="pos">Actualizaciones</a></li>
-                      <li><a href="#" class="net-servicio" page="correccion" ser="pos">Correcciones</a></li>
-                      <li><a href="#" class="net-servicio" page="manual" ser="pos">Manuales</a></li>
-                      <li><a href="#" class="net-servicio" page="video" ser="pos">Videos</a></li>
+                      <li><a href="javascript:void(0)" class="net-servicio" page="actualizacion" ser="pos">Actualizaciones</a></li>
+                      <li><a href="javascript:void(0)" class="net-servicio" page="correccion" ser="pos">Correcciones</a></li>
+                      <li><a href="javascript:void(0)" class="net-servicio" page="manual" ser="pos">Manuales</a></li>
+                      <li><a href="javascript:void(0)" class="net-servicio" page="video" ser="pos">Videos</a></li>
                     </ul>
                   </li>
                   <li><a><i class="fa fa-desktop"></i> WMS.NET <span class="fa fa-chevron-down"></span></a>
@@ -64,27 +64,42 @@
                   </li>
                   <li><a><i class="fa fa-bug"></i> POLLING <span class="fa fa-chevron-down"></span></a>
                     <ul class="nav child_menu">
-                      <li><a href="#" class="net-servicio" page="actualizacion" ser="polling">Actualizaciones</a></li>
-                      <li><a href="#" class="net-servicio" page="correccion" ser="polling">Correcciones</a></li>
-                      <li><a href="#" class="net-servicio" page="manual" ser="polling">Manuales</a></li>
-                      <li><a href="#" class="net-servicio" page="video" ser="polling">Videos</a></li>
+                      <li><a href="javascript:void(0)" class="net-servicio" page="actualizacion" ser="polling">Actualizaciones</a></li>
+                      <li><a href="javascript:void(0)" class="net-servicio" page="correccion" ser="polling">Correcciones</a></li>
+                      <li><a href="javascript:void(0)" class="net-servicio" page="manual" ser="polling">Manuales</a></li>
+                      <li><a href="javascript:void(0)" class="net-servicio" page="video" ser="polling">Videos</a></li>
                     </ul>
                   </li>
                 </ul>
               </div>
+
               <div class="menu_section">
                 <h3>Otros</h3>
                 <ul class="nav side-menu">
                   <li><a><i class="fa fa-bug"></i> Redes Sociales <span class="fa fa-chevron-down"></span></a>
                     <ul class="nav child_menu">
-                      <li><a href="#">Facebook</a></li>
-                      <li><a href="#">Twitter</a></li>
-                      <li><a href="#">Instagram</a></li>
-                      <li><a href="#">Youtube</a></li>
+                      <li><a href="javascript:void(0)">Facebook</a></li>
+                      <li><a href="javascript:void(0)">Twitter</a></li>
+                      <li><a href="javascript:void(0)">Instagram</a></li>
+                      <li><a href="javascript:void(0)">Youtube</a></li>
                     </ul>
                   </li>
                 </ul>
               </div>
+              
+              <?php if ($_SESSION['Usuario']['User'] == 'admin') { ?>
+              <div class="menu_section">
+                <h3>Admin</h3>
+                <ul class="nav side-menu">
+                  <li><a><i class="fa fa-bug"></i> Gestión Usuarios <span class="fa fa-chevron-down"></span></a>
+                    <ul class="nav child_menu">
+                      <li><a href="javascript:void(0)">Nuevo Usuario</a></li>
+                      <li><a href="javascript:void(0)">Lista Usuarios</a></li>
+                    </ul>
+                  </li>
+                </ul>
+              </div>
+              <?php } ?>
 
             </div>
             <!-- /sidebar menu -->
@@ -135,7 +150,7 @@
                       </a>
                     </li>
                     -->
-                    <li><a href="javascript:;">Ayuda</a></li>
+                    <li><a href="javascript:void(0)">Ayuda</a></li>
                     <li><a href="./extranet/login/cerrarSession/"><i class="fa fa-sign-out pull-right"></i> Cerrar Sesión</a></li>
                   </ul>
                 </li>

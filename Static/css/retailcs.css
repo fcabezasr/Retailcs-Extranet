@@ -46,9 +46,60 @@ body .container .x_panel .x_content .img-manual {
 	max-width: 100px;
     display: block;
     margin: 10px auto;
+    -webkit-filter: grayscale(10%);
+    opacity: 0.8;
 }
 
 body .container .x_panel .x_content .thumbnail .caption {
 	text-align: center;
 }
 
+body .container .x_panel .x_title .panel_toolbox .collapse-grilla {
+    background: #F5F7FA;
+}
+
+
+/************* Page Videos *************/
+
+body .container .x_panel .x_content .col-md-55-video {
+    width: 25% !important;
+}
+
+body .container .x_panel .x_content .col-md-55-video .thumbnail .image {
+    height: 170px !important;
+}
+
+body .container .x_panel .x_content .col-md-55-video .thumbnail .image .mask.no-caption .tools {
+    margin: 138px 0 0 !important;
+}
+
+body .container .x_panel .x_content .thumbnail .caption-video {
+    text-align: left;
+}
+
+body .container .x_panel .x_content .thumbnail .caption-video strong {
+    line-height: 22px;
+    font-size: 20px;
+    /*line-height: 20px;
+    font-size: 18px;*/
+    font-weight: 500;
+}
+
+body .container .x_panel .x_content .modal-dialog {
+    display: block;
+    margin: auto;
+    padding: 10px;
+    background: rgba(0, 0, 0, 0.5);
+    border-radius: 5px;
+    top: 20%;
+}
+
+body .container .x_panel .x_content .modal-dialog .close {
+    color: #fff !important;
+    opacity: 0.7 !important;
+}
+
+body .container .x_panel .x_content .modal-dialog .close:hover {
+    color: #fff !important;
+    opacity: 0.7 !important;
+}
