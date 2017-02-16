@@ -15,7 +15,8 @@
     <link href="../Static/vendors/font-awesome/css/font-awesome.min.css" rel="stylesheet">
 
     <!-- Custom Theme Style -->
-    <link href="../Static/build/css/custom.min.css" rel="stylesheet">
+    <!-- <link href="../Static/build/css/custom.min.css" rel="stylesheet"> -->
+    <link href="../Static/build/css/custom.css" rel="stylesheet">
     <link href="../Static/css/login.css" rel="stylesheet">
   </head>
 
@@ -31,28 +32,43 @@
               <div></div>
             </section>
             <section class="flex-item form-item">
-              <div class="form">
+              <!-- login section -->
+              <div class="form login_section">
                 <div class="form-group">
                   <input type="text" id="usuario" class="form-control" placeholder="Usuario" required="" />
                 </div>
                 <div class="form-group">
                   <input type="password" id="contrasena" class="form-control" placeholder="Contraseña" required="" />
-                  <span class="glyphicon glyphicon-eye-open form-control-feedback" aria-hidden="true"></span>
+                  <span class="glyphicon glyphicon-eye-open form-control-feedback showpassword" aria-hidden="true"></span>
                 </div>
                 <div class="form-group">
-                  <btn class="btn btn-block btn-default submit"id="login-ingresar">Ingresar</btn>
+                  <btn class="btn btn-block btn-default submit" id="login-ingresar">Ingresar</btn>
                 </div>
                 <div class="form-group">
-                  <btn class="reset_pass">¿Olvidó su contraseña?</btn>
+                  <btn class="btn btn_link reset_pass">¿Olvidó su contraseña?</btn>
                 </div>
-              </div>                
+              </div>
+              <!--/ login section end-->
+              <!-- recovery section -->
+              <div class="form recovery_section hide">
+                <div class="form-group">
+                  <input type="text" id="usuario_recovery" class="form-control" placeholder="Usuario" required="" />
+                </div>
+                <div class="form-group">
+                  <btn class="btn btn-block btn-default submit"id="recovery-enviar">Enviar</btn>
+                </div>
+                <div class="form-group">
+                  <btn class="btn btn_link login_enter">Logearse</btn>
+                </div>
+              </div>
+              <!--/ recovery section end-->
             </section>
             <section class="flex-item">
               <div class="author">
                 <div class="clearfix"></div>
                 <div>
                   <h5>Desarrollado por:</h5>
-                  <p><img src="../Static/images/logo-small-name-black.png" alt=""></p>
+                  <p><img src="../Static/images/logo-small-name.png" alt=""></p>
                 </div>
               </div>
             </section>               
