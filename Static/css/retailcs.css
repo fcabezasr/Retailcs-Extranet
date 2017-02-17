@@ -58,6 +58,13 @@ body .container .x_panel .x_title .panel_toolbox .collapse-grilla {
     background: #F5F7FA;
 }
 
+body .container .x_panel .x_title .panel_toolbox .collapse-grilla:hover {
+    background: #F5F7FA !important;
+}
+
+body .container .x_panel .x_title .panel_toolbox .collapse-list:hover {
+    background: #F5F7FA !important;
+}
 
 /************* Page Videos *************/
 

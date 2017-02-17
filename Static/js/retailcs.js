@@ -13,7 +13,7 @@ $(document).ready(function(){
 
 		$.ajax({
 			async: true,
-			url: 'extranet/page/service/'+pagina+'/'+servicio+'/',
+			url: './page/service/'+pagina+'/'+servicio+'/',
 			cache: false,
 			data: {},
 			type: 'GET',
@@ -36,17 +36,37 @@ $(document).ready(function(){
 		return false;
 	});
 
+
+	$('.redes-sociales').on('click', function(){
+
+		$('.child_menu li').removeClass('active');
+		$(this).parent().addClass('active');
+	});
+
+
+	$('.gestion-admin').on('click', function(){
+
+		$('.child_menu li').removeClass('active');
+		$(this).parent().addClass('active');
+	});
+
+
 	$(document).on('click', '.close-link', function(){
+
 		var a=$(this).closest(".x_panel");
 		a.remove();
 	});
 
+
 	$(document).on('click', '.collapse-link', function(){
+
 		var a=$(this).closest(".x_panel"), b=$(this).find("i"), c=a.find(".x_content");
 		a.attr("style")?c.slideToggle(200,function(){a.removeAttr("style")}):(c.slideToggle(200),a.css("height","auto")),b.toggleClass("fa-chevron-up fa-chevron-down");
 	});
 
+
 	$(document).on('click', '.collapse-list', function(){
+
 		$(this).css('background', '#F5F7FA');
 		$('.collapse-grilla').css('background', '#FFF');
 		var a = $('.col-md-55');
@@ -59,7 +79,9 @@ $(document).ready(function(){
 		a.css('background', '#F5F7FA;')
 	});
 
+
 	$(document).on('click', '.collapse-grilla', function(){
+
 		$(this).css('background', '#F5F7FA');
 		$('.collapse-list').css('background', '#FFF');
 		var a = $('.col-md-55');
@@ -73,11 +95,9 @@ $(document).ready(function(){
 
 
 	$(document).on('click', '.view-video', function(){
-
 		var url = $(this).parent().parent().parent().find('.iframe-video').attr('src');
 		var cadena = url.split('?');
 		url = cadena[0]+'?autoplay=1';
-
 		$('#modal-video').find('#modal-iframe').attr('src',url);
 		$('#modal-video').modal('show');
 	});
