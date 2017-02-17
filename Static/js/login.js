@@ -3,6 +3,9 @@ $(document).ready(function(){
 	$('#login-ingresar').on('click', function(){
 
 		$(".error").fadeOut().remove();
+		if (true) {
+			$('.login_section').prepend('<span class="error-validate">Osea</span>');
+		}
 		if ($("#usuario").val() == "") {
             $("#usuario").focus().after('<span class="error">Ingrese su usuario</span>');  
             return false;
@@ -149,6 +152,14 @@ $(document).ready(function(){
     	else
     		contrasena.attr('type','text');
     });
+
+    $('.form-control')
+    .focus(function(){
+    	$(this).parent().addClass('focus');
+    })
+    .focusout(function() {
+    	$(this).parent().removeClass('focus');
+ 	});
 
 });
 
