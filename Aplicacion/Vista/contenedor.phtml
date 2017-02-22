@@ -87,7 +87,7 @@
                 </ul>
               </div>
               
-              <?php if ($_SESSION['Usuario']['User'] == 'admin') { ?>
+              <?php if ($_SESSION['User']['Type'] == 1) { ?>
               <div class="menu_section">
                 <h3>Admin</h3>
                 <ul class="nav side-menu">
@@ -134,7 +134,7 @@
               <ul class="nav navbar-nav navbar-right">
                 <li class="">
                   <a href="javascript:;" class="user-profile dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-                    Realcs<span class=" fa fa-angle-down"></span>
+                    <?php echo $_SESSION['User']['Business']; ?> <span class=" fa fa-angle-down"></span>
                   </a>
                   <!--<a href="javascript:;" class="user-profile dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
                     <img src="images/img.jpg" alt="">John Doe

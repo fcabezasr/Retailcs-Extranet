@@ -36,10 +36,25 @@ $(document).ready(function(){
 
 				},
 				success : function(data){
-					
-					console.log(data);
-					if (data==1) {
-						location.href = '../';
+
+					switch(data){
+						case '0':
+							console.log('Usuario y contraseña incorrectos.');
+							break;
+						case '1':
+							console.log('Usuario y contraseña correctos.');
+							location.href = '../';
+							break;
+						case '2':
+							console.log('El usuario no existe.');
+							break;
+						case '3':
+							console.log('La contraseña es incorrecta.');
+							break;
+						default:
+							console.log('Error desconocido.');
+							console.log(data);
+							break;
 					}
 				},
 				error : function(xhr, status){
