@@ -102,7 +102,8 @@ body{
     flex-grow: 2;
 }
 .form{
-    width: 100%;
+    margin: auto;
+    width: 92%;
     padding: 35px 50px 15px;
     background-color: #ffffff;
     border-radius: 6px;
@@ -130,7 +131,6 @@ body{
 .login .login_wrapper .separator {
 	margin-top: 200px;
 }
-
 .login .login_wrapper .form-group .error{
     color: #a94442;
     background-color: #f2dede;
@@ -259,4 +259,28 @@ body{
 .form-group.focus:after {
     width: 100%;
     background-color: #3d566e;
+}
+
+.animate .form-item{
+    perspective: 500px;
+}
+.animate .login_section{
+    animation-name: listIn;
+    animation-duration: 0.8s;
+    animation-fill-mode: forwards;
+    animation-timing-function: ease-out;
+}
+@keyframes listIn {
+  0% {
+    opacity: 0;
+     transform: rotateX(-15deg) translateZ(-605px);
+  }
+  90% {
+    opacity: 1;
+     transform: rotateX(0deg) translateZ(20px);
+  }
+  100% {
+    opacity: 1;
+     transform: rotateX(0deg) translateZ(0px);
+  }
 }

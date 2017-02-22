@@ -163,6 +163,14 @@ $(document).ready(function(){
 
 });
 
+
+$(window).load(function(){
+
+	$('.login_form').addClass( 'animate' );
+
+});
+
+
 $(window).resize(function(){
 
 	$('.flex-container').height( 
