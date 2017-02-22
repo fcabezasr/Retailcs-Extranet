@@ -3,9 +3,6 @@ $(document).ready(function(){
 	$('#login-ingresar').on('click', function(){
 
 		$(".error").fadeOut().remove();
-		if (true) {
-			$('.login_section').prepend('<span class="error-validate">Osea</span>');
-		}
 		if ($("#usuario").val() == "") {
             $("#usuario").focus().after('<span class="error">Ingrese su usuario</span>');  
             return false;
@@ -36,22 +33,32 @@ $(document).ready(function(){
 
 				},
 				success : function(data){
-
+					$('.error-validate').remove();
 					switch(data){
 						case '0':
+							$('.login_section')
+							.prepend('<span class="error-validate">Usuario y contraseña incorrectos.</span>');
 							console.log('Usuario y contraseña incorrectos.');
 							break;
 						case '1':
+							$('.login_section')
+							.prepend('<span class="error-validate">Usuario y contraseña incorrectos.</span>');
 							console.log('Usuario y contraseña correctos.');
-							location.href = '../';
+							// location.href = '../';
 							break;
 						case '2':
+							$('.login_section')
+							.prepend('<span class="error-validate">El usuario no existe.</span>');
 							console.log('El usuario no existe.');
 							break;
 						case '3':
+							$('.login_section')
+							.prepend('<span class="error-validate">La contraseña es incorrecta.</span>');
 							console.log('La contraseña es incorrecta.');
 							break;
 						default:
+							$('.login_section')
+							.prepend('<span class="error-validate">Error desconocido.</span>');
 							console.log('Error desconocido.');
 							console.log(data);
 							break;
@@ -150,12 +157,16 @@ $(document).ready(function(){
 
     $('.reset_pass').click(function(){
     	$('.recovery_section').removeClass('hide');
+    	$('#usuario_recovery').focus();
+
     	$('.login_section').addClass('hide');
     });
 
 
     $('.login_enter').click(function(){
     	$('.login_section').removeClass('hide');
+    	$('.login_form').removeClass( 'animate' );
+    	
     	$('.recovery_section').addClass('hide');
     });
 
@@ -182,6 +193,7 @@ $(document).ready(function(){
 $(window).load(function(){
 
 	$('.login_form').addClass( 'animate' );
+	$('#usuario').focus();
 
 });
 
