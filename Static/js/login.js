@@ -34,33 +34,23 @@ $(document).ready(function(){
 				},
 				success : function(data){
 					$('.error-validate').remove();
+					console.log(data);
 					switch(data){
 						case '0':
-							$('.login_section')
-							.prepend('<span class="error-validate">Usuario y contraseña incorrectos.</span>');
-							console.log('Usuario y contraseña incorrectos.');
+							$('.login_section').prepend('<span class="error-validate">Usuario y contraseña incorrectos.</span>');
 							break;
 						case '1':
-							$('.login_section')
-							.prepend('<span class="error-validate">Usuario y contraseña incorrectos.</span>');
-							console.log('Usuario y contraseña correctos.');
-							// location.href = '../';
+							$('.login_section').prepend('<span class="error-validate">Usuario y contraseña correctos.</span>');
+							location.href = '../';
 							break;
 						case '2':
-							$('.login_section')
-							.prepend('<span class="error-validate">El usuario no existe.</span>');
-							console.log('El usuario no existe.');
+							$('.login_section').prepend('<span class="error-validate">El usuario no existe.</span>');
 							break;
 						case '3':
-							$('.login_section')
-							.prepend('<span class="error-validate">La contraseña es incorrecta.</span>');
-							console.log('La contraseña es incorrecta.');
+							$('.login_section').prepend('<span class="error-validate">La contraseña es incorrecta.</span>');
 							break;
 						default:
-							$('.login_section')
-							.prepend('<span class="error-validate">Error desconocido.</span>');
-							console.log('Error desconocido.');
-							console.log(data);
+							$('.login_section').prepend('<span class="error-validate">Error desconocido.</span>');
 							break;
 					}
 				},

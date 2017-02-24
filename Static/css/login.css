@@ -152,9 +152,10 @@ body{
     border-radius: 3px;
     margin: 20px auto;
     margin-top: 0px;
-    padding: 3px 12px;
+    padding: 8px 12px;
     font-size: 12px;
     text-align: center;
+    line-height: 30px;
 }
 .login .login_wrapper .form-group .error:before{
     border-color: transparent transparent #f2dede transparent;
