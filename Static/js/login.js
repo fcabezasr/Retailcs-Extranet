@@ -40,7 +40,7 @@ $(document).ready(function(){
 							$('.login_section').prepend('<span class="error-validate">Usuario y contraseña incorrectos.</span>');
 							break;
 						case '1':
-							$('.login_section').prepend('<span class="error-validate">Usuario y contraseña correctos.</span>');
+							//$('.login_section').prepend('<span class="error-validate">Usuario y contraseña correctos.</span>');
 							location.href = '../';
 							break;
 						case '2':

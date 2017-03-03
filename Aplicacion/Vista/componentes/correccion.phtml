@@ -1,41 +1,50 @@
-<?php 
-	/*echo $pagina;*/
-	$servicio = $servicio.'.net';
+<?php
+	$product = $object_product['ObjectProduct']['Product'];
+	$content_type = $object_product['ObjectProduct']['ContentType'];
+	$array_version = $object_product['ObjectProduct']['ObjectVersion'];
+
+	$estado = 0;
+	foreach ($array_version as $key => $value) {
+		if (count($value['ContentDetail']) > 0) {
+			$estado = 1;
+		}
+	}
 ?>
 <div class="container">
 	<div class="row">
 		<div class="col-md-12">
 			<blockquote>
-				<p>Correcciones</p>
-				<div class="subtitle"><?php echo $servicio; ?></div>
+				<p class="title"><?php echo $content_type->content_description; ?></p>
+				<div class="subtitle"><?php echo $product->product_name; ?></div>
 			</blockquote>
 		</div>
 	</div>
 
 	<div class="clearfix"></div>
-	
+
 	<div class="row">
 		<div class="col-md-12 col-sm-12 col-xs-12">
-
-
+			<?php
+			if ($estado) {
+				foreach ($array_version as $key_v => $value_v) {
+					$version = $value_v['Version'];
+					$content = $value_v['Content'];
+					$content_detail = $value_v['ContentDetail'];
+					
+					if (isset($version)) {
+						if (isset($content)) {
+							if (isset($content_detail)) {
+			?>
 			<!-- Inicio - Table Collapse 1 -->
 			<div class="x_panel">
 				<div class="x_title">
-					<h2>Versión 9.00 <small>/ Actualizado el: Viernes 10, 2017</small></h2>
+					<h2>Versión <?php echo $version->version_description; ?><small>/ Actualizado el: <?php echo $content->publication_date; ?></small></h2>
 					<ul class="nav navbar-right panel_toolbox">
 						<li><a class="collapse-link"><i class="fa fa-bars"></i> Ver Todo</a></li>
-						<!--<li class="dropdown">
-							<a href="javascript:void(0)" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>
-							<ul class="dropdown-menu" role="menu">
-								<li><a href="javascript:void(0)">Settings 1</a></li>
-								<li><a href="javascript:void(0)">Settings 2</a></li>
-							</ul>
-						</li>-->
-						<!--<li><a class="close-link"><i class="fa fa-close"></i></a></li>-->
 					</ul>
 					<div class="clearfix"></div>
 				</div>
-				<div class="x_content">
+				<div class="x_content" <?php ($key_v==0? '': 'style="display: none;"') ?> >
 					<table class="table table-striped">
 						<thead>
 							<tr>
@@ -45,347 +54,40 @@
 							</tr>
 						</thead>
 						<tbody>
+							<?php
+							foreach ($content_detail as $key_cd => $value_cd) {
+							?>
 							<tr>
-								<th scope="row">362</th>
-								<td>08-02-2017</td>
-								<td>when copying a PO to an Invoice it was calculating wrong the Qty Order</td>
-							</tr>
-							<tr>
-								<th scope="row">361</th>
-								<td>07-02-2017</td>
-								<td>when copying a Sales Order from History Grid and change the Store then Save the Order, it throws an exception message</td>
-							</tr>
-							<tr>
-								<th scope="row">360</th>
-								<td>06-02-2017</td>
-								<td>when copying a Sales Order from History Grid and change the Store then Save the Order, it throws an exception message</td>
-							</tr>
-							<tr>
-								<th scope="row">359</th>
-								<td>06-02-2017</td>
-								<td>when copying a Sales Order from History Grid and change the Store then Save the Order, it throws an exception message</td>
-							</tr>
-							<tr>
-								<th scope="row">358</th>
-								<td>06-02-2017</td>
-								<td>when copying a Sales Order from History Grid and change the Store then Save the Order, it throws an exception message</td>
-							</tr>
-							<tr>
-								<th scope="row">357</th>
-								<td>06-02-2017</td>
-								<td>when copying a Sales Order from History Grid and change the Store then Save the Order, it throws an exception message</td>
-							</tr>
-							<tr>
-								<th scope="row">356</th>
-								<td>06-02-2017</td>
-								<td>when copying a Sales Order from History Grid and change the Store then Save the Order, it throws an exception message</td>
-							</tr>
+								<th scope="row"><?php echo $key_cd+1; ?></th>
+								<td><?php echo $value_cd->registry_date; ?></td>
+								<td><?php echo utf8_encode($value_cd->detail_description); ?></td>
+							</tr>			
+							<?php
+							}
+							?>
 						</tbody>
-					</table>
-
+					</table>					
 					<div class="actionBar">
 						<a href="javascript:void(0)" type="button" class="btn btn-primary"><i class="fa fa-download"></i> Descargar en PDF</a>
 					</div>
 				</div>
 			</div>
-			<!-- Fin - Table Collapse 1 -->
-
-
-			<!-- Inicio - Table Collapse 2 -->
+			<!-- Fin - Table Collapse 1 -->		
+			<?php
+							}
+						}
+					}
+				} 
+			} else {
+			?>
 			<div class="x_panel">
-				<div class="x_title">
-					<h2>Versión 8.00 <small>/ Actualizado el: Miércoles 27, 2016</small></h2>
-					<ul class="nav navbar-right panel_toolbox">
-						<li><a class="collapse-link"><i class="fa fa-bars"></i> Ver Todo</a></li>
-						<!--<li class="dropdown">
-							<a href="javascript:void(0)" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>
-							<ul class="dropdown-menu" role="menu">
-								<li><a href="javascript:void(0)">Settings 1</a></li>
-								<li><a href="javascript:void(0)">Settings 2</a></li>
-							</ul>
-						</li>-->
-						<!--<li><a class="close-link"><i class="fa fa-close"></i></a></li>-->
-					</ul>
-					<div class="clearfix"></div>
-				</div>
-				<div class="x_content" style="display: none;">
-					<table class="table table-striped">
-						<thead>
-							<tr>
-								<th>#</th>
-								<th>Fecha</th>
-								<th>Descripción</th>
-							</tr>
-						</thead>
-						<tbody>
-							<tr>
-								<th scope="row">362</th>
-								<td>08-02-2017</td>
-								<td>when copying a PO to an Invoice it was calculating wrong the Qty Order</td>
-							</tr>
-							<tr>
-								<th scope="row">361</th>
-								<td>07-02-2017</td>
-								<td>when copying a Sales Order from History Grid and change the Store then Save the Order, it throws an exception message</td>
-							</tr>
-							<tr>
-								<th scope="row">360</th>
-								<td>06-02-2017</td>
-								<td>when copying a Sales Order from History Grid and change the Store then Save the Order, it throws an exception message</td>
-							</tr>
-							<tr>
-								<th scope="row">359</th>
-								<td>06-02-2017</td>
-								<td>when copying a Sales Order from History Grid and change the Store then Save the Order, it throws an exception message</td>
-							</tr>
-							<tr>
-								<th scope="row">358</th>
-								<td>06-02-2017</td>
-								<td>when copying a Sales Order from History Grid and change the Store then Save the Order, it throws an exception message</td>
-							</tr>
-							<tr>
-								<th scope="row">357</th>
-								<td>06-02-2017</td>
-								<td>when copying a Sales Order from History Grid and change the Store then Save the Order, it throws an exception message</td>
-							</tr>
-							<tr>
-								<th scope="row">356</th>
-								<td>06-02-2017</td>
-								<td>when copying a Sales Order from History Grid and change the Store then Save the Order, it throws an exception message</td>
-							</tr>
-						</tbody>
-					</table>
-					
-					<div class="actionBar">
-						<a href="javascript:void(0)" type="button" class="btn btn-primary"><i class="fa fa-download"></i> Descargar en PDF</a>
-					</div>
-				</div>
+				No hay correcciones...
 			</div>
-			<!-- Fin - Table Collapse 2 -->
-
-
-			<!-- Inicio - Table Collapse 3 -->
-			<div class="x_panel">
-				<div class="x_title">
-					<h2>Versión 7.00 <small>/ Actualizado el: Lunes 15, 2015</small></h2>
-					<ul class="nav navbar-right panel_toolbox">
-						<li><a class="collapse-link"><i class="fa fa-bars"></i> Ver Todo</a></li>
-						<!--<li class="dropdown">
-							<a href="javascript:void(0)" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>
-							<ul class="dropdown-menu" role="menu">
-								<li><a href="javascript:void(0)">Settings 1</a></li>
-								<li><a href="javascript:void(0)">Settings 2</a></li>
-							</ul>
-						</li>-->
-						<!--<li><a class="close-link"><i class="fa fa-close"></i></a></li>-->
-					</ul>
-					<div class="clearfix"></div>
-				</div>
-				<div class="x_content" style="display: none;">
-					<table class="table table-striped">
-						<thead>
-							<tr>
-								<th>#</th>
-								<th>Fecha</th>
-								<th>Descripción</th>
-							</tr>
-						</thead>
-						<tbody>
-							<tr>
-								<th scope="row">362</th>
-								<td>08-02-2017</td>
-								<td>when copying a PO to an Invoice it was calculating wrong the Qty Order</td>
-							</tr>
-							<tr>
-								<th scope="row">361</th>
-								<td>07-02-2017</td>
-								<td>when copying a Sales Order from History Grid and change the Store then Save the Order, it throws an exception message</td>
-							</tr>
-							<tr>
-								<th scope="row">360</th>
-								<td>06-02-2017</td>
-								<td>when copying a Sales Order from History Grid and change the Store then Save the Order, it throws an exception message</td>
-							</tr>
-							<tr>
-								<th scope="row">359</th>
-								<td>06-02-2017</td>
-								<td>when copying a Sales Order from History Grid and change the Store then Save the Order, it throws an exception message</td>
-							</tr>
-							<tr>
-								<th scope="row">358</th>
-								<td>06-02-2017</td>
-								<td>when copying a Sales Order from History Grid and change the Store then Save the Order, it throws an exception message</td>
-							</tr>
-							<tr>
-								<th scope="row">357</th>
-								<td>06-02-2017</td>
-								<td>when copying a Sales Order from History Grid and change the Store then Save the Order, it throws an exception message</td>
-							</tr>
-							<tr>
-								<th scope="row">356</th>
-								<td>06-02-2017</td>
-								<td>when copying a Sales Order from History Grid and change the Store then Save the Order, it throws an exception message</td>
-							</tr>
-						</tbody>
-					</table>
-					
-					<div class="actionBar">
-						<a href="javascript:void(0)" type="button" class="btn btn-primary"><i class="fa fa-download"></i> Descargar en PDF</a>
-					</div>
-				</div>
-			</div>
-			<!-- Fin - Table Collapse 3 -->
-
-
-			<!-- Inicio - Table Collapse 3 -->
-			<div class="x_panel">
-				<div class="x_title">
-					<h2>Versión 6.00 <small>/ Actualizado el: Lunes 15, 2014</small></h2>
-					<ul class="nav navbar-right panel_toolbox">
-						<li><a class="collapse-link"><i class="fa fa-bars"></i> Ver Todo</a></li>
-						<!--<li class="dropdown">
-							<a href="javascript:void(0)" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>
-							<ul class="dropdown-menu" role="menu">
-								<li><a href="javascript:void(0)">Settings 1</a></li>
-								<li><a href="javascript:void(0)">Settings 2</a></li>
-							</ul>
-						</li>-->
-						<!--<li><a class="close-link"><i class="fa fa-close"></i></a></li>-->
-					</ul>
-					<div class="clearfix"></div>
-				</div>
-				<div class="x_content" style="display: none;">
-					<table class="table table-striped">
-						<thead>
-							<tr>
-								<th>#</th>
-								<th>Fecha</th>
-								<th>Descripción</th>
-							</tr>
-						</thead>
-						<tbody>
-							<tr>
-								<th scope="row">362</th>
-								<td>08-02-2017</td>
-								<td>when copying a PO to an Invoice it was calculating wrong the Qty Order</td>
-							</tr>
-							<tr>
-								<th scope="row">361</th>
-								<td>07-02-2017</td>
-								<td>when copying a Sales Order from History Grid and change the Store then Save the Order, it throws an exception message</td>
-							</tr>
-							<tr>
-								<th scope="row">360</th>
-								<td>06-02-2017</td>
-								<td>when copying a Sales Order from History Grid and change the Store then Save the Order, it throws an exception message</td>
-							</tr>
-							<tr>
-								<th scope="row">359</th>
-								<td>06-02-2017</td>
-								<td>when copying a Sales Order from History Grid and change the Store then Save the Order, it throws an exception message</td>
-							</tr>
-							<tr>
-								<th scope="row">358</th>
-								<td>06-02-2017</td>
-								<td>when copying a Sales Order from History Grid and change the Store then Save the Order, it throws an exception message</td>
-							</tr>
-							<tr>
-								<th scope="row">357</th>
-								<td>06-02-2017</td>
-								<td>when copying a Sales Order from History Grid and change the Store then Save the Order, it throws an exception message</td>
-							</tr>
-							<tr>
-								<th scope="row">356</th>
-								<td>06-02-2017</td>
-								<td>when copying a Sales Order from History Grid and change the Store then Save the Order, it throws an exception message</td>
-							</tr>
-						</tbody>
-					</table>
-					
-					<div class="actionBar">
-						<a href="javascript:void(0)" type="button" class="btn btn-primary"><i class="fa fa-download"></i> Descargar en PDF</a>
-					</div>
-				</div>
-			</div>
-			<!-- Fin - Table Collapse 3 -->
-
-
-			<!-- Inicio - Table Collapse 3 -->
-			<div class="x_panel">
-				<div class="x_title">
-					<h2>Versión 5.00 <small>/ Actualizado el: Lunes 15, 2013</small></h2>
-					<ul class="nav navbar-right panel_toolbox">
-						<li><a class="collapse-link"><i class="fa fa-bars"></i> Ver Todo</a></li>
-						<!--<li class="dropdown">
-							<a href="javascript:void(0)" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>
-							<ul class="dropdown-menu" role="menu">
-								<li><a href="javascript:void(0)">Settings 1</a></li>
-								<li><a href="javascript:void(0)">Settings 2</a></li>
-							</ul>
-						</li>-->
-						<!--<li><a class="close-link"><i class="fa fa-close"></i></a></li>-->
-					</ul>
-					<div class="clearfix"></div>
-				</div>
-				<div class="x_content" style="display: none;">
-					<table class="table table-striped">
-						<thead>
-							<tr>
-								<th>#</th>
-								<th>Fecha</th>
-								<th>Descripción</th>
-							</tr>
-						</thead>
-						<tbody>
-							<tr>
-								<th scope="row">362</th>
-								<td>08-02-2017</td>
-								<td>when copying a PO to an Invoice it was calculating wrong the Qty Order</td>
-							</tr>
-							<tr>
-								<th scope="row">361</th>
-								<td>07-02-2017</td>
-								<td>when copying a Sales Order from History Grid and change the Store then Save the Order, it throws an exception message</td>
-							</tr>
-							<tr>
-								<th scope="row">360</th>
-								<td>06-02-2017</td>
-								<td>when copying a Sales Order from History Grid and change the Store then Save the Order, it throws an exception message</td>
-							</tr>
-							<tr>
-								<th scope="row">359</th>
-								<td>06-02-2017</td>
-								<td>when copying a Sales Order from History Grid and change the Store then Save the Order, it throws an exception message</td>
-							</tr>
-							<tr>
-								<th scope="row">358</th>
-								<td>06-02-2017</td>
-								<td>when copying a Sales Order from History Grid and change the Store then Save the Order, it throws an exception message</td>
-							</tr>
-							<tr>
-								<th scope="row">357</th>
-								<td>06-02-2017</td>
-								<td>when copying a Sales Order from History Grid and change the Store then Save the Order, it throws an exception message</td>
-							</tr>
-							<tr>
-								<th scope="row">356</th>
-								<td>06-02-2017</td>
-								<td>when copying a Sales Order from History Grid and change the Store then Save the Order, it throws an exception message</td>
-							</tr>
-						</tbody>
-					</table>
-					
-					<div class="actionBar">
-						<a href="javascript:void(0)" type="button" class="btn btn-primary"><i class="fa fa-download"></i> Descargar en PDF</a>
-					</div>
-				</div>
-			</div>
-			<!-- Fin - Table Collapse 3 -->			
-
+			<?php
+			}
+			?>
 		</div>
 		<div class="clearfix"></div>		
 	</div>
-
-	<div class="clearfix"></div>
-	
+	<div class="clearfix"></div>	
 </div>
