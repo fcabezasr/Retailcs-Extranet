@@ -10,27 +10,26 @@
 
     <title>Retail Custom Solutions</title>
 
+    <!-- Bootstrap -->
     <link href="./Static/vendors/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="./Static/vendors/font-awesome/css/font-awesome.min.css" rel="stylesheet">
+    <!-- Datatables -->
+    <link href="./Static/vendors/datatables.net-bs/css/dataTables.bootstrap.min.css" rel="stylesheet">
+    <!-- Custom Theme Style -->
     <link href="./Static/build/css/custom.min.css" rel="stylesheet">
     <link href="./Static/css/retailcs.css" rel="stylesheet">
 
-    <script src="./Static/vendors/jquery/dist/jquery.min.js"></script>
-    <script src="./Static/vendors/bootstrap/dist/js/bootstrap.min.js"></script>
-    
   </head>
-
   <body class="nav-md">
     <div class="container body">
       <div class="main_container">
         <div class="col-md-3 left_col">
           <div class="left_col scroll-view">
             <div class="navbar nav_title">
-              <a href="./" class="site_title"><img src="./Static/images/logo-small-name.png" alt=""></a>
+              <a href="./" class="site_title"><img id="logo-retailcs" class="logo-small" src="./Static/images/logo-small-name.png" alt="Retail Custom Solutions"></a>
             </div>
-
             <div class="clearfix"></div>
-            <br />
+            <br/>
 
             <!-- sidebar menu -->
             <div id="sidebar-menu" class="main_menu_side hidden-print main_menu">
@@ -39,11 +38,66 @@
                 <ul class="nav side-menu">
                   <li class="active">
                     <a><i class="fa fa-desktop"></i> RMS.NET <span class="fa fa-chevron-down"></span></a>
-                    <ul class="nav child_menu" style="display: block;">
-                      <li><a href="javascript:void(0)" class="net-servicio" page="actualizacion" ser="rms">Actualizaciones</a></li>
-                      <li><a href="javascript:void(0)" class="net-servicio" page="correccion" ser="rms">Correcciones</a></li>
-                      <li><a href="javascript:void(0)" class="net-servicio" page="manual" ser="rms">Manuales</a></li>
-                      <li><a href="javascript:void(0)" class="net-servicio" page="video" ser="rms">Videos</a></li>
+                    <ul class="nav child_menu menu-sup" ser="rms" style="display: block;">
+                      <li>
+                        <a href="javascript:void(0)" class="sub_menu">Actualizaciones<span class="fa fa-chevron-down"></span></a>
+                        <ul class="nav child_menu menu-inf" page="actualizacion">
+                          <li>
+                            <a href="javascript:void(0)" class="net-servicio" ver="1">Versión 6.0</a>
+                          </li>
+                          <li>
+                            <a href="javascript:void(0)" class="net-servicio" ver="2">Versión 7.0</a>
+                          </li>
+                          <li>
+                            <a href="javascript:void(0)" class="net-servicio" ver="3">Versión 8.0</a>
+                          </li>
+                          <li>
+                            <a href="javascript:void(0)" class="net-servicio" ver="4">Versión 9.0</a>
+                          </li>
+                        </ul>
+                      </li>
+                      <li>
+                        <a href="javascript:void(0)" class="sub_menu">Correcciones<span class="fa fa-chevron-down"></span></a>
+                        <ul class="nav child_menu menu-inf" page="correccion">
+                          <li>
+                            <a href="javascript:void(0)" class="net-servicio" ver="1">Versión 6.0</a>
+                          </li>
+                          <li>
+                            <a href="javascript:void(0)" class="net-servicio" ver="2">Versión 7.0</a>
+                          </li>
+                          <li>
+                            <a href="javascript:void(0)" class="net-servicio" ver="3">Versión 8.0</a>
+                          </li>
+                        </ul>
+                      </li>
+                      <li>
+                        <a href="javascript:void(0)" class="sub_menu">Manuales<span class="fa fa-chevron-down"></span></a>
+                        <ul class="nav child_menu menu-inf" page="manual">
+                          <li>
+                            <a href="javascript:void(0)" class="net-servicio" ver="1">Versión 6.0</a>
+                          </li>
+                          <li>
+                            <a href="javascript:void(0)" class="net-servicio" ver="2">Versión 7.0</a>
+                          </li>
+                          <li>
+                            <a href="javascript:void(0)" class="net-servicio" ver="3">Versión 8.0</a>
+                          </li>
+                        </ul>
+                      </li>
+                      <li>
+                        <a href="javascript:void(0)" class="sub_menu">Videos<span class="fa fa-chevron-down"></span></a>
+                        <ul class="nav child_menu menu-inf" page="video">
+                          <li>
+                            <a href="javascript:void(0)" class="net-servicio" ver="1">Versión 6.0</a>
+                          </li>
+                          <li>
+                            <a href="javascript:void(0)" class="net-servicio" ver="2">Versión 7.0</a>
+                          </li>
+                          <li>
+                            <a href="javascript:void(0)" class="net-servicio" ver="3">Versión 8.0</a>
+                          </li>
+                        </ul>
+                      </li>
                     </ul>
                   </li>
                   <li><a><i class="fa fa-fax"></i> POS.NET <span class="fa fa-chevron-down"></span></a>
@@ -77,25 +131,25 @@
               <div class="menu_section">
                 <h3>Admin</h3>
                 <ul class="nav side-menu">
-                  <li><a><i class="fa fa-users"></i> Gestión Usuarios <span class="fa fa-chevron-down"></span></a>
+                  <li><a><i class="fa fa-users"></i> Usuario <span class="fa fa-chevron-down"></span></a>
                     <ul class="nav child_menu">
-                      <li><a href="javascript:void(0)" class="gestion-admin">Nuevo Usuario</a></li>
-                      <li><a href="javascript:void(0)" class="gestion-admin">Tipo Usuario</a></li>
-                      <li><a href="javascript:void(0)" class="gestion-admin">Lista Usuarios</a></li>
+                      <li><a href="javascript:void(0)" class="gestion-admin" page="usuario" section="nuevo">Nuevo Usuario</a></li>
+                      <li><a href="javascript:void(0)" class="gestion-admin" page="usuario" section="tipo">Tipo Usuario</a></li>
+                      <!--<li><a href="javascript:void(0)" class="gestion-admin" page="usuario" section="lista">Lista Usuarios</a></li>-->
                     </ul>
                   </li>
-                  <li><a><i class="fa fa-tags"></i> Gestión Productos <span class="fa fa-chevron-down"></span></a>
+                  <li><a><i class="fa fa-tags"></i> Producto <span class="fa fa-chevron-down"></span></a>
                     <ul class="nav child_menu">
-                      <li><a href="javascript:void(0)" class="gestion-admin">Registrar Producto</a></li>
-                      <li><a href="javascript:void(0)" class="gestion-admin">Registrar Versión</a></li>
+                      <li><a href="javascript:void(0)" class="gestion-admin" page="producto" section="nuevo">Registrar Producto</a></li>
+                      <li><a href="javascript:void(0)" class="gestion-admin" page="producto" section="version">Registrar Versión</a></li>
                     </ul>
                   </li>
-                  <li><a><i class="fa fa-file-text-o"></i> Gestión Contenidos <span class="fa fa-chevron-down"></span></a>
+                  <li><a><i class="fa fa-file-text-o"></i> Contenido <span class="fa fa-chevron-down"></span></a>
                     <ul class="nav child_menu">
-                      <li><a href="javascript:void(0)" class="gestion-admin">Registrar Actualización</a></li>
-                      <li><a href="javascript:void(0)" class="gestion-admin">Registrar Corrección</a></li>
-                      <li><a href="javascript:void(0)" class="gestion-admin">Registrar Manuales</a></li>
-                      <li><a href="javascript:void(0)" class="gestion-admin">Registrar Videos</a></li>
+                      <li><a href="javascript:void(0)" class="gestion-admin" page="contenido" section="actualizacion">Registrar Actualización</a></li>
+                      <li><a href="javascript:void(0)" class="gestion-admin" page="contenido" section="correcion">Registrar Corrección</a></li>
+                      <li><a href="javascript:void(0)" class="gestion-admin" page="archivo" section="manual">Registrar Manual</a></li>
+                      <li><a href="javascript:void(0)" class="gestion-admin" page="archivo" section="video">Registrar Video</a></li>
                     </ul>
                   </li>
                 </ul>
@@ -106,20 +160,20 @@
             <!-- /sidebar menu -->
 
             <!-- /menu footer buttons -->
-            <div class="sidebar-footer hidden-small">
-              <a data-toggle="tooltip" data-placement="top" title="Facebook">
+            <!--<div class="sidebar-footer hidden-small">
+              <a href="https://www.facebook.com/RetailCS" target="_blank" data-toggle="tooltip" data-placement="top" title="Facebook">
                 <span class="fa fa-facebook-square" aria-hidden="true"></span>
               </a>
-              <a data-toggle="tooltip" data-placement="top" title="Twitter">
+              <a href="https://twitter.com/SalesRCS" target="_blank" data-toggle="tooltip" data-placement="top" title="Twitter">
                 <span class="fa fa-twitter-square" aria-hidden="true"></span>
               </a>
-              <a data-toggle="tooltip" data-placement="top" title="Linkedin">
+              <a href="https://www.linkedin.com/company/retail-custom-solutions" target="_blank" data-toggle="tooltip" data-placement="top" title="Linkedin">
                 <span class="fa fa-linkedin-square" aria-hidden="true"></span>
               </a>
-              <a data-toggle="tooltip" data-placement="top" title="Youtube">
+              <a href="https://www.youtube.com/channel/" target="_blank" data-toggle="tooltip" data-placement="top" title="Youtube">
                 <span class="fa fa-youtube" aria-hidden="true"></span>
               </a>
-            </div>
+            </div>-->
             <!-- /menu footer buttons -->
           </div>
         </div>
@@ -135,12 +189,9 @@
               <ul class="nav navbar-nav navbar-right">
                 <li class="">
                   <a href="javascript:;" class="user-profile dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-                    <?php echo $_SESSION['User']['Business']; ?> <span class=" fa fa-angle-down"></span>
+                    <img src="Static/images/img.png" alt="">
+                    <?php echo $_SESSION['User']['Name']; ?> <span class=" fa fa-angle-down"></span>
                   </a>
-                  <!--<a href="javascript:;" class="user-profile dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-                    <img src="images/img.jpg" alt="">John Doe
-                    <span class=" fa fa-angle-down"></span>
-                  </a>-->
                   <ul class="dropdown-menu dropdown-usermenu pull-right">
                     <!--
                     <li><a href="javascript:;"> Profile</a></li>                    
@@ -154,6 +205,38 @@
                     <li><a href="javascript:void(0)">Ayuda</a></li>
                     <li><a href="./login/cerrarSession/"><i class="fa fa-sign-out pull-right"></i> Cerrar Sesión</a></li>
                   </ul>
+                </li>
+
+
+                <li role="redes-sociales" class="redes-sociales">
+                  <div class="product_social">
+                    <ul class="list-inline">
+                      <li>
+                        <a href="https://www.youtube.com/channel/" target="_blank" data-toggle="tooltip" data-placement="bottom" title="Youtube">
+                          <!--<i class="fa fa-youtube"></i>-->
+                          <img src="./Static/images/socials-network/youtube.png" alt="Youtube">
+                        </a>
+                      </li>
+                      <li>
+                        <a href="https://www.linkedin.com/company/retail-custom-solutions" target="_blank" data-toggle="tooltip" data-placement="bottom" title="Linkedin">
+                          <!--<i class="fa fa-linkedin-square"></i>-->
+                          <img src="./Static/images/socials-network/linkedin.png" alt="Linkedin">
+                        </a>
+                      </li>
+                      <li>
+                        <a href="https://twitter.com/SalesRCS" target="_blank" data-toggle="tooltip" data-placement="bottom" title="Twitter">
+                          <!--<i class="fa fa-twitter-square"></i>-->
+                          <img src="./Static/images/socials-network/twitter.png" alt="Twitter">
+                        </a>
+                      </li>
+                      <li>
+                        <a href="https://www.facebook.com/RetailCS" target="_blank" data-toggle="tooltip" data-placement="bottom" title="Facebook">
+                          <!--<i class="fa fa-facebook-square"></i>-->
+                          <img src="./Static/images/socials-network/facebook.png" alt="Facebook">
+                        </a>
+                      </li>
+                    </ul>
+                  </div>
                 </li>
 
                 <!--
@@ -190,7 +273,7 @@
                   </ul>
                 </li>
                 -->
-
+  
               </ul>
             </nav>
           </div>
@@ -222,6 +305,13 @@
       </div>
     </div> 
 
+    <!-- jQuery -->
+    <script src="./Static/vendors/jquery/dist/jquery.min.js"></script>
+    <script src="./Static/vendors/bootstrap/dist/js/bootstrap.min.js"></script>
+    <!-- Datatables -->
+    <script src="./Static/vendors/datatables.net/js/jquery.dataTables.min.js"></script>
+    <script src="./Static/vendors/datatables.net-bs/js/dataTables.bootstrap.min.js"></script>
+    <!-- Custom Theme Scripts -->
     <script src="./Static/build/js/custom.min.js"></script>
     <script src="./Static/js/retailcs.js"></script>
 

@@ -1,0 +1,125 @@
+<?php
+
+	if (isset($pagina)) {
+		$tipo = 0;
+		if ($seccion == 'nuevo') { $tipo = 1; }
+		if ($seccion == 'version') { $tipo = 2; }
+	}
+
+?>
+
+<div class="container">
+	<div class="row">
+		<div class="col-md-12 col-sm-12 col-xs-12">
+
+			<!-- Inicio - Menajes de Alerta -->
+      		<div id="div-alert" class="x_content bs-example-popovers">
+        		<!-- class="alert-success ó alert-info ó alert-warning ó alert-danger" -->
+				<div id="div-message" class="alert alert-info alert-dismissible fade in" role="alert">
+					<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>
+					<span class="text-message"><strong>Hola mundo!</strong> Sonríe la vida es bella... ^_^</span>
+				</div>
+      		</div>
+      		<!-- Fin - Menajes de Alerta -->
+
+      		<?php if($tipo == 1){ ?>
+
+			<div class="x_panel">
+				<div class="x_title">
+					<h2>Nuevo producto <small>Complete los campos</small></h2>
+					<ul class="nav navbar-right panel_toolbox">
+						<li class="chevron-up-right">
+							<a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+						</li>
+						<!--<li class="dropdown">
+							<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>
+							<ul class="dropdown-menu" role="menu">
+								<li><a href="#">Settings 1</a></li>
+								<li><a href="#">Settings 2</a></li>
+							</ul>
+						</li>
+						<li><a class="close-link"><i class="fa fa-close"></i></a></li>-->
+					</ul>
+					<div class="clearfix"></div>
+				</div>
+				<div class="x_content">
+					<form id="form-product" class="form-horizontal form-label-left">
+						<div class="form-group">
+							<label class="control-label col-md-3 col-sm-3 col-xs-12" for="product-name">Nombre <span class="required">*</span></label>
+							<div class="col-md-6 col-sm-6 col-xs-12">
+								<input type="text" id="product-name" name="product-name" required="required" placeholder="" class="form-control col-md-7 col-xs-12">
+							</div>
+						</div>
+						<div class="ln_solid"></div>
+						<div class="form-group">
+							<div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
+								<button class="btn btn-primary" id="btn-reset-product" type="reset">Limpiar</button>
+								<button class="btn btn-success" id="btn-guardar-product" type="button">Guardar</button>
+							</div>
+						</div>
+					</form>
+				</div>
+			</div>
+
+			<?php } if($tipo == 2) { ?>
+			
+			<div class="x_panel">
+				<div class="x_title">
+					<h2>Nueva versión <small>Complete los campos</small></h2>
+					<ul class="nav navbar-right panel_toolbox">
+						<li class="chevron-up-right">
+							<a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+						</li>
+						<!--<li class="dropdown">
+							<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>
+							<ul class="dropdown-menu" role="menu">
+								<li><a href="#">Settings 1</a></li>
+								<li><a href="#">Settings 2</a></li>
+							</ul>
+						</li>
+						<li><a class="close-link"><i class="fa fa-close"></i></a></li>-->
+					</ul>
+					<div class="clearfix"></div>
+				</div>
+				<div class="x_content">
+					<form id="form-version" class="form-horizontal form-label-left">
+						<div class="form-group">
+							<label class="control-label col-md-3 col-sm-3 col-xs-12" for="idproduct">Producto <span class="required">*</span></label>
+							<div class="col-md-6 col-sm-6 col-xs-12">
+								<select id="idproduct" name="idproduct" class="form-control" required="required">
+		                            <option value="">-- Seleccione --</option>
+
+		                            <?php echo $listProduct; ?>
+
+	                          	</select>
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="control-label col-md-3 col-sm-3 col-xs-12" for="version-description">Versión <span class="required">*</span></label>
+							<div class="col-md-6 col-sm-6 col-xs-12">
+								<input type="text" id="version-description" name="version-description" required="required" placeholder="ej. 9.0" class="form-control col-md-7 col-xs-12">
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="control-label col-md-3 col-sm-3 col-xs-12" for="registry-description">Descripción</label>
+							<div class="col-md-6 col-sm-6 col-xs-12">
+								<input type="text" id="registry-description" name="registry-description" placeholder="Descripción breve" class="form-control col-md-7 col-xs-12">
+							</div>
+						</div>
+						<div class="ln_solid"></div>
+						<div class="form-group">
+							<div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
+								<button class="btn btn-primary" id="btn-reset-version" type="reset">Limpiar</button>
+								<button class="btn btn-success" id="btn-guardar-version" type="button">Guardar</button>
+							</div>
+						</div>
+					</form>
+				</div>
+			</div>
+
+			<?php } ?>
+			
+		</div>
+	</div>
+</div>
+

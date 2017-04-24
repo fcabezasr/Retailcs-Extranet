@@ -29,36 +29,27 @@ $(document).ready(function(){
 				cache: false,
 				data: { },
 				type: 'POST',
+				dataType: 'json',
 				beforeSend : function(){
-
+					
 				},
 				success : function(data){
 					$('.error-validate').remove();
 					console.log(data);
-					switch(data){
-						case '0':
-							$('.login_section').prepend('<span class="error-validate">Usuario y contraseña incorrectos.</span>');
-							break;
-						case '1':
-							//$('.login_section').prepend('<span class="error-validate">Usuario y contraseña correctos.</span>');
+					switch(data.result.success){
+						case 1:
 							location.href = '../';
 							break;
-						case '2':
-							$('.login_section').prepend('<span class="error-validate">El usuario no existe.</span>');
-							break;
-						case '3':
-							$('.login_section').prepend('<span class="error-validate">La contraseña es incorrecta.</span>');
-							break;
 						default:
-							$('.login_section').prepend('<span class="error-validate">Error desconocido.</span>');
+							$('.login_section').prepend('<span class="error-validate">'+data.result.message+'</span>');
 							break;
 					}
 				},
 				error : function(xhr, status){
-
+					alert('error');
 				},
 				complete: function(xhr, status){
-
+					
 				}
 			});        	
         }

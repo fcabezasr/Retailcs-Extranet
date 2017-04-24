@@ -1,0 +1,99 @@
+<?php
+
+	if (isset($pagina)) {
+		$idcontent_type = 0;
+		if ($seccion == 'actualizacion') {
+			$idcontent_type = 1;
+			$name = 'actualización';
+		}
+		if ($seccion == 'correcion') {
+			$idcontent_type = 2;
+			$name = 'corrección';
+		}
+	}
+
+?>
+
+<div class="container">
+	<div class="row">
+		<div class="col-md-12 col-sm-12 col-xs-12">
+			<!-- Inicio - Menajes de Alerta -->
+      		<div id="div-alert" class="x_content bs-example-popovers">
+        		<!-- class="alert-success ó alert-info ó alert-warning ó alert-danger" -->
+				<div id="div-message" class="alert alert-info alert-dismissible fade in" role="alert">
+					<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>
+					<span class="text-message"><strong>Hola mundo!</strong> Sonríe la vida es bella... ^_^</span>
+				</div>
+      		</div>
+      		<!-- Fin - Menajes de Alerta -->
+
+      		<?php if($idcontent_type == 1 || $idcontent_type == 2){ ?>
+
+			<div class="x_panel">
+				<div class="x_title">
+					<h2>Registrar <?php echo $name; ?> <small>Complete los campos</small></h2>
+					<ul class="nav navbar-right panel_toolbox">
+						<li class="chevron-up-right">
+							<a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+						</li>
+						<!--<li class="dropdown">
+							<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>
+							<ul class="dropdown-menu" role="menu">
+								<li><a href="#">Settings 1</a></li>
+								<li><a href="#">Settings 2</a></li>
+							</ul>
+						</li>
+						<li><a class="close-link"><i class="fa fa-close"></i></a></li>-->
+					</ul>
+					<div class="clearfix"></div>
+				</div>
+				<div class="x_content">
+					<form id="form-content" class="form-horizontal form-label-left">
+						<div class="form-group">
+							<label class="control-label col-md-3 col-sm-3 col-xs-12" for="idproduct">Producto <span class="required">*</span></label>
+							<div class="col-md-6 col-sm-6 col-xs-12">
+								<select id="idproduct" name="idproduct" class="form-control" required="required">
+		                            <option value="">-- Seleccione --</option>
+		                            <?php echo $listProduct; ?>
+	                          	</select>
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="control-label col-md-3 col-sm-3 col-xs-12" for="idversion-product">Versión <span class="required">*</span></label>
+							<div class="col-md-6 col-sm-6 col-xs-12">
+								<select id="idversion-product" name="idversion-product" class="form-control" required="required">
+		                            <option value="">-- Seleccione --</option>
+		                            <?php //echo $listVersion; ?>
+	                          	</select>
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="control-label col-md-3 col-sm-3 col-xs-12">Descripción <span class="required">*</span></label>
+							<div class="col-md-6 col-sm-6 col-xs-12">
+								<textarea id="detail-description" name="detail-description" class="form-control" rows="5" placeholder='' required="required"></textarea>
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="control-label col-md-3 col-sm-3 col-xs-12">Fecha Registro <span class="required">*</span></label>
+							<div class="col-md-6 col-sm-6 col-xs-12">
+								<input type="date" id="registry-date" name="registry-date" class="form-control" required="required" style="padding-left: 45px; box-sizing: border-box;" value="<?php echo $fechaActual; ?>">
+								<span class="fa fa-calendar-o form-control-feedback left" aria-hidden="true"></span>
+							</div>
+						</div>
+						<div class="ln_solid"></div>
+						<div class="form-group">
+							<div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
+								<button class="btn btn-primary" id="btn-reset-content" type="reset">Limpiar</button>
+								<button class="btn btn-success" id="btn-guardar-content" type="button">Guardar</button>
+								<input type="hidden" id="idcontent-type" name="idcontent-type" value="<?php echo $idcontent_type; ?>">
+							</div>
+						</div>
+					</form>
+				</div>
+			</div>
+
+			<?php } ?>
+			
+		</div>
+	</div>
+</div>

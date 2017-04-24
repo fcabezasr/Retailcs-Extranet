@@ -11,6 +11,63 @@ body.nav-md .nav_title .site_title img {
 	width: 100%;
 }
 
+body .side-menu > li > a {
+    text-transform: uppercase;
+}
+
+.x_title h2 {
+    text-transform: uppercase !important;
+}
+
+.x_title h2 small {
+    text-transform: lowercase !important;
+}
+
+table.table-bordered thead>tr>th, 
+table.table-bordered tfoot>tr>th {
+    text-align: center !important;
+}
+
+table.table-bordered tbody>tr>td, 
+table.table-bordered tbody>tr>th {
+    vertical-align: middle !important;
+}
+
+table.table-bordered tbody>tr>td.td-center {
+    text-align: center !important;
+}
+
+.chevron-up-right {
+    float: right !important;
+}
+
+.div-loading {
+    background: rgba(0, 0, 0, 0.5);
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    z-index: 5000;
+}
+
+.div-loading .img-loading {
+    display: block;
+    margin: 20% auto;
+}
+
+.product_social {
+    margin: 15px 10px !important;
+    display: block;
+}
+
+.product_social .list-inline li a {
+    width: 26px;
+    height: 26px;
+    border: 1px solid rgba(0, 0, 0, 0.05);
+    display: block;
+    border-radius: 5px;
+}
 
 
 /************* Page Actualización & Corrección *************/
@@ -91,28 +148,54 @@ body .container .x_panel .x_content .thumbnail .caption-video {
 body .container .x_panel .x_content .thumbnail .caption-video strong {
     line-height: 22px;
     font-size: 20px;
-    /*line-height: 20px;
-    font-size: 18px;*/
     font-weight: 500;
 }
 
-body .container .x_panel .x_content .modal-dialog {
-    display: block;
+body .container .x_panel #modal-video {
+    padding-right: 0px !important;
+}
+
+body .container .x_panel .modal-dialog {
     margin: auto;
-    padding: 10px;
+    padding: 10px 10px 5px;
     background: rgba(0, 0, 0, 0.5);
     border-radius: 5px;
     top: 20%;
+    position: relative !important;
 }
 
-body .container .x_panel .x_content .modal-dialog .close {
+body .container .x_panel .modal-dialog .close {
+    color: #fff !important;
+    opacity: 0.7 !important;
+    position: absolute;
+    top: -20px;
+    right: -20px;
+    background: rgba(0,0,0,0.8);
+    border-radius: 50%;
+    padding: 0px 5px;
+}
+
+body .container .x_panel .modal-dialog .close:hover {
     color: #fff !important;
     opacity: 0.7 !important;
 }
 
-body .container .x_panel .x_content .modal-dialog .close:hover {
-    color: #fff !important;
-    opacity: 0.7 !important;
+
+/************* Page User *************/
+
+#div-alert {
+    display: none;
 }
 
 
+
+/************* Page File *************/
+
+.span-div {
+    text-transform: uppercase;
+    line-height: 30px;
+    display: inline-block;
+    margin-right: 30px;
+    cursor: pointer;
+    margin-bottom: 0;
+}

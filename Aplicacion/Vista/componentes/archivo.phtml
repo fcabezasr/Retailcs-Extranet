@@ -1,0 +1,124 @@
+<?php
+
+	if (isset($pagina)) {
+		$idfile_type = 0;
+		if ($seccion == 'manual') {
+			$idfile_type = 1;
+			$name = 'manual';
+		}
+		if ($seccion == 'video') {
+			$idfile_type = 2;
+			$name = 'video';
+		}
+	}
+
+?>
+
+<div class="container">
+	<div class="row">
+		<div class="col-md-12 col-sm-12 col-xs-12">
+			<!-- Inicio - Menajes de Alerta -->
+      		<div id="div-alert" class="x_content bs-example-popovers">
+        		<!-- class="alert-success ó alert-info ó alert-warning ó alert-danger" -->
+				<div id="div-message" class="alert alert-info alert-dismissible fade in" role="alert">
+					<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>
+					<span class="text-message"><strong>Hola mundo!</strong> Sonríe la vida es bella... ^_^</span>
+				</div>
+      		</div>
+      		<!-- Fin - Menajes de Alerta -->
+
+      		<?php if($idfile_type == 1 || $idfile_type == 2){ ?>
+
+			<div class="x_panel">
+				<div class="x_title">
+					<h2>Registrar <?php echo $name; ?> <small>Complete los campos</small></h2>
+					<ul class="nav navbar-right panel_toolbox">
+						<li class="chevron-up-right">
+							<a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+						</li>
+						<!--<li class="dropdown">
+							<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>
+							<ul class="dropdown-menu" role="menu">
+								<li><a href="#">Settings 1</a></li>
+								<li><a href="#">Settings 2</a></li>
+							</ul>
+						</li>
+						<li><a class="close-link"><i class="fa fa-close"></i></a></li>-->
+					</ul>
+					<div class="clearfix"></div>
+				</div>
+				<div class="x_content">
+					<form id="form-file" class="form-horizontal form-label-left" enctype="multipart/form-data" method="post">
+						<div class="form-group">
+							<label class="control-label col-md-3 col-sm-3 col-xs-12" for="idproduct">Producto <span class="required">*</span></label>
+							<div class="col-md-6 col-sm-6 col-xs-12">
+								<select id="idproduct" name="idproduct" class="form-control" required="required">
+		                            <option value="">-- Seleccione --</option>
+		                            <?php echo $listProduct; ?>
+	                          	</select>
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="control-label col-md-3 col-sm-3 col-xs-12" for="idversion-product">Versión <span class="required">*</span></label>
+							<div class="col-md-6 col-sm-6 col-xs-12">
+								<select id="idversion-product" name="idversion-product" class="form-control" required="required">
+		                            <option value="">-- Seleccione --</option>
+		                            <?php //echo $listVersion; ?>
+	                          	</select>
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="control-label col-md-3 col-sm-3 col-xs-12" for="file-name">Nombre de Archivo <span class="required">*</span></label>
+							<div class="col-md-6 col-sm-6 col-xs-12">
+								<input type="text" id="file-name" name="file-name" required="required" class="form-control">
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="control-label col-md-3 col-sm-3 col-xs-12" for="file-name">Cargar Archivo <span class="required">*</span></label>
+							<div class="col-md-6 col-sm-6 col-xs-12">
+								<label for="id-file" class="span-div">
+									<input type="radio" class="flat upload-file" name="gender" id="id-file" value="file" checked="checked" required="required" /> Subir Archivo
+								</label>
+								<label for="id-url" class="span-div">
+									<input type="radio" class="flat upload-file" name="gender" id="id-url" value="url" /> Desde URL
+								</label>
+							</div>
+						</div>						
+						<div class="form-group">
+							<!--<label class="control-label col-md-3 col-sm-3 col-xs-12" for="file-upload">Cargar Archivo <span class="required">*</span></label>-->
+							<label class="control-label col-md-3 col-sm-3 col-xs-12" for="file-upload">&nbsp;</label>
+							<div class="col-md-6 col-sm-6 col-xs-12">
+								<input type="file" id="file-upload" name="file-upload" required="required" class="form-control file-loading">
+							</div>
+						</div>                      	
+                      	<div class="form-group" style="display: none;">
+							<!--<label class="control-label col-md-3 col-sm-3 col-xs-12" for="file-url">Desde URL <span class="required">*</span></label>-->
+							<label class="control-label col-md-3 col-sm-3 col-xs-12" for="file-url">&nbsp;</label>
+							<div class="col-md-6 col-sm-6 col-xs-12">
+								<input type="text" id="file-url" name="file-url" class="form-control">
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="control-label col-md-3 col-sm-3 col-xs-12">Fecha Registro <span class="required">*</span></label>
+							<div class="col-md-6 col-sm-6 col-xs-12">
+								<input type="date" id="registry-date" name="registry-date" class="form-control" required="required" style="padding-left: 45px; box-sizing: border-box;" value="<?php echo $fechaActual; ?>">
+								<span class="fa fa-calendar-o form-control-feedback left" aria-hidden="true"></span>
+							</div>
+						</div>
+						<div class="ln_solid"></div>
+						<div class="form-group">
+							<div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
+								<button class="btn btn-primary" id="btn-reset-file" type="reset">Limpiar</button>
+								<button class="btn btn-success" id="btn-guardar-file" type="button">Guardar</button>
+								<input type="hidden" id="idfile-type" name="idfile-type" value="<?php echo $idfile_type; ?>">
+							</div>
+						</div>
+					</form>
+				</div>
+			</div>
+			
+			<?php } ?>
+
+		</div>
+	</div>
+</div>

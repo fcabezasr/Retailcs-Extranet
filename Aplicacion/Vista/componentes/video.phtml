@@ -10,6 +10,7 @@
 		}
 	}
 ?>
+
 <div class="container">
 	<div class="row">
 		<div class="col-md-12">
@@ -22,9 +23,11 @@
 	<div class="clearfix"></div>
 	<div class="row">
 		<div class="col-md-12 col-sm-12 col-xs-12">
+
 			<?php 
 			if ($estado) {
 			?>
+
 			<!-- Inicio - Table Collapse 1 -->
 			<div class="x_panel">
 				<div class="x_title">
@@ -37,6 +40,7 @@
 					</ul>
 					<div class="clearfix"></div>
 				</div>
+
 				<?php				
 				foreach ($array_version as $key_v => $value_v) {
 					$version = $value_v['Version'];
@@ -45,18 +49,21 @@
 					if (isset($version)) {
 						if (count($file) > 0) {
 				?>
+
 				<div class="x_content">
 					<h2>Versión <?php echo $version->version_description; ?><small>&nbsp;</small></h2>
 					<div class="row">
+
 						<?php
 						foreach ($file as $key_f => $value_f) {
 						?>
+
 						<!-- Inicio - Grilla -->
 						<div class="col-md-55 col-md-55-video">
                         	<div class="thumbnail">
                     			<div class="caption caption-video">
 									<p><strong><?php echo utf8_encode($value_f->file_name); ?></strong></p>
-									<p>Subido el <?php echo $value_f->publication_date; ?></p>
+									<p>Subido el <?php echo formatDate($value_f->publication_date); ?></p>
 								</div>
                           		<div class="image view view-first">
                             		<iframe class="iframe-video" width="100%" height="100%" src="<?php echo $value_f->file_url; ?>" frameborder="0" allowfullscreen></iframe>
@@ -69,34 +76,43 @@
                         	</div>
                       	</div>
 						<!-- Fin - Grilla -->
+
 						<?php
 						}
-						?>					
+						?>
+
 					</div>
 				</div>
+
 				<?php
 						}
 					}
 				}			
 				?>
+
 				<!-- Inicio - Modal video -->
 				<div class="modal fade" id="modal-video" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">						  	
 				  	<div class="modal-dialog" role="document">
-				  		<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+				  		<!-- Se quitó el data-dismiss="modal" al Button, para ejecutarlo con .js -->
+				  		<button type="button" class="close" aria-label="Close"><span aria-hidden="true">&times;</span></button>
 				  		<iframe id="modal-iframe" width="100%" height="350px" src="" frameborder="0" allowfullscreen></iframe>						  		
 				  	</div>
 				</div>
 				<!-- Fin - Modal video -->
 			</div>
+
 			<?php
 			} else {
 			?>
+
 			<div class="x_panel">
 				No hay videos...
 			</div>
+
 			<?php
 			}
 			?>
+			
 		</div>	
 	</div>
 	<div class="clearfix"></div>

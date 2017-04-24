@@ -10,6 +10,7 @@
 		}
 	}
 ?>
+
 <div class="container">
 	<div class="row">
 		<div class="col-md-12">
@@ -24,6 +25,7 @@
 
 	<div class="row">
 		<div class="col-md-12 col-sm-12 col-xs-12">
+
 			<?php
 			if ($estado) {
 				foreach ($array_version as $key_v => $value_v) {
@@ -35,10 +37,11 @@
 						if (isset($content)) {
 							if (isset($content_detail)) {
 			?>
+
 			<!-- Inicio - Table Collapse 1 -->
 			<div class="x_panel">
 				<div class="x_title">
-					<h2>Versión <?php echo $version->version_description; ?><small>/ Actualizado el: <?php echo $content->publication_date; ?></small></h2>
+					<h2>Versión <?php echo $version->version_description; ?><small>/ Actualizado el: <?php echo formatDayDate($content->publication_date); ?></small></h2>
 					<ul class="nav navbar-right panel_toolbox">
 						<li><a class="collapse-link"><i class="fa fa-bars"></i> Ver Todo</a></li>
 					</ul>
@@ -54,17 +57,21 @@
 							</tr>
 						</thead>
 						<tbody>
+
 							<?php
 							foreach ($content_detail as $key_cd => $value_cd) {
 							?>
+
 							<tr>
 								<th scope="row"><?php echo $key_cd+1; ?></th>
-								<td><?php echo $value_cd->registry_date; ?></td>
+								<td><?php echo formatDate($value_cd->registry_date); ?></td>
 								<td><?php echo utf8_encode($value_cd->detail_description); ?></td>
 							</tr>			
+							
 							<?php
 							}
 							?>
+
 						</tbody>
 					</table>					
 					<div class="actionBar">
@@ -72,7 +79,8 @@
 					</div>
 				</div>
 			</div>
-			<!-- Fin - Table Collapse 1 -->		
+			<!-- Fin - Table Collapse 1 -->
+
 			<?php
 							}
 						}
@@ -80,12 +88,15 @@
 				} 
 			} else {
 			?>
+
 			<div class="x_panel">
 				No hay correcciones...
 			</div>
+
 			<?php
 			}
 			?>
+			
 		</div>
 		<div class="clearfix"></div>		
 	</div>
