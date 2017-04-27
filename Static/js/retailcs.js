@@ -22,9 +22,6 @@ $(document).ready(function(){
 
 	$('.net-servicio').on('click', function(){
 
-		/*$('.menu-inf.child_menu li').removeClass('active');
-		$(this).parent().addClass('active');*/
-
 		var version = $(this).attr('ver'),
 			pagina = $(this).parents('.menu-inf').attr('page'),
 			servicio = $(this).parents('.menu-sup').attr('ser');
@@ -88,6 +85,7 @@ $(document).ready(function(){
 		return false;
 	});
 	*/
+
 	
 	$('.gestion-admin').on('click', function(){
 
@@ -241,7 +239,8 @@ $(document).ready(function(){
 		});
 
 		if (cont <= 0) {
-			var user_name = $('#user-name').val(),
+			var iduser = $('#user-id').val(),
+				user_name = $('#user-name').val(),
 				password = $('#password').val(),
 				repeat_password = $('#repeat-password').val(),
 				business_name = $('#business-name').val(),
@@ -253,7 +252,7 @@ $(document).ready(function(){
 			} else {
 				$.ajax({
 					async: true,
-					url: './user/insertUser/'+user_name+'/'+password+'/'+business_name+'/'+type_user+'/',
+					url: './user/insertUser/'+iduser+'/'+user_name+'/'+password+'/'+business_name+'/'+type_user+'/',
 					cache: false,
 					data: { },
 					type: 'POST',
@@ -271,7 +270,11 @@ $(document).ready(function(){
 							$('#div-message').addClass('alert-danger');
 						}
 						$('#div-alert').css('display', 'block');
+						$('#btn-guardar-user').html(data.result.nameboton);
 						$('#form-user')[0].reset();
+
+						//Actualizar TableUser
+						$('#content-table-user').html(data.result.tableuser);
 					},
 					error: function(xhr, status){
 						alert('Ha ocurrido un error...');
@@ -326,11 +329,12 @@ $(document).ready(function(){
 		});
 
 		if (cont <= 0) {
-			var description_type = $('#description-type').val();
+			var idtype_user = $('#user-idtype').val(),
+				description_type = $('#description-type').val();
 			
 			$.ajax({
 				async: true,
-				url: './user/insertTypeUser/'+description_type+'/',
+				url: './user/insertTypeUser/'+idtype_user+'/'+description_type+'/',
 				cache: false,
 				data: { },
 				type: 'POST',
@@ -348,7 +352,11 @@ $(document).ready(function(){
 						$('#div-message').addClass('alert-danger');
 					}
 					$('#div-alert').css('display', 'block');
+					$('#btn-guardar-type-user').html(data.result.nameboton);
 					$('#form-type-user')[0].reset();
+
+					//Actualizar TableUser
+					$('#content-table-type-user').html(data.result.tabletypeuser);
 				},
 				error: function(xhr, status){
 					alert('Ha ocurrido un error...');
@@ -655,21 +663,21 @@ $(document).ready(function(){
 
 
 	$(document).on('change', '#idproduct', function(){
-		var idproduct = $(this).val();
 
+		var idproduct = $(this).val();
+		
 		$.ajax({
 			async: true,
 			url: './ajax/listVersion/'+idproduct+'/',
 			cache: false,
 			data: { },
 			type: 'POST',
-			//dataType: 'json',
 			beforeSend: function(){
 				fcnLoading(); //Inicializa el div Loading
 			},
 			success: function(data){
 				console.log(data);
-				$('#idversion-product').html('<pre>'+data+'</pre>');
+				$('#idversion-product').html(data);
 			},
 			error: function(xhr, status){
 				alert('Ha ocurrido un error...');
@@ -682,34 +690,188 @@ $(document).ready(function(){
 	});
 
 
-/*
+	$(document).on('click', '.btn-user-remove', function(){
 
-//Se utiliza para que el campo de texto solo acepte letras
-function soloLetras(e) {
-    key = e.keyCode || e.which;
-    tecla = String.fromCharCode(key).toString();
-    letras = " áéíóúabcdefghijklmnñopqrstuvwxyzÁÉÍÓÚABCDEFGHIJKLMNÑOPQRSTUVWXYZ";//Se define todo el abecedario que se quiere que se muestre.
-    especiales = [8, 37, 39, 46, 6]; //Es la validación del KeyCodes, que teclas recibe el campo de texto.
+		var iduser = $(this).attr('iduser');
 
-    tecla_especial = false
-    for(var i in especiales) {
-        if(key == especiales[i]) {
-            tecla_especial = true;
-            break;
-        }
-    }
+		$.ajax({
+			async: true,
+			url: './user/deleteUser/'+iduser+'/',
+			cache: false,
+			data: { },
+			type: 'POST',
+			dataType: 'json',
+			beforeSend: function(){
+				fcnLoading(); //Inicializa el div Loading
+			},
+			success: function(data){
+				console.log(data);
+				$('.text-message').html(data.result.message);
+				$('#div-message').removeClass('alert-info alert-danger');
+				if (data.result.success == 1) {
+					$('#div-message').addClass('alert-info');
+				} else {
+					$('#div-message').addClass('alert-danger');
+				}
+				$('#div-alert').css('display', 'block');
+				$('#form-user')[0].reset();
 
-    if(letras.indexOf(tecla) == -1 && !tecla_especial){
-alert('Tecla no aceptada');
-        return false;
-      }
-}
-*/
+				//Actualizar TableUser
+				$('#content-table-user').html(data.result.tableuser);
+			},
+			error: function(xhr, status){
+				alert('Ha ocurrido un error...');
+			},
+			complete: function(xhr, status){
+				fcnFinishLoading(); //Finaliza el div Loading
+				setTimeout(function(){ $('#div-alert').css('display', 'none'); }, 5000); //Finaliza el mensaje de alerta
+			}
+		});
+	});
+
+
+	$(document).on('click', '.btn-user-edit', function(){
+
+		var iduser = $(this).attr('iduser');
+
+		$.ajax({
+			async: true,
+			url: './user/updateUser/'+iduser+'/',
+			cache: false,
+			data: { },
+			type: 'POST',
+			dataType: 'json',
+			beforeSend: function(){
+				fcnLoading(); //Inicializa el div Loading
+			},
+			success: function(data){
+				console.log(data);
+				$('.text-message').html(data.result.message);
+				$('#div-message').removeClass('alert-info alert-danger');
+				if (data.result.success == 1) {
+					$('#div-message').addClass('alert-info');
+					$('#user-id').val(data.result.objUser.iduser);
+					$('#user-name').val(data.result.objUser.user_name);
+					$('#password').val(data.result.objUser.user_pass);
+					$('#repeat-password').val(data.result.objUser.user_pass);
+					$('#business-name').val(data.result.objUser.idbusiness);
+					$('#type-user').val(data.result.objUser.idtype_user);
+					$('#btn-guardar-user').html(data.result.nameboton);
+				} else {
+					$('#div-message').addClass('alert-danger');
+				}
+				$('#div-alert').css('display', 'block');
+
+				//Actualizar TableUser
+				//$('#content-table-user').html(data.result.tableuser);
+			},
+			error: function(xhr, status){
+				alert('Ha ocurrido un error...');
+			},
+			complete: function(xhr, status){
+				fcnFinishLoading(); //Finaliza el div Loading
+				setTimeout(function(){ $('#div-alert').css('display', 'none'); }, 5000); //Finaliza el mensaje de alerta
+			}
+		});
+	});
+
+
+	$(document).on('click', '.btn-user-type-remove', function(){
+
+		var idtype_user = $(this).attr('idtypeuser');
+
+		$.ajax({
+			async: true,
+			url: './user/deleteTypeUser/'+idtype_user+'/',
+			cache: false,
+			data: { },
+			type: 'POST',
+			dataType: 'json',
+			beforeSend: function(){
+				fcnLoading(); //Inicializa el div Loading
+			},
+			success: function(data){
+				console.log(data);
+				$('.text-message').html(data.result.message);
+				$('#div-message').removeClass('alert-info alert-danger');
+				if (data.result.success == 1) {
+					$('#div-message').addClass('alert-info');
+				} else {
+					$('#div-message').addClass('alert-danger');
+				}
+				$('#div-alert').css('display', 'block');
+				$('#form-type-user')[0].reset();
+
+				//Actualizar TableUser
+				$('#content-table-type-user').html(data.result.tabletypeuser);
+			},
+			error: function(xhr, status){
+				alert('Ha ocurrido un error...');
+			},
+			complete: function(xhr, status){
+				fcnFinishLoading(); //Finaliza el div Loading
+				setTimeout(function(){ $('#div-alert').css('display', 'none'); }, 5000); //Finaliza el mensaje de alerta
+			}
+		});
+	});
+
+
+	$(document).on('click', '.btn-user-type-edit', function(){
+
+		var idtype_user = $(this).attr('idtypeuser');
+
+		$.ajax({
+			async: true,
+			url: './user/updateTypeUser/'+idtype_user+'/',
+			cache: false,
+			data: { },
+			type: 'POST',
+			dataType: 'json',
+			beforeSend: function(){
+				fcnLoading(); //Inicializa el div Loading
+			},
+			success: function(data){
+				console.log(data);
+				$('.text-message').html(data.result.message);
+				$('#div-message').removeClass('alert-info alert-danger');
+				if (data.result.success == 1) {
+					$('#div-message').addClass('alert-info');
+					$('#user-idtype').val(data.result.objTypeUser.idtype_user);
+					$('#description-type').val(data.result.objTypeUser.description);
+					$('#btn-guardar-type-user').html(data.result.nameboton);
+				} else {
+					$('#div-message').addClass('alert-danger');
+				}
+				$('#div-alert').css('display', 'block');
+
+				//Actualizar TableUser
+				//$('#content-table-type-user').html(data.result.tabletypeuser);
+			},
+			error: function(xhr, status){
+				alert('Ha ocurrido un error...');
+			},
+			complete: function(xhr, status){
+				fcnFinishLoading(); //Finaliza el div Loading
+				setTimeout(function(){ $('#div-alert').css('display', 'none'); }, 5000); //Finaliza el mensaje de alerta
+			}
+		});
+	});
+
+
+	$(document).on('click', '#btn-reset', function(){
+
+		var idform = $(this).parents('form').attr('id');
+		$(this).parent().find('.btn-success').html('Guardar');
+		$('#'+idform)[0].reset();
+	});
+
+	/*** OTRAS FUNCIONES ***/
 
 	function fcnLoading(){
 		
 		$('.nav-md').append('<div class="div-loading"><img class="img-loading" src="./Static/images/loading.gif" alt="Loading"></div>');
 	}
+
 
 	function fcnFinishLoading(){
 
