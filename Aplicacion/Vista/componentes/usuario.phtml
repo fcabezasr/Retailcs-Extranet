@@ -44,11 +44,17 @@
 					<div class="clearfix"></div>
 				</div>
 				<div class="x_content">
-					<form id="form-user" class="form-horizontal form-label-left">
+					<form id="form-user" class="form-horizontal form-label-left" autocomplete="off">
+						<div class="form-group input-none">
+							<label class="control-label col-md-3 col-sm-3 col-xs-12" for="user-id">Id</label>
+							<div class="col-md-6 col-sm-6 col-xs-12">
+								<input type="text" id="user-id" name="user-id" placeholder="iduser" class="form-control col-md-7 col-xs-12">
+							</div>
+						</div>
+
 						<div class="form-group">
 							<label class="control-label col-md-3 col-sm-3 col-xs-12" for="user-name">Nombre Usuario <span class="required">*</span></label>
 							<div class="col-md-6 col-sm-6 col-xs-12">
-								<input type="hidden" id="user-id" name="user-id" placeholder="iduser" class="form-control col-md-7 col-xs-12">
 								<input type="text" id="user-name" name="user-name" required="required" placeholder="ej. fcabezasr" class="form-control col-md-7 col-xs-12">
 							</div>
 						</div>
@@ -123,11 +129,17 @@
 					<div class="clearfix"></div>
 				</div>
 				<div class="x_content">
-					<form id="form-type-user" class="form-horizontal form-label-left">
+					<form id="form-type-user" class="form-horizontal form-label-left" autocomplete="off">
+						<div class="form-group input-none">
+							<label class="control-label col-md-3 col-sm-3 col-xs-12" for="user-idtype">Id</label>
+							<div class="col-md-6 col-sm-6 col-xs-12">
+								<input type="text" id="user-idtype" name="user-idtype" placeholder="idtypeuser" class="form-control col-md-7 col-xs-12">
+							</div>
+						</div>
+
 						<div class="form-group">
 							<label class="control-label col-md-3 col-sm-3 col-xs-12" for="description-type">Descripción <span class="required">*</span></label>
 							<div class="col-md-6 col-sm-6 col-xs-12">
-								<input type="hidden" id="user-idtype" name="user-idtype" placeholder="idtypeuser" class="form-control col-md-7 col-xs-12">
 								<input type="text" id="description-type" name="description-type" required="required" placeholder="ej. admin" class="form-control col-md-7 col-xs-12">
 							</div>
 						</div>

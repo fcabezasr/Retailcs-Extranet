@@ -4,12 +4,15 @@ class Mfile_type {
 
 	private $padre;
 	private $db;
+	private $result;
 
 	/** VARIABLES **/
 
 	private $IdFileType;
 	private $FileDescription;
+	private $NameShort;
 	private $RegistryDate;
+	private $UpdateDate;
 	private $State;
 
 
@@ -17,16 +20,46 @@ class Mfile_type {
 		
 		$this->padre = $el;
 		$this->db = $this->padre->lib('DB');
+		$this->result = array('result' => array('success' => 0, 'message' => '', 'id' => null));
 	}
 
 
 	/********************* MÉTODOS *********************/
 
+
+    public function selectFileTypexIdFileTypeMenu(){
+
+		$sql = $this->db->_query("SELECT idfile_type, file_description, name_short FROM tbl_file_type WHERE idfile_type = ".$this->getIdFileType()." AND state = 1")->fetch_object();
+
+		if($sql){
+			$this->result['result']['success'] = 1;
+			$this->result['result']['message'] = 'La consulta se realizó satisfactoriamente.';
+			$this->result['result']['object_file_type'] = $sql;
+		}else{
+			$this->result['result']['success'] = 0;
+			$this->result['result']['message'] = 'Ocurrió un error al realizar la consulta.';
+			$this->result['result']['object_file_type'] = null;
+		}
+
+		return $this->result;
+    }
+
+
 	public function selectFileTypexDescription(){
 
-		$file_type = $this->db->_query("SELECT idfile_type, file_description FROM tbl_file_type WHERE file_description LIKE '%".$this->getFileDescription()."%' AND state = 1")->fetch_object();
+		$sql = $this->db->_query("SELECT idfile_type, file_description FROM tbl_file_type WHERE file_description LIKE '%".$this->getFileDescription()."%' AND state = 1")->fetch_object();
 
-		return $file_type;
+		if($sql){
+			$this->result['result']['success'] = 1;
+			$this->result['result']['message'] = 'La consulta se realizó satisfactoriamente.';
+			$this->result['result']['object_file_type'] = $sql;
+		}else{
+			$this->result['result']['success'] = 0;
+			$this->result['result']['message'] = 'Ocurrió un error al realizar la consulta.';
+			$this->result['result']['object_file_type'] = null;
+		}
+
+		return $this->result;		
 	}
 
 
@@ -51,7 +84,17 @@ class Mfile_type {
 		
 		return $this->FileDescription;
 	}
-	
+
+	public function setNameShort($NameShort = null){
+
+		$this->NameShort = $NameShort;
+	}
+
+	public function getNameShort(){
+		
+		return $this->NameShort;
+	}
+
 	public function setRegistryDate($RegistryDate = null){
 
 		$this->RegistryDate = $RegistryDate;
@@ -60,6 +103,16 @@ class Mfile_type {
 	public function getRegistryDate(){
 		
 		return $this->RegistryDate;
+	}
+
+	public function setUpdateDate($UpdateDate = null){
+
+		$this->UpdateDate = $UpdateDate;
+	}
+
+	public function getUpdateDate(){
+		
+		return $this->UpdateDate;
 	}
 
 	public function setState($State = null){

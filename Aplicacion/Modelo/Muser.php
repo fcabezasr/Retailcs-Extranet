@@ -12,7 +12,9 @@ class Muser {
 	private $IdUser;
 	private $UserName;
 	private $UserPass;
+	private $UserIcono;
 	private $RegistryDate;
+	private $UpdateDate;
 	private $State;
 	private $IdTypeUser;
 	private $IdBusiness;
@@ -56,7 +58,7 @@ class Muser {
 	public function insertUser(){
 		
 		if ($this->getIdUser()!='' || $this->getIdUser()!=null) {
-			$sql = $this->db->_query("UPDATE tbl_user SET user_name = '".$this->getUserName()."', user_pass = '".$this->getUserPass()."', idtype_user = ".$this->getIdTypeUser().", idbusiness = ".$this->getIdBusiness()." WHERE iduser = ".$this->getIdUser()."");
+			$sql = $this->db->_query("UPDATE tbl_user SET user_name = '".$this->getUserName()."', user_pass = '".$this->getUserPass()."', update_date = '".$this->getUpdateDate()."', idtype_user = ".$this->getIdTypeUser().", idbusiness = ".$this->getIdBusiness()." WHERE iduser = ".$this->getIdUser()."");
 
 			if($sql){
 				$this->result['result']['success'] = 1;
@@ -73,7 +75,7 @@ class Muser {
 			}
 
 		} else {
-			$sql = $this->db->_query("INSERT INTO tbl_user (user_name, user_pass, idtype_user, idbusiness) VALUES ('".$this->getUserName()."', '".$this->getUserPass()."', ".$this->getIdTypeUser().", ".$this->getIdBusiness().")");
+			$sql = $this->db->_query("INSERT INTO tbl_user (user_name, user_pass, update_date, idtype_user, idbusiness) VALUES ('".$this->getUserName()."', '".$this->getUserPass()."', '".$this->getUpdateDate()."', ".$this->getIdTypeUser().", ".$this->getIdBusiness().")");
 
 			if($sql){
 				$this->result['result']['success'] = 1;
@@ -125,6 +127,22 @@ class Muser {
 		} else {
 			$this->result['result']['success'] = 0;
 			$this->result['result']['message'] = 'Ocurrió un error, vuelva a realizar la acción.';
+		}
+
+		return $this->result;
+	}
+
+
+	public function validateUser(){
+
+		$sql = $this->db->_query("SELECT iduser FROM tbl_user WHERE user_name = '".$this->getUserName()."'")->fetch_object();
+		
+		if($sql){
+			$this->result['result']['success'] = 1;
+			$this->result['result']['message'] = 'El usuario "<strong>'.$this->getUserName().'</strong>" ya existe.';
+		}else{
+			$this->result['result']['success'] = 0;
+			$this->result['result']['message'] = 'Ocurrió un error al realizar la consulta.';
 		}
 
 		return $this->result;
@@ -226,6 +244,16 @@ class Muser {
 		return $this->UserPass;
 	}
 
+	public function setUserIcono($UserIcono = null){
+
+		$this->UserIcono = $UserIcono;
+	}
+
+	public function getUserIcono(){
+		
+		return $this->UserIcono;
+	}
+
 	public function setRegistryDate($RegistryDate = null){
 
 		$this->RegistryDate = $RegistryDate;
@@ -234,6 +262,16 @@ class Muser {
 	public function getRegistryDate(){
 
 		return $this->RegistryDate;
+	}
+
+	public function setUpdateDate($UpdateDate = null){
+
+		$this->UpdateDate = $UpdateDate;
+	}
+
+	public function getUpdateDate(){
+		
+		return $this->UpdateDate;
 	}
 
 	public function setState($State = null){

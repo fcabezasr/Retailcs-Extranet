@@ -70,22 +70,10 @@
 
 	function printTableUser($arrayUser){
 
-		$tableUser = '<table id="table-user" class="table table-striped table-bordered" cellspacing="0" width="100%">
-			<thead>
-			<tr>
-			<th>N°</th>
-			<th>Usuario</th>
-			<th>Tipo</th>
-			<th>Empresa</th>
-			<th>Fecha Registro</th>
-			<th>Estado</th>
-			<th>Acciones</th>
-			</tr>
-			</thead>
-			<tbody>';
-
+		$tbody = '';
 		foreach ($arrayUser as $key => $user) {
-			$tableUser.= '<tr>
+			$tbody.= 
+			'<tr>
 				<td class="td-center">'.($key+1).'</td>
 				<td class="td-center">'.$user['user_name'].'</td>
 				<td class="td-center">'.$user['type_user'].'</td>
@@ -93,19 +81,32 @@
 				<td class="td-center">'.$user['registry_date'].'</td>
 				<td class="td-center">'.$user['state'].'</td>
 				<td class="td-center">
-				<button class="btn btn-default btn-user-edit" iduser="'.$user['iduser'].'" type="button"><i class="glyphicon glyphicon-pencil"></i></button>
-				<button class="btn btn-default btn-user-remove" iduser="'.$user['iduser'].'" type="button"><i class="glyphicon glyphicon-remove"></i></button>
+					<button class="btn btn-xs btn-info btn-user-edit" iduser="'.$user['iduser'].'" type="button"><i class="fa fa-pencil"></i> Editar </button>
+					<button class="btn btn-xs btn-danger btn-user-remove" iduser="'.$user['iduser'].'" type="button"><i class="fa fa-trash-o"></i> Eliminar </button>
 				</td>
-				</tr>';
+			</tr>';
 		}
 
-		$tableUser.= '</tbody>
-			</table>
-			<script>
-			$(document).ready(function() {
-			$("#table-user").DataTable();
+		$tableUser = 
+		'<table id="table-user" class="table table-striped table-bordered" cellspacing="0" width="100%">
+			<thead>
+				<tr>
+					<th>N°</th>
+					<th>Usuario</th>
+					<th>Tipo</th>
+					<th>Empresa</th>
+					<th>Fecha Registro</th>
+					<th>Estado</th>
+					<th>Acciones</th>
+				</tr>
+			</thead>
+			<tbody>'.$tbody.'</tbody>
+		</table>
+		<script>
+			$(document).ready(function() { 
+				$("#table-user").DataTable();
 			});
-			</script>';
+		</script>';
 
 		return $tableUser;
 	}
@@ -113,38 +114,200 @@
 
 	function printTableTypeUser($arrayTypeUser){
 
-		$tableTypeUser = '<table id="table-type-user" class="table table-striped table-bordered" cellspacing="0" width="100%">
-			<thead>
-			<tr>
-			<th>N°</th>
-			<th>Descripción</th>
-			<th>Fecha Registro</th>
-			<th>Estado</th>
-			<th>Acciones</th>
-			</tr>
-			</thead>
-			<tbody>';
-
+		$tbody = '';
 		foreach ($arrayTypeUser as $key => $typeUser) {
-			$tableTypeUser.= '<tr>
+			$tbody.= 
+			'<tr>
 				<td class="td-center">'.($key+1).'</td>
 				<td class="td-center">'.$typeUser['description'].'</td>
 				<td class="td-center">'.$typeUser['registry_date'].'</td>
 				<td class="td-center">'.$typeUser['state'].'</td>
 				<td class="td-center">
-				<button class="btn btn-default btn-user-type-edit" idtypeuser="'.$typeUser['idtype_user'].'" type="button"><i class="glyphicon glyphicon-pencil"></i></button>
-				<button class="btn btn-default btn-user-type-remove" idtypeuser="'.$typeUser['idtype_user'].'" type="button"><i class="glyphicon glyphicon-remove"></i></button>
+					<button class="btn btn-xs btn-info btn-user-type-edit" idtypeuser="'.$typeUser['idtype_user'].'" type="button"><i class="fa fa-pencil"></i> Editar </button>
+					<button class="btn btn-xs btn-danger btn-user-type-remove" idtypeuser="'.$typeUser['idtype_user'].'" type="button"><i class="fa fa-trash-o"></i> Eliminar </button>			
 				</td>
-				</tr>';
+			</tr>';
 		}
 
-		$tableTypeUser.= '</tbody>
-			</table>
-			<script>
+		$tableTypeUser = 
+		'<table id="table-type-user" class="table table-striped table-bordered" cellspacing="0" width="100%">
+			<thead>
+				<tr>
+					<th>N°</th>
+					<th>Descripción</th>
+					<th>Fecha Registro</th>
+					<th>Estado</th>
+					<th>Acciones</th>
+				</tr>
+			</thead>
+			<tbody>'.$tbody.'</tbody>
+		</table>
+		<script>
 			$(document).ready(function() {
-			$("#table-type-user").DataTable();
+				$("#table-type-user").DataTable();
 			});
-			</script>';
+		</script>';
 
 		return $tableTypeUser;
+	}
+
+
+	function printTableProduct($arrayProduct){
+
+		$tbody = '';
+		foreach ($arrayProduct as $key => $product) {
+			$tbody.= 
+			'<tr>
+				<td class="td-center">'.($key+1).'</td>
+				<td class="td-center"><label><i class="fa '.$product['product_icono'].' fa-icono"></i></label></td>
+				<td class="td-center">'.strtoupper($product['product_name']).'</td>
+				<td class="td-center">'.$product['registry_date'].'</td>
+				<td class="td-center">'.$product['state'].'</td>
+				<td class="td-center">
+					<button class="btn btn-xs btn-info btn-product-edit" idproduct="'.$product['idproduct'].'" type="button"><i class="fa fa-pencil"></i> Editar </button>
+					<button class="btn btn-xs btn-danger btn-product-remove" idproduct="'.$product['idproduct'].'" type="button"><i class="fa fa-trash-o"></i> Eliminar </button>			
+				</td>
+			</tr>';
+		}
+
+		$tableProduct = 
+		'<table id="table-product" class="table table-striped table-bordered" cellspacing="0" width="100%">
+			<thead>
+				<tr>
+					<th>N°</th>
+					<th>Icono</th>
+					<th>Nombre</th>
+					<th>Fecha Registro</th>
+					<th>Estado</th>
+					<th>Acciones</th>
+				</tr>
+			</thead>
+			<tbody>'.$tbody.'</tbody>
+		</table>
+		<script>
+			$(document).ready(function() {
+				$("#table-product").DataTable();
+			});
+		</script>';
+
+		return $tableProduct;
+	}
+
+
+	function printTableVersion($arrayVersion){
+
+		$tbody = '';
+		foreach ($arrayVersion as $key => $version) {
+			$tbody.= 
+			'<tr>
+				<td class="td-center">'.($key+1).'</td>
+				<td class="td-center">'.strtoupper($version['version_description']).'</td>
+				<td class="td-center">'.$version['registry_date'].'</td>
+				<td class="td-center">'.$version['state'].'</td>
+				<td class="td-center">
+					<button class="btn btn-xs btn-info btn-version-edit" idversion="'.$version['idversion'].'" type="button"><i class="fa fa-pencil"></i> Editar </button>
+					<button class="btn btn-xs btn-danger btn-version-remove" idversion="'.$version['idversion'].'" type="button"><i class="fa fa-trash-o"></i> Eliminar </button>
+				</td>
+			</tr>';
+		}
+
+		$tableVersion = 
+		'<table id="table-version" class="table table-striped table-bordered" cellspacing="0" width="100%">
+			<thead>
+				<tr>
+					<th>N°</th>
+					<th>Versión</th>
+					<th>Fecha Registro</th>
+					<th>Estado</th>
+					<th>Acciones</th>
+				</tr>
+			</thead>
+			<tbody>'.$tbody.'</tbody>
+		</table>
+		<script>
+			$(document).ready(function() {
+				$("#table-version").DataTable();
+			});
+		</script>';
+
+		return $tableVersion;
+	}
+
+
+	function printTableVersionProduct($arrayVersionProduct){
+
+		$tbody = '';
+
+		$tableVersionProduct = 
+		'<table id="table-version-product" class="table table-striped table-bordered" cellspacing="0" width="100%">
+			<thead>
+				<tr>
+					<th>N°</th>
+					<th>Producto</th>
+					<th>Versión</th>
+					<th>Fecha Registro</th>
+					<th>Estado</th>
+					<th>Acciones</th>
+				</tr>
+			</thead>
+			<tbody>'.$tbody.'</tbody>
+		</table>
+		<script>
+			$(document).ready(function() {
+				$("#table-version-product").DataTable();
+			});
+		</script>';
+
+		return $tableVersionProduct;
+	}
+
+
+	function printMenuProduct($array_menu){
+
+		$menuProduct = '';
+
+		if (count($array_menu) > 0) {
+
+			foreach ($array_menu as $key => $array_product) {
+				$Product = $array_product['Product'];
+				$menuProduct.= '<li class="'.(($key==0)?'active':'').'"><a><i class="fa '.$Product['Icon'].'"></i> '.$Product['Name'].' <span class="fa fa-chevron-down"></span></a><ul class="nav child_menu menu-sup" ser="'.$Product['Id'].'" order="'.$Product['Order'].'" '.(($key==0)?'style="display: block;"':'').'>';
+
+				if (count($Product['ArrayContentType']) > 0) {
+					foreach ($Product['ArrayContentType'] as $key => $array_content_type) {
+						$ContentType = $array_content_type['ContentType'];
+						$menuProduct.= '<li><a href="javascript:void(0)" class="sub_menu">'.$ContentType['Description'].'<span class="fa fa-chevron-down"></span></a><ul class="nav child_menu menu-inf" page="'.$ContentType['Short'].'" id="'.$ContentType['Id'].'">';
+
+						if (count($ContentType['ArrayVersion']) > 0) {
+							foreach ($ContentType['ArrayVersion'] as $key => $array_version) {
+								$Version = $array_version['Version'];
+								$menuProduct.= '<li><a href="javascript:void(0)" class="net-servicio" ver="'.$Version['Id'].'" order="'.$Version['Order'].'"> Versión '.$Version['Description'].' <span class="badge badge-success">'.$Version['Count'].'</span> </a></li>';
+							}
+						}
+
+						$menuProduct.= '</ul></li>';
+					}
+				}
+
+				if (count($Product['ArrayFileType']) > 0) {
+
+					foreach ($Product['ArrayFileType'] as $key => $array_file_type) {
+						$FileType = $array_file_type['FileType'];
+						$menuProduct.= '<li><a href="javascript:void(0)" class="sub_menu">'.$FileType['Description'].'<span class="fa fa-chevron-down"></span></a><ul class="nav child_menu menu-inf" page="'.$FileType['Short'].'" id="'.$FileType['Id'].'">';
+
+							if (count($FileType['ArrayVersion']) > 0) {
+								foreach ($FileType['ArrayVersion'] as $key => $array_version) {
+									$Version = $array_version['Version'];
+									$menuProduct.= '<li><a href="javascript:void(0)" class="net-servicio" ver="'.$Version['Id'].'" order="'.$Version['Order'].'"> Versión '.$Version['Description'].' <span class="badge badge-success">'.$Version['Count'].'</span> </a></li>';
+								}
+							}
+
+						$menuProduct.= '</ul></li>';
+					}
+				}
+
+				$menuProduct.= '</ul></li>';
+			}
+		}
+
+		return $menuProduct;
 	}

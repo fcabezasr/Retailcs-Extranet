@@ -12,6 +12,7 @@ class Mcontent {
 	private $ContentDescription;
 	private $PublicationDate;
 	private $RegistryDate;
+	private $UpdateDate;
 	private $State;
 	private $IdContentType;
 	private $IdProduct;
@@ -36,11 +37,90 @@ class Mcontent {
     }
 
 
+    public function selectContentxIdProductMenu(){
+
+    	$sql = $this->db->_query("SELECT idcontent, idcontent_type, idproduct, idversion  FROM tbl_content WHERE idproduct = ".$this->getIdProduct()." AND state = 1");
+		$array_content = array();
+		
+		while($datos = $sql->fetch_object()){
+			array_push($array_content, $datos);
+		}
+
+		if($array_content){
+			$this->result['result']['success'] = 1;
+			$this->result['result']['message'] = 'La consulta se realizó satisfactoriamente.';
+			$this->result['result']['array_content'] = $array_content;
+		}else{
+			$this->result['result']['success'] = 0;
+			$this->result['result']['message'] = 'Ocurrió un error al realizar la consulta.';
+			$this->result['result']['array_content'] = null;
+		}
+
+		return $this->result;
+    }
+
+
+    public function selectContentxIdProductxIdContentTypeMenu(){
+
+    	$sql = $this->db->_query("SELECT idcontent, idcontent_type, idproduct, idversion  FROM tbl_content WHERE idproduct = ".$this->getIdProduct()." AND idcontent_type = ".$this->getIdContentType()." AND state = 1");
+		$array_content = array();
+		
+		while($datos = $sql->fetch_object()){
+			array_push($array_content, $datos);
+		}
+
+		if($array_content){
+			$this->result['result']['success'] = 1;
+			$this->result['result']['message'] = 'La consulta se realizó satisfactoriamente.';
+			$this->result['result']['array_content'] = $array_content;
+		}else{
+			$this->result['result']['success'] = 0;
+			$this->result['result']['message'] = 'Ocurrió un error al realizar la consulta.';
+			$this->result['result']['array_content'] = null;
+		}
+
+		return $this->result;
+    }
+
+
+    public function selectContentxIdProductxIdVersionMenu(){
+
+    	$sql = $this->db->_query("SELECT idcontent, idcontent_type, idproduct, idversion  FROM tbl_content WHERE idproduct = ".$this->getIdProduct()." AND idversion = ".$this->getIdVersion()." AND state = 1");
+		$array_content = array();
+		
+		while($datos = $sql->fetch_object()){
+			array_push($array_content, $datos);
+		}
+
+		if($array_content){
+			$this->result['result']['success'] = 1;
+			$this->result['result']['message'] = 'La consulta se realizó satisfactoriamente.';
+			$this->result['result']['array_content'] = $array_content;
+		}else{
+			$this->result['result']['success'] = 0;
+			$this->result['result']['message'] = 'Ocurrió un error al realizar la consulta.';
+			$this->result['result']['array_content'] = null;
+		}
+
+		return $this->result;
+    }
+
+
     public function selectContentxIdProductIdContentTypeIdVersion(){
 
-    	$content = $this->db->_query("SELECT idcontent, publication_date FROM tbl_content WHERE idcontent_type = '".$this->getIdContentType()."' AND idproduct = '".$this->getIdProduct()."' AND idversion = '".$this->getIdVersion()."' AND state = 1")->fetch_object();
+    	$sql = $this->db->_query("SELECT idcontent, publication_date FROM tbl_content WHERE idcontent_type = ".$this->getIdContentType()." AND idproduct = ".$this->getIdProduct()." AND idversion = ".$this->getIdVersion()." AND state = 1")->fetch_object();
 
-    	return $content;
+		if($sql){
+			$this->result['result']['success'] = 1;
+			$this->result['result']['message'] = 'La consulta se realizó satisfactoriamente.';
+			$this->result['result']['object_content'] = $sql;
+		}else{
+			$this->result['result']['success'] = 0;
+			$this->result['result']['message'] = 'Ocurrió un error al realizar la consulta.';
+			$this->result['result']['object_content'] = null;
+		}
+
+		return $this->result;
     }
 
 
@@ -67,19 +147,6 @@ class Mcontent {
     	return $this->result;
     }
 
-	/*
-    public function selectContentxProductContentType(){
-
-    	$content = $this->db->_query("SELECT * FROM tbl_content WHERE idcontent_type = '".$this->getIdContentType()."' AND idproduct = '".$this->getIdProduct()."' AND state = 1");
-
-    	$arrayContent = array();
-    	while ($result = $content->fetch_object()) {
-    		array_push($arrayContent, $result);
-    	}
-
-    	return $arrayContent;
-    }
-	*/
 
 	/********************* MÉTODOS SET & GET *********************/
 
@@ -123,6 +190,16 @@ class Mcontent {
 		return $this->RegistryDate;
 	}
 
+	public function setUpdateDate($UpdateDate = null){
+
+		$this->UpdateDate = $UpdateDate;
+	}
+
+	public function getUpdateDate(){
+		
+		return $this->UpdateDate;
+	}
+	
 	public function setState($State = null){
 
 		$this->State = $State;

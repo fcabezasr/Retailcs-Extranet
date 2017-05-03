@@ -51,41 +51,6 @@ $(document).ready(function(){
 		return false;
 	});
 
-
-	/*
-	$('.net-servicio').on('click', function(){
-
-		$('.child_menu li').removeClass('active');
-		$(this).parent().addClass('active');
-
-		var pagina = $(this).attr('page'), servicio = $(this).attr('ser');
-
-		$.ajax({
-			async: true,
-			url: './page/service/'+pagina+'/'+servicio+'/',
-			cache: false,
-			data: {},
-			type: 'GET',
-			beforeSend: function(){
-				fcnLoading(); //Inicializa el div Loading
-			},
-			success: function(data){
-				$('#principal').html(data);
-			},
-			error: function(xhr, status){
-				alert('Ha ocurrido un error...');
-				console.log(status);
-				console.log(xhr);
-			},
-			complete: function(xhr, status){
-				fcnFinishLoading(); //Finaliza el div Loading
-			}
-		});
-
-		return false;
-	});
-	*/
-
 	
 	$('.gestion-admin').on('click', function(){
 
@@ -293,6 +258,11 @@ $(document).ready(function(){
 
 	$(document).on('keypress keyup change', '.form-horizontal .form-control', function(){
 		
+		// Asigna una posición a cada input
+		$(this).parents('form').find('.form-control').each(function(index, value){
+			$(this).attr('data-parsley-id', index);
+		});
+
 		var id = '#'+$(this).prop('id'), parsley = $(this).attr('data-parsley-id');
 
 		$('#parsley-id-'+parsley).remove();
@@ -456,7 +426,7 @@ $(document).ready(function(){
 		});
 
 		if (cont <= 0) {
-			var idproduct = $('#idproduct').val(),
+			var idproduct = $('#idproduct_v').val(),
 				version_description = $('#version-description').val(),
 				registry_description = $('#registry-description').val();
 			
@@ -745,6 +715,9 @@ $(document).ready(function(){
 				fcnLoading(); //Inicializa el div Loading
 			},
 			success: function(data){
+				// Función que Limpia los campos
+				fcnClearInput('#form-user');
+
 				console.log(data);
 				$('.text-message').html(data.result.message);
 				$('#div-message').removeClass('alert-info alert-danger');
@@ -831,6 +804,9 @@ $(document).ready(function(){
 				fcnLoading(); //Inicializa el div Loading
 			},
 			success: function(data){
+				// Función que Limpia los campos
+				fcnClearInput('#form-type-user');
+
 				console.log(data);
 				$('.text-message').html(data.result.message);
 				$('#div-message').removeClass('alert-info alert-danger');
@@ -858,11 +834,92 @@ $(document).ready(function(){
 	});
 
 
+	$(document).on('keyup', '#user-name', function(){
+
+		var user_name = $(this).val();
+
+		$.ajax({
+			async: true,
+			url: './user/validateUser/'+user_name+'/',
+			cache: false,
+			data: { },
+			type: 'POST',
+			dataType: 'json',
+			beforeSend: function(){
+			},
+			success: function(data){
+				if (data.result.success) {
+					$('#user-name').addClass('parsley-error').attr('data-parsley-id', 1).parent().append('<ul class="parsley-errors-list filled" id="parsley-id-1"><li class="parsley-required">'+data.result.message+'</li></ul>');
+
+					var user_id = $('#user-id').val();
+					if (user_id.length > 0) {
+						$('#user-name').removeClass('parsley-error');
+						$("#parsley-id-1").remove();
+					}
+				} else {
+					$('#user-name').removeClass('parsley-error');
+					$("#parsley-id-1").remove();
+
+					if ($('#user-name').val().length == 0) {
+						$('#user-name').addClass('parsley-error').attr('data-parsley-id', 1).parent().append('<ul class="parsley-errors-list filled" id="parsley-id-1"><li class="parsley-required">Este campo es necesario.</li></ul>');
+					}
+				}
+			},
+			error: function(xhr, status){
+				alert('Ha ocurrido un error...');
+			},
+			complete: function(xhr, status){
+			}
+		});
+	});
+
+
+	$(document).on('keyup', '#description-type', function(){
+
+		var description = $(this).val();
+
+		$.ajax({
+			async: true,
+			url: './user/validateTypeUser/'+description+'/',
+			cache: false,
+			data: { },
+			type: 'POST',
+			dataType: 'json',
+			beforeSend: function(){
+			},
+			success: function(data){
+				if (data.result.success) {
+					$('#description-type').addClass('parsley-error').attr('data-parsley-id', 1).parent().append('<ul class="parsley-errors-list filled" id="parsley-id-1"><li class="parsley-required">'+data.result.message+'</li></ul>');
+
+					var user_idtype = $('#user-idtype').val();
+					if (user_idtype.length > 0) {
+						$('#description-type').removeClass('parsley-error');
+						$("#parsley-id-1").remove();
+					}
+				} else {
+					$('#description-type').removeClass('parsley-error');
+					$("#parsley-id-1").remove();
+
+					if ($('#description-type').val().length == 0) {
+						$('#description-type').addClass('parsley-error').attr('data-parsley-id', 1).parent().append('<ul class="parsley-errors-list filled" id="parsley-id-1"><li class="parsley-required">Este campo es necesario.</li></ul>');
+					}
+				}
+			},
+			error: function(xhr, status){
+				alert('Ha ocurrido un error...');
+			},
+			complete: function(xhr, status){
+			}
+		});
+	});
+
+
 	$(document).on('click', '#btn-reset', function(){
 
 		var idform = $(this).parents('form').attr('id');
 		$(this).parent().find('.btn-success').html('Guardar');
 		$('#'+idform)[0].reset();
+		fcnClearInput('#'+idform);
 	});
 
 	/*** OTRAS FUNCIONES ***/
@@ -876,6 +933,12 @@ $(document).ready(function(){
 	function fcnFinishLoading(){
 
 		$('.div-loading').remove();
+	}
+
+	function fcnClearInput(form){
+
+		$(form).find('.form-control').removeClass('parsley-error');
+		$('.parsley-errors-list').remove();
 	}
 
 });

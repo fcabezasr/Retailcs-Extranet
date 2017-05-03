@@ -75,16 +75,21 @@ class Ajax extends Nucleo\Includes\Controlador{
 
 		$version_product = $this->modelo('Mversion_product');
 		$version_product->setIdProduct($idproduct);
-
 		$listVersion = $version_product->selectVersionProductxIdProduct();
-
 		$option_version = '<option value="">-- Seleccione --</option>';
-		foreach ($listVersion as $key => $value) {
-			$mversion = $this->modelo('Mversion');
-			$mversion->setIdVersion($value->idversion);
-			$version = $mversion->selectVersionxIdProduct();
 
-			$option_version = $option_version.printList($version->idversion, $version->version_description);
+		if ($listVersion['result']['success']) {
+			
+			foreach ($listVersion['result']['arrayVersionProduct'] as $key => $array_version_product) {
+				$mversion = $this->modelo('Mversion');
+				$mversion->setIdVersion($array_version_product->idversion);
+				$result_version = $mversion->selectVersionxIdVersion();
+
+				if ($result_version['result']['success']) {
+					$r_version = $result_version['result']['object_version'];
+					$option_version = $option_version.printList($r_version->idversion, $r_version->version_description);
+				}				
+			}
 		}
 
 		echo $option_version;

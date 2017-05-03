@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <!-- Meta, title, CSS, favicons, etc. -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <base href="http://www.retailcs.com/extranet/"/>
+
+    <title>Retail Custom Solutions</title>
+
+    <!-- Bootstrap -->
+    <link href="./Static/vendors/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="./Static/vendors/font-awesome/css/font-awesome.min.css" rel="stylesheet">
+    <!-- Datatables -->
+    <link href="./Static/vendors/datatables.net-bs/css/dataTables.bootstrap.min.css" rel="stylesheet">
+    <!-- Custom Theme Style -->
+    <link href="./Static/build/css/custom.min.css" rel="stylesheet">
+    <link href="./Static/css/retailcs.css" rel="stylesheet">
+
+  </head>
+  <body class="nav-md">
+    <div class="container body">
+      <div class="main_container">
+        <div class="col-md-3 left_col">
+          <div class="left_col scroll-view">
+            <div class="navbar nav_title">
+              <a href="./" class="site_title"><img id="logo-retailcs" class="logo-small" src="./Static/images/logo-small-name.png" alt="Retail Custom Solutions"></a>
+            </div>
+            <div class="clearfix"></div>
+            <br/>
+
+            <!-- sidebar menu -->
+            <div id="sidebar-menu" class="main_menu_side hidden-print main_menu"></div>
+            <!-- /sidebar menu -->
+          </div>
+        </div>
+
+        <!-- top navigation -->
+        <div class="top_nav">
+          <div class="nav_menu">
+            <nav>
+              <div class="nav toggle">
+                <a id="menu_toggle"><i class="fa fa-bars"></i></a>
+              </div>
+
+              <ul class="nav navbar-nav navbar-right">
+                <li class="">
+                  <a href="javascript:;" class="user-profile dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                    <img src="Static/images/img.png" alt="">
+                    <?php echo $_SESSION['User']['Name']; ?> <span class=" fa fa-angle-down"></span>
+                  </a>
+                  <ul class="dropdown-menu dropdown-usermenu pull-right">
+                    <li><a href="javascript:void(0)">Ayuda</a></li>
+                    <li><a href="./login/cerrarSession/"><i class="fa fa-sign-out pull-right"></i> Cerrar Sesión</a></li>
+                  </ul>
+                </li>
+
+
+                <li role="redes-sociales" class="redes-sociales">
+                  <div class="product_social">
+                    <ul class="list-inline">
+                      <li>
+                        <a href="https://www.youtube.com/channel/" target="_blank" data-toggle="tooltip" data-placement="bottom" title="Youtube">
+                          <img src="./Static/images/socials-network/youtube.png" alt="Youtube">
+                        </a>
+                      </li>
+                      <li>
+                        <a href="https://www.linkedin.com/company/retail-custom-solutions" target="_blank" data-toggle="tooltip" data-placement="bottom" title="Linkedin">
+                          <img src="./Static/images/socials-network/linkedin.png" alt="Linkedin">
+                        </a>
+                      </li>
+                      <li>
+                        <a href="https://twitter.com/SalesRCS" target="_blank" data-toggle="tooltip" data-placement="bottom" title="Twitter">
+                          <img src="./Static/images/socials-network/twitter.png" alt="Twitter">
+                        </a>
+                      </li>
+                      <li>
+                        <a href="https://www.facebook.com/RetailCS" target="_blank" data-toggle="tooltip" data-placement="bottom" title="Facebook">
+                          <img src="./Static/images/socials-network/facebook.png" alt="Facebook">
+                        </a>
+                      </li>
+                    </ul>
+                  </div>
+                </li>
+  
+              </ul>
+            </nav>
+          </div>
+        </div>
+        <!-- /top navigation -->
+
+        <!-- page content -->
+        <div class="right_col" role="main">
+          <div class="row">
+
+            <div id="principal">
+              <h1>En construcción...</h1>
+            </div>
+
+          </div>
+        </div>
+        <!-- /page content -->
+
+        <!-- footer content -->
+        <footer>
+          <div class="pull-right">
+            Retail Custom Solutions
+          </div>
+          <div class="clearfix"></div>
+        </footer>
+        <!-- /footer content -->
+      </div>
+    </div> 
+
+    <!-- jQuery -->
+    <script src="./Static/vendors/jquery/dist/jquery.min.js"></script>
+    <script src="./Static/vendors/bootstrap/dist/js/bootstrap.min.js"></script>
+    <!-- Datatables -->
+    <script src="./Static/vendors/datatables.net/js/jquery.dataTables.min.js"></script>
+    <script src="./Static/vendors/datatables.net-bs/js/dataTables.bootstrap.min.js"></script>
+    <!-- Custom Theme Scripts -->
+    <script src="./Static/build/js/custom.min.js"></script>
+    <script src="./Static/js/retailcs.js"></script>
+
+  </body>
+</html>

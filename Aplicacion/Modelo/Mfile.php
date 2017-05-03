@@ -15,6 +15,7 @@ class Mfile {
 	private $FileSize;
 	private $FileUrl;
 	private $RegistryDate;
+	private $UpdateDate;
 	private $State;
 	private $IdFileType;
 	private $IdProduct;
@@ -30,6 +31,76 @@ class Mfile {
 
 
 	/********************* MÉTODOS *********************/
+
+
+    public function selectFilexIdProductMenu(){
+
+    	$sql = $this->db->_query("SELECT idfile, idfile_type, idproduct, idversion FROM tbl_file WHERE idproduct = '".$this->getIdProduct()."' AND state = 1");
+		$array_file = array();
+		
+		while($datos = $sql->fetch_object()){
+			array_push($array_file, $datos);
+		}
+
+		if($array_file){
+			$this->result['result']['success'] = 1;
+			$this->result['result']['message'] = 'La consulta se realizó satisfactoriamente.';
+			$this->result['result']['array_file'] = $array_file;
+		}else{
+			$this->result['result']['success'] = 0;
+			$this->result['result']['message'] = 'Ocurrió un error al realizar la consulta.';
+			$this->result['result']['array_file'] = null;
+		}
+
+		return $this->result;
+    }
+
+
+    public function selectFilexIdProductxIdFileTypeMenu(){
+
+    	$sql = $this->db->_query("SELECT idfile, idfile_type, idproduct, idversion FROM tbl_file WHERE idproduct = '".$this->getIdProduct()."' AND idfile_type = '".$this->getIdFileType()."' AND state = 1");
+		$array_file = array();
+		
+		while($datos = $sql->fetch_object()){
+			array_push($array_file, $datos);
+		}
+
+		if($array_file){
+			$this->result['result']['success'] = 1;
+			$this->result['result']['message'] = 'La consulta se realizó satisfactoriamente.';
+			$this->result['result']['array_file'] = $array_file;
+		}else{
+			$this->result['result']['success'] = 0;
+			$this->result['result']['message'] = 'Ocurrió un error al realizar la consulta.';
+			$this->result['result']['array_file'] = null;
+		}
+
+		return $this->result;
+    }
+
+
+    public function selectFilexIdProductxIdVersionMenu(){
+
+    	$sql = $this->db->_query("SELECT idfile, idfile_type, idproduct, idversion FROM tbl_file WHERE idproduct = '".$this->getIdProduct()."' AND idversion = '".$this->getIdVersion()."' AND state = 1");
+		$array_file = array();
+		
+		while($datos = $sql->fetch_object()){
+			array_push($array_file, $datos);
+		}
+
+		if($array_file){
+			$this->result['result']['success'] = 1;
+			$this->result['result']['message'] = 'La consulta se realizó satisfactoriamente.';
+			$this->result['result']['array_file'] = $array_file;
+		}else{
+			$this->result['result']['success'] = 0;
+			$this->result['result']['message'] = 'Ocurrió un error al realizar la consulta.';
+			$this->result['result']['array_file'] = null;
+		}
+
+		return $this->result;
+    }
+
     
     public function selectFilexIdProductIdContentTypeIdVersion(){
 
@@ -39,9 +110,38 @@ class Mfile {
 		while ($obj = $file->fetch_object()) {
 			array_push($array_file, $obj);
 		}
-    	return $array_file;
+
+		if($array_file){
+			$this->result['result']['success'] = 1;
+			$this->result['result']['message'] = 'La consulta se realizó satisfactoriamente.';
+			$this->result['result']['array_file'] = $array_file;
+		}else{
+			$this->result['result']['success'] = 0;
+			$this->result['result']['message'] = 'Ocurrió un error al realizar la consulta.';
+			$this->result['result']['array_file'] = null;
+		}
+
+		return $this->result;
     }
-	
+
+
+    public function countFilexIdProductIdContentTypeIdVersion(){
+
+    	$sql = $this->db->_query("SELECT idfile FROM tbl_file WHERE idfile_type = '".$this->getIdFileType()."' AND idproduct = '".$this->getIdProduct()."' AND idversion = '".$this->getIdVersion()."' AND state = 1");
+
+		if($sql->num_rows > 0){
+			$this->result['result']['success'] = 1;
+			$this->result['result']['message'] = 'La consulta se realizó satisfactoriamente.';
+			$this->result['result']['countFile'] = $sql->num_rows;
+		}else{
+			$this->result['result']['success'] = 0;
+			$this->result['result']['message'] = 'Ocurrió un error al realizar la consulta.';
+			$this->result['result']['countFile'] = 0;
+		}
+
+		return $this->result;
+    }	
+
 
     public function insertFile(){
 
@@ -133,6 +233,16 @@ class Mfile {
 		return $this->RegistryDate;
 	}
 
+	public function setUpdateDate($UpdateDate = null){
+
+		$this->UpdateDate = $UpdateDate;
+	}
+
+	public function getUpdateDate(){
+		
+		return $this->UpdateDate;
+	}
+	
 	public function setState($State = null){
 
 		$this->State = $State;

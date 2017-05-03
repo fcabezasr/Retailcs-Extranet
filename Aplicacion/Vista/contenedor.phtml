@@ -35,95 +35,10 @@
             <div id="sidebar-menu" class="main_menu_side hidden-print main_menu">
               <div class="menu_section">
                 <h3>Servicios</h3>
-                <ul class="nav side-menu">
-                  <li class="active">
-                    <a><i class="fa fa-desktop"></i> RMS.NET <span class="fa fa-chevron-down"></span></a>
-                    <ul class="nav child_menu menu-sup" ser="rms" style="display: block;">
-                      <li>
-                        <a href="javascript:void(0)" class="sub_menu">Actualizaciones<span class="fa fa-chevron-down"></span></a>
-                        <ul class="nav child_menu menu-inf" page="actualizacion">
-                          <li>
-                            <a href="javascript:void(0)" class="net-servicio" ver="1">Versión 6.0</a>
-                          </li>
-                          <li>
-                            <a href="javascript:void(0)" class="net-servicio" ver="2">Versión 7.0</a>
-                          </li>
-                          <li>
-                            <a href="javascript:void(0)" class="net-servicio" ver="3">Versión 8.0</a>
-                          </li>
-                          <li>
-                            <a href="javascript:void(0)" class="net-servicio" ver="4">Versión 9.0</a>
-                          </li>
-                        </ul>
-                      </li>
-                      <li>
-                        <a href="javascript:void(0)" class="sub_menu">Correcciones<span class="fa fa-chevron-down"></span></a>
-                        <ul class="nav child_menu menu-inf" page="correccion">
-                          <li>
-                            <a href="javascript:void(0)" class="net-servicio" ver="1">Versión 6.0</a>
-                          </li>
-                          <li>
-                            <a href="javascript:void(0)" class="net-servicio" ver="2">Versión 7.0</a>
-                          </li>
-                          <li>
-                            <a href="javascript:void(0)" class="net-servicio" ver="3">Versión 8.0</a>
-                          </li>
-                        </ul>
-                      </li>
-                      <li>
-                        <a href="javascript:void(0)" class="sub_menu">Manuales<span class="fa fa-chevron-down"></span></a>
-                        <ul class="nav child_menu menu-inf" page="manual">
-                          <li>
-                            <a href="javascript:void(0)" class="net-servicio" ver="1">Versión 6.0</a>
-                          </li>
-                          <li>
-                            <a href="javascript:void(0)" class="net-servicio" ver="2">Versión 7.0</a>
-                          </li>
-                          <li>
-                            <a href="javascript:void(0)" class="net-servicio" ver="3">Versión 8.0</a>
-                          </li>
-                        </ul>
-                      </li>
-                      <li>
-                        <a href="javascript:void(0)" class="sub_menu">Videos<span class="fa fa-chevron-down"></span></a>
-                        <ul class="nav child_menu menu-inf" page="video">
-                          <li>
-                            <a href="javascript:void(0)" class="net-servicio" ver="1">Versión 6.0</a>
-                          </li>
-                          <li>
-                            <a href="javascript:void(0)" class="net-servicio" ver="2">Versión 7.0</a>
-                          </li>
-                          <li>
-                            <a href="javascript:void(0)" class="net-servicio" ver="3">Versión 8.0</a>
-                          </li>
-                        </ul>
-                      </li>
-                    </ul>
-                  </li>
-                  <li><a><i class="fa fa-fax"></i> POS.NET <span class="fa fa-chevron-down"></span></a>
-                    <ul class="nav child_menu">
-                      <li><a href="javascript:void(0)" class="net-servicio" page="actualizacion" ser="pos">Actualizaciones</a></li>
-                      <li><a href="javascript:void(0)" class="net-servicio" page="correccion" ser="pos">Correcciones</a></li>
-                      <li><a href="javascript:void(0)" class="net-servicio" page="manual" ser="pos">Manuales</a></li>
-                      <li><a href="javascript:void(0)" class="net-servicio" page="video" ser="pos">Videos</a></li>
-                    </ul>
-                  </li>
-                  <li><a><i class="fa fa-laptop"></i> WMS.NET <span class="fa fa-chevron-down"></span></a>
-                    <ul class="nav child_menu">
-                      <li><a href="javascript:void(0)" class="net-servicio" page="actualizacion" ser="wms">Actualizaciones</a></li>
-                      <li><a href="javascript:void(0)" class="net-servicio" page="correccion" ser="wms">Correcciones</a></li>
-                      <li><a href="javascript:void(0)" class="net-servicio" page="manual" ser="wms">Manuales</a></li>
-                      <li><a href="javascript:void(0)" class="net-servicio" page="video" ser="wms">Videos</a></li>
-                    </ul>
-                  </li>
-                  <li><a><i class="fa fa-edit"></i> POLLING <span class="fa fa-chevron-down"></span></a>
-                    <ul class="nav child_menu">
-                      <li><a href="javascript:void(0)" class="net-servicio" page="actualizacion" ser="polling">Actualizaciones</a></li>
-                      <li><a href="javascript:void(0)" class="net-servicio" page="correccion" ser="polling">Correcciones</a></li>
-                      <li><a href="javascript:void(0)" class="net-servicio" page="manual" ser="polling">Manuales</a></li>
-                      <li><a href="javascript:void(0)" class="net-servicio" page="video" ser="polling">Videos</a></li>
-                    </ul>
-                  </li>
+                <ul class="nav side-menu" id="menu-product">
+                  
+                  <?php echo $menu_product; ?>
+                
                 </ul>
               </div>
               
@@ -142,6 +57,7 @@
                     <ul class="nav child_menu">
                       <li><a href="javascript:void(0)" class="gestion-admin" page="producto" section="nuevo">Registrar Producto</a></li>
                       <li><a href="javascript:void(0)" class="gestion-admin" page="producto" section="version">Registrar Versión</a></li>
+                      <li><a href="javascript:void(0)" class="gestion-admin" page="producto" section="vinculo">Vincular Versión & Producto</a></li>
                     </ul>
                   </li>
                   <li><a><i class="fa fa-file-text-o"></i> Contenido <span class="fa fa-chevron-down"></span></a>

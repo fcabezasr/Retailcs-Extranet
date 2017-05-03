@@ -181,13 +181,37 @@ body .container .x_panel .modal-dialog .close:hover {
 }
 
 
+ul.list-icono {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    margin-top: 5px;
+}
+
+ul.list-icono li {
+    padding: 0px 30px 10px 0px;
+    display: block;
+    float: left;
+}
+
+ul.list-icono li label i.fa-icono,
+ul.list-icono li input.icono-product {
+    cursor: pointer;
+}
+
+.fa-icono {
+    font-size: 30px;
+}
+
 /************* Page User *************/
 
 #div-alert {
     display: none;
 }
 
-
+.clear-both {
+    clear: both;
+}
 
 /************* Page File *************/
 
@@ -198,4 +222,21 @@ body .container .x_panel .modal-dialog .close:hover {
     margin-right: 30px;
     cursor: pointer;
     margin-bottom: 0;
+}
+
+/************* Page Menu *************/
+
+.menu-sup li .sub_menu {
+    text-transform: capitalize;
+}
+
+.badge-success {
+    float: right;
+    margin-right: 15px;
+    background: #d9534f;
+    background: #1ABB9C;
+}
+
+.input-none {
+    display: none;
 }

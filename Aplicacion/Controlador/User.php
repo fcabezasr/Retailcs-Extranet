@@ -15,13 +15,15 @@ class User extends Nucleo\Includes\Controlador{
 
 
 	public function insertUser($iduser = null, $user_name = null, $password = null, $business_name = null, $type_user = null){
-
+		
+		$fechaActual = date('Y/m/d');
 		$user = $this->modelo('Muser');
 		$user->setIdUser($iduser);
 		$user->setUserName($user_name);
 		$user->setUserPass($password);
+		$user->setUpdateDate($fechaActual);
 		$user->setIdBusiness($business_name);
-		$user->setIdTypeUser($type_user);		
+		$user->setIdTypeUser($type_user);
 		$result = $user->insertUser();
 		
 		if ($result['result']['success']) {
@@ -36,9 +38,11 @@ class User extends Nucleo\Includes\Controlador{
 
 	public function insertTypeUser($idtype_user = null, $description_type = null){
 
+		$fechaActual = date('Y/m/d');
 		$type_user = $this->modelo('Mtype_user');
 		$type_user->setIdTypeUser($idtype_user);
 		$type_user->setDescription(urldecode($description_type));
+		$type_user->setUpdateDate($fechaActual);
 		$result = $type_user->insertTypeUser();
 
 		if ($result['result']['success']) {
@@ -178,6 +182,26 @@ class User extends Nucleo\Includes\Controlador{
 		}
 
 		return printTableTypeUser($arrayTypeUser);
+	}
+
+
+	public function validateUser($user_name = null){
+
+		$m_user = $this->modelo('Muser');
+		$m_user->setUserName($user_name);
+		$result = $m_user->validateUser();
+
+		echo json_encode($result);
+	}
+
+
+	public function validateTypeUser($description = null){
+
+		$m_type_user = $this->modelo('Mtype_user');
+		$m_type_user->setDescription($description);
+		$result = $m_type_user->validateTypeUser();
+
+		echo json_encode($result);
 	}
 
 }

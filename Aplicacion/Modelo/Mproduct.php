@@ -10,7 +10,10 @@ class Mproduct {
 
 	private $IdProduct;
 	private $ProductName;
+	private $ProductIcono;
+	private $ProductOrder;
 	private $RegistryDate;
+	private $UpdateDate;
 	private $State;
 
 
@@ -23,6 +26,52 @@ class Mproduct {
 
 
 	/********************* MÉTODOS *********************/
+
+
+	public function selectProduct(){
+
+		$sql = $this->db->_query("SELECT idproduct, product_name, product_icono, product_order, DATE_FORMAT(registry_date, '%d-%m-%Y') AS registry_date, state FROM tbl_product WHERE state = 1");
+		$array_product = array();
+
+		while($datos = $sql->fetch_object()){
+			array_push($array_product, $datos);
+		}
+
+		if($array_product){
+			$this->result['result']['success'] = 1;
+			$this->result['result']['message'] = 'La consulta se realizó satisfactoriamente.';
+			$this->result['result']['arrayProduct'] = $array_product;
+		}else{
+			$this->result['result']['success'] = 0;
+			$this->result['result']['message'] = 'Ocurrió un error al realizar la consulta.';
+			$this->result['result']['arrayProduct'] = null;
+		}
+
+		return $this->result;
+	}
+
+
+	public function selectProductMenu(){
+
+		$sql = $this->db->_query("SELECT idproduct, product_name, product_icono, product_order FROM tbl_product WHERE state = 1");
+		$array_product = array();
+
+		while($datos = $sql->fetch_object()){
+			array_push($array_product, $datos);
+		}
+
+		if($array_product){
+			$this->result['result']['success'] = 1;
+			$this->result['result']['message'] = 'La consulta se realizó satisfactoriamente.';
+			$this->result['result']['array_product'] = $array_product;
+		}else{
+			$this->result['result']['success'] = 0;
+			$this->result['result']['message'] = 'Ocurrió un error al realizar la consulta.';
+			$this->result['result']['array_product'] = null;
+		}
+
+		return $this->result;
+	}
 
 
 	public function insertProduct(){
@@ -43,11 +92,39 @@ class Mproduct {
 	}
 
 
+	public function selectProductxIdProduct(){
+
+		$sql = $this->db->_query("SELECT idproduct, product_name FROM tbl_product WHERE idproduct = ".$this->getIdProduct()." AND state = 1")->fetch_object();
+
+		if($sql){
+			$this->result['result']['success'] = 1;
+			$this->result['result']['message'] = 'La consulta se realizó satisfactoriamente.';
+			$this->result['result']['id'] = $sql->idproduct;
+			$this->result['result']['product'] = $sql;
+		}else{
+			$this->result['result']['success'] = 0;
+			$this->result['result']['message'] = 'Ocurrió un error al realizar la consulta.';
+		}
+
+		return $this->result;
+	}
+
+
 	public function selectProductxName(){
 
-		$product = $this->db->_query("SELECT idproduct, product_name FROM tbl_product WHERE product_name LIKE '%".$this->getProductName()."%' AND state = 1")->fetch_object();
+		$sql = $this->db->_query("SELECT idproduct, product_name FROM tbl_product WHERE product_name LIKE '%".$this->getProductName()."%' AND state = 1")->fetch_object();
 
-		return $product;
+		if($sql){
+			$this->result['result']['success'] = 1;
+			$this->result['result']['message'] = 'La consulta se realizó satisfactoriamente.';
+			$this->result['result']['id'] = $sql->idproduct;
+			$this->result['result']['product'] = $sql;
+		}else{
+			$this->result['result']['success'] = 0;
+			$this->result['result']['message'] = 'Ocurrió un error al realizar la consulta.';
+		}
+
+		return $this->result;
 	}
 
 
@@ -85,7 +162,27 @@ class Mproduct {
 		
 		return $this->ProductName;
 	}
+
+	public function setProductIcono($ProductIcono = null){
+
+		$this->ProductIcono = $ProductIcono;
+	}
+
+	public function getProductIcono(){
 		
+		return $this->ProductIcono;
+	}
+
+	public function setProductOrder($ProductOrder = null){
+
+		$this->ProductOrder = $ProductOrder;
+	}
+
+	public function getProductOrder(){
+		
+		return $this->ProductOrder;
+	}
+
 	public function setRegistryDate($RegistryDate = null){
 
 		$this->RegistryDate = $RegistryDate;
@@ -94,6 +191,16 @@ class Mproduct {
 	public function getRegistryDate(){
 		
 		return $this->RegistryDate;
+	}
+
+	public function setUpdateDate($UpdateDate = null){
+
+		$this->UpdateDate = $UpdateDate;
+	}
+
+	public function getUpdateDate(){
+		
+		return $this->UpdateDate;
 	}
 
 	public function setState($State = null){

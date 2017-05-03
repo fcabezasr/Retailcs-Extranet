@@ -11,6 +11,7 @@ class Mcontent_detail {
 	private $IdContentDetail;
 	private $DetailDescription;
 	private $RegistryDate;
+	private $UpdateDate;
 	private $State;
 	private $IdContent;
 
@@ -25,24 +26,53 @@ class Mcontent_detail {
 
 	/********************* MÉTODOS *********************/
 
+
 	public function selectContentDetailxIdContent(){
 
-		$content_detail = $this->db->_query("SELECT idcontent_detail, detail_description, registry_date FROM tbl_content_detail WHERE idcontent = '".$this->getIdContent()."' AND state = 1");
-	
+		$sql = $this->db->_query("SELECT idcontent_detail, detail_description, registry_date FROM tbl_content_detail WHERE idcontent = '".$this->getIdContent()."' AND state = 1");
 		$array_content_detail = array();
-		while ($obj = $content_detail->fetch_object()) {
+	
+		while ($obj = $sql->fetch_object()) {
 			array_push($array_content_detail, $obj);
 		}
 
-		return $array_content_detail;
+		if($array_content_detail){
+			$this->result['result']['success'] = 1;
+			$this->result['result']['message'] = 'La consulta se realizó satisfactoriamente.';
+			$this->result['result']['array_content_detail'] = $array_content_detail;
+		}else{
+			$this->result['result']['success'] = 0;
+			$this->result['result']['message'] = 'Ocurrió un error al realizar la consulta.';
+			$this->result['result']['array_content_detail'] = null;
+		}
+
+		return $this->result;
+	}
+
+
+	public function countContentDetailxIdContent(){
+
+		$sql = $this->db->_query("SELECT idcontent_detail FROM tbl_content_detail WHERE idcontent = '".$this->getIdContent()."' AND state = 1");
+
+		if($sql->num_rows > 0){
+			$this->result['result']['success'] = 1;
+			$this->result['result']['message'] = 'La consulta se realizó satisfactoriamente.';
+			$this->result['result']['countContent'] = $sql->num_rows;
+		}else{
+			$this->result['result']['success'] = 0;
+			$this->result['result']['message'] = 'Ocurrió un error al realizar la consulta.';
+			$this->result['result']['countContent'] = 0;
+		}
+
+		return $this->result;
 	}
 
 
 	public function insertContentDetail(){
 
-		$content_detail = $this->db->_query("INSERT INTO tbl_content_detail (detail_description, registry_date, idcontent) VALUES ('".$this->getDetailDescription()."','".$this->getRegistryDate()."', ".$this->getIdContent().") ");
+		$sql = $this->db->_query("INSERT INTO tbl_content_detail (detail_description, registry_date, idcontent) VALUES ('".$this->getDetailDescription()."','".$this->getRegistryDate()."', ".$this->getIdContent().") ");
 
-		if($content_detail){
+		if($sql){
 			$this->result['result']['success'] = 1;
 			$this->result['result']['message'] = 'Los datos se han registrado satisfactoriamente.';
 			$this->result['result']['id'] = $this->db->mysql()->insert_id;
@@ -84,6 +114,16 @@ class Mcontent_detail {
 	public function getRegistryDate(){
 		
 		return $this->RegistryDate;
+	}
+
+	public function setUpdateDate($UpdateDate = null){
+
+		$this->UpdateDate = $UpdateDate;
+	}
+
+	public function getUpdateDate(){
+		
+		return $this->UpdateDate;
 	}
 
 	public function setState($State = null){

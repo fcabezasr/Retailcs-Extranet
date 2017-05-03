@@ -14,6 +14,7 @@ class Mbusiness {
 	private $Address;
 	private $Item;
 	private $RegistryDate;
+	private $UpdateDate;
 	private $State;
 
 
@@ -119,6 +120,16 @@ class Mbusiness {
 	public function getRegistryDate(){
 		
 		return $this->RegistryDate;
+	}
+
+	public function setUpdateDate($UpdateDate = null){
+
+		$this->UpdateDate = $UpdateDate;
+	}
+
+	public function getUpdateDate(){
+		
+		return $this->UpdateDate;
 	}
 
 	public function setState($State = null){

@@ -4,6 +4,7 @@
 		$tipo = 0;
 		if ($seccion == 'nuevo') { $tipo = 1; }
 		if ($seccion == 'version') { $tipo = 2; }
+		if ($seccion == 'vinculo') { $tipo = 3; }
 	}
 
 ?>
@@ -31,35 +32,91 @@
 						<li class="chevron-up-right">
 							<a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
 						</li>
-						<!--<li class="dropdown">
-							<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>
-							<ul class="dropdown-menu" role="menu">
-								<li><a href="#">Settings 1</a></li>
-								<li><a href="#">Settings 2</a></li>
-							</ul>
-						</li>
-						<li><a class="close-link"><i class="fa fa-close"></i></a></li>-->
 					</ul>
 					<div class="clearfix"></div>
 				</div>
 				<div class="x_content">
-					<form id="form-product" class="form-horizontal form-label-left">
+					<form id="form-product" class="form-horizontal form-label-left" autocomplete="off">
+						<div class="form-group input-none">
+							<label class="control-label col-md-3 col-sm-3 col-xs-12" for="product-id">Id</label>
+							<div class="col-md-6 col-sm-6 col-xs-12">
+								<input type="text" id="product-id" name="product-id" placeholder="idproduct" class="form-control col-md-7 col-xs-12">
+							</div>
+						</div>
+
 						<div class="form-group">
 							<label class="control-label col-md-3 col-sm-3 col-xs-12" for="product-name">Nombre <span class="required">*</span></label>
 							<div class="col-md-6 col-sm-6 col-xs-12">
 								<input type="text" id="product-name" name="product-name" required="required" placeholder="" class="form-control col-md-7 col-xs-12">
 							</div>
 						</div>
+						<div class="form-group">
+							<label class="control-label col-md-3 col-sm-3 col-xs-12" for="product-icono">Icono <span class="required">*</span></label>
+							<div class="col-md-6 col-sm-6 col-xs-12">
+								<ul class="list-icono">
+									<li>
+										<input type="radio" id="icono-p-1" name="radio-product" class="icono-product" icono="fa-desktop" checked="checked">
+										<label for="icono-p-1"><i class="fa fa-desktop fa-icono"></i></label>
+									</li>
+									<li>
+										<input type="radio" id="icono-p-2" name="radio-product" class="icono-product" icono="fa-fax">
+										<label for="icono-p-2"><i class="fa fa-fax fa-icono"></i></label>
+									</li>
+									<li>
+										<input type="radio" id="icono-p-3" name="radio-product" class="icono-product" icono="fa-laptop">
+										<label for="icono-p-3"><i class="fa fa-laptop fa-icono"></i></label>
+									</li>
+									<li>
+										<input type="radio" id="icono-p-4" name="radio-product" class="icono-product" icono="fa-edit">
+										<label for="icono-p-4"><i class="fa fa-edit fa-icono"></i></label>
+									</li>
+									<li>
+										<input type="radio" id="icono-p-5" name="radio-product" class="icono-product" icono="fa-archive">
+										<label for="icono-p-5"><i class="fa fa-archive fa-icono"></i></label>
+									</li>
+									<li>
+										<input type="radio" id="icono-p-6" name="radio-product" class="icono-product" icono="fa-database">
+										<label for="icono-p-6"><i class="fa fa-database fa-icono"></i></label>
+									</li>
+									<li>
+										<input type="radio" id="icono-p-7" name="radio-product" class="icono-product" icono="fa-suitcase">
+										<label for="icono-p-7"><i class="fa fa-suitcase fa-icono"></i></label>
+									</li>
+									<li>
+										<input type="radio" id="icono-p-8" name="radio-product" class="icono-product" icono="fa-tag">
+										<label for="icono-p-8"><i class="fa fa-tag fa-icono"></i></label>
+									</li>
+									<li class="clear-both"></li>
+								</ul>
+							</div>
+						</div>
 						<div class="ln_solid"></div>
 						<div class="form-group">
 							<div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
-								<button class="btn btn-primary" id="btn-reset-product" type="reset">Limpiar</button>
+								<button class="btn btn-primary" id="btn-reset" type="reset">Limpiar</button>
 								<button class="btn btn-success" id="btn-guardar-product" type="button">Guardar</button>
 							</div>
 						</div>
 					</form>
 				</div>
 			</div>
+
+			<div class="x_panel">
+				<div class="x_title">
+					<h2>Lista de productos <small>&nbsp;</small></h2>
+					<ul class="nav navbar-right panel_toolbox">
+						<li class="chevron-up-right">
+							<a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+						</li>
+					</ul>
+					<div class="clearfix"></div>
+				</div>
+				<div class="x_content" id="content-table-product">
+
+					<?php echo $tableProduct; ?>
+
+				</div>
+			</div>			
 
 			<?php } if($tipo == 2) { ?>
 			
@@ -70,34 +127,75 @@
 						<li class="chevron-up-right">
 							<a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
 						</li>
-						<!--<li class="dropdown">
-							<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>
-							<ul class="dropdown-menu" role="menu">
-								<li><a href="#">Settings 1</a></li>
-								<li><a href="#">Settings 2</a></li>
-							</ul>
-						</li>
-						<li><a class="close-link"><i class="fa fa-close"></i></a></li>-->
 					</ul>
 					<div class="clearfix"></div>
 				</div>
 				<div class="x_content">
-					<form id="form-version" class="form-horizontal form-label-left">
-						<div class="form-group">
-							<label class="control-label col-md-3 col-sm-3 col-xs-12" for="idproduct">Producto <span class="required">*</span></label>
-							<div class="col-md-6 col-sm-6 col-xs-12">
-								<select id="idproduct" name="idproduct" class="form-control" required="required">
-		                            <option value="">-- Seleccione --</option>
-
-		                            <?php echo $listProduct; ?>
-
-	                          	</select>
-							</div>
-						</div>
+					<form id="form-version" class="form-horizontal form-label-left" autocomplete="off">
 						<div class="form-group">
 							<label class="control-label col-md-3 col-sm-3 col-xs-12" for="version-description">Versión <span class="required">*</span></label>
 							<div class="col-md-6 col-sm-6 col-xs-12">
 								<input type="text" id="version-description" name="version-description" required="required" placeholder="ej. 9.0" class="form-control col-md-7 col-xs-12">
+							</div>
+						</div>
+						<div class="ln_solid"></div>
+						<div class="form-group">
+							<div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
+								<button class="btn btn-primary" id="btn-reset" type="reset">Limpiar</button>
+								<button class="btn btn-success" id="btn-guardar-version" type="button">Guardar</button>
+							</div>
+						</div>
+					</form>
+				</div>
+			</div>
+
+			<div class="x_panel">
+				<div class="x_title">
+					<h2>Lista de versiones <small>&nbsp;</small></h2>
+					<ul class="nav navbar-right panel_toolbox">
+						<li class="chevron-up-right">
+							<a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+						</li>
+					</ul>
+					<div class="clearfix"></div>
+				</div>
+				<div class="x_content" id="content-table-version">
+
+					<?php echo $tableVersion; ?>
+
+				</div>
+			</div>
+
+			<?php } if($tipo == 3) { ?>
+			
+			<div class="x_panel">
+				<div class="x_title">
+					<h2>Vincular versión x producto <small>Complete los campos</small></h2>
+					<ul class="nav navbar-right panel_toolbox">
+						<li class="chevron-up-right">
+							<a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+						</li>
+					</ul>
+					<div class="clearfix"></div>
+				</div>
+				<div class="x_content">
+					<form id="form-version-product" class="form-horizontal form-label-left" autocomplete="off">
+						<div class="form-group">
+							<label class="control-label col-md-3 col-sm-3 col-xs-12" for="idproduct_pv">Producto <span class="required">*</span></label>
+							<div class="col-md-6 col-sm-6 col-xs-12">
+								<select id="idproduct_pv" name="idproduct_pv" class="form-control" required="required">
+		                            <option value="">-- Seleccione --</option>
+		                            <?php echo $listProduct; ?>
+	                          	</select>
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="control-label col-md-3 col-sm-3 col-xs-12" for="idversion_pv">Versión <span class="required">*</span></label>
+							<div class="col-md-6 col-sm-6 col-xs-12">
+								<select id="idversion_pv" name="idversion_pv" class="form-control" required="required">
+		                            <option value="">-- Seleccione --</option>
+		                            <?php echo $listVersion; ?>
+	                          	</select>
 							</div>
 						</div>
 						<div class="form-group">
@@ -109,11 +207,28 @@
 						<div class="ln_solid"></div>
 						<div class="form-group">
 							<div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
-								<button class="btn btn-primary" id="btn-reset-version" type="reset">Limpiar</button>
-								<button class="btn btn-success" id="btn-guardar-version" type="button">Guardar</button>
+								<button class="btn btn-primary" id="btn-reset" type="reset">Limpiar</button>
+								<button class="btn btn-success" id="btn-guardar-version-product" type="button">Guardar</button>
 							</div>
 						</div>
 					</form>
+				</div>
+			</div>
+
+			<div class="x_panel">
+				<div class="x_title">
+					<h2>Lista de versiones x productos <small>&nbsp;</small></h2>
+					<ul class="nav navbar-right panel_toolbox">
+						<li class="chevron-up-right">
+							<a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+						</li>
+					</ul>
+					<div class="clearfix"></div>
+				</div>
+				<div class="x_content" id="content-table-version-product">
+
+					<?php echo $tableVersionProduct; ?>
+
 				</div>
 			</div>
 

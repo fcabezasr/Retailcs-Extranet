@@ -26,6 +26,75 @@ class Mversion_product {
 	/********************* MÉTODOS *********************/
 
 
+    public function selectVersionProductxIdProductMenu(){
+
+    	$sql = $this->db->_query("SELECT idproduct, idversion FROM tbl_version_product WHERE idproduct = ".$this->getIdProduct()." AND state = 1");
+		$array_version_product = array();
+		
+		while($datos = $sql->fetch_object()){
+			array_push($array_version_product, $datos);
+		}
+
+		if($array_version_product){
+			$this->result['result']['success'] = 1;
+			$this->result['result']['message'] = 'La consulta se realizó satisfactoriamente.';
+			$this->result['result']['array_version_product'] = $array_version_product;
+		}else{
+			$this->result['result']['success'] = 0;
+			$this->result['result']['message'] = 'Ocurrió un error al realizar la consulta.';
+			$this->result['result']['array_version_product'] = null;
+		}
+
+		return $this->result;
+    }
+
+
+    public function selectVersionProductxIdProduct(){
+
+    	$sql = $this->db->_query("SELECT idproduct, idversion FROM tbl_version_product WHERE idproduct = ".$this->getIdProduct()." AND state = 1");
+    	$arrayVersionProduct = array();
+
+    	while ($datos = $sql->fetch_object()) {
+    		array_push($arrayVersionProduct, $datos);
+    	}
+
+		if($arrayVersionProduct){
+			$this->result['result']['success'] = 1;
+			$this->result['result']['message'] = 'La consulta se realizó satisfactoriamente.';
+			$this->result['result']['arrayVersionProduct'] = $arrayVersionProduct;
+		}else{
+			$this->result['result']['success'] = 0;
+			$this->result['result']['message'] = 'Ocurrió un error al realizar la consulta.';
+			$this->result['result']['arrayVersionProduct'] = null;
+		}
+
+		return $this->result;
+    }
+
+
+    public function selectVersionProductxIdProductxIdVersion(){
+
+    	$sql = $this->db->_query("SELECT idproduct, idversion FROM tbl_version_product WHERE idproduct = ".$this->getIdProduct()." AND idversion = ".$this->getIdVersion()." AND state = 1");
+
+    	$arrayVersionProduct = array();
+    	while ($datos = $sql->fetch_object()) {
+    		array_push($arrayVersionProduct, $datos);
+    	}
+
+		if($sql){
+			$this->result['result']['success'] = 1;
+			$this->result['result']['message'] = 'La consulta se realizó satisfactoriamente.';
+			$this->result['result']['arrayVersionProduct'] = $arrayVersionProduct;
+		}else{
+			$this->result['result']['success'] = 0;
+			$this->result['result']['message'] = 'Ocurrió un error al realizar la consulta.';
+			$this->result['result']['arrayVersionProduct'] = null;
+		}
+
+		return $this->result;
+    }
+
+
 	public function insertVersionProduct(){
 		
 		$sql = $this->db->_query("INSERT INTO tbl_version_product (idproduct, idversion, registry_description) VALUES (".$this->getIdProduct().", ".$this->getIdVersion().", '".$this->getRegistryDescription()."')");
@@ -42,31 +111,6 @@ class Mversion_product {
 		return $this->result;
 	}
 
-
-    public function selectVersionProductxIdProduct(){
-
-    	$version_product = $this->db->_query("SELECT idproduct, idversion FROM tbl_version_product WHERE idproduct = ".$this->getIdProduct()." AND state = 1");
-    	
-    	$arrayVersionProduct = array();
-    	while ($result = $version_product->fetch_object()) {
-    		array_push($arrayVersionProduct, $result);
-    	}
-
-    	return $arrayVersionProduct;
-    }
-
-
-    public function selectVersionProductxIdProductxIdVersion(){
-
-    	$version_product = $this->db->_query("SELECT idproduct, idversion FROM tbl_version_product WHERE idproduct = ".$this->getIdProduct()." AND idversion = ".$this->getIdVersion()." AND state = 1");
-
-    	$arrayVersionProduct = array();
-    	while ($result = $version_product->fetch_object()) {
-    		array_push($arrayVersionProduct, $result);
-    	}
-
-    	return $arrayVersionProduct;
-    }
 
 	/********************* MÉTODOS SET & GET *********************/
 

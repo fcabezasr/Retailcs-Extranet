@@ -11,6 +11,7 @@ class Mtype_user {
 	private $IdTypeUser;
 	private $Description;
 	private $RegistryDate;
+	private $UpdateDate;
 	private $State;
 
 
@@ -70,7 +71,7 @@ class Mtype_user {
 	public function insertTypeUser(){
 		
 		if ($this->getIdTypeUser()!='' || $this->getIdTypeUser()!=null) {
-			$sql = $this->db->_query("UPDATE tbl_type_user SET description = '".$this->getDescription()."' WHERE idtype_user = ".$this->getIdTypeUser()."");
+			$sql = $this->db->_query("UPDATE tbl_type_user SET description = '".$this->getDescription()."', update_date = '".$this->getUpdateDate()."' WHERE idtype_user = ".$this->getIdTypeUser()."");
 
 			if($sql){
 				$this->result['result']['success'] = 1;
@@ -87,7 +88,7 @@ class Mtype_user {
 			}
 
 		} else {
-			$sql = $this->db->_query("INSERT INTO tbl_type_user (description) VALUES ('".$this->getDescription()."')");
+			$sql = $this->db->_query("INSERT INTO tbl_type_user (description, update_date) VALUES ('".$this->getDescription()."', '".$this->getUpdateDate()."')");
 
 			if($sql){
 				$this->result['result']['success'] = 1;
@@ -103,7 +104,6 @@ class Mtype_user {
 				$this->result['result']['nameboton'] = 'Guardar';
 			}
 		}
-
 
 		return $this->result;
 	}
@@ -140,6 +140,22 @@ class Mtype_user {
 		} else {
 			$this->result['result']['success'] = 0;
 			$this->result['result']['message'] = 'Ocurrió un error, vuelva a realizar la acción.';
+		}
+
+		return $this->result;
+	}
+
+
+	public function validateTypeUser(){
+
+		$sql = $this->db->_query("SELECT idtype_user FROM tbl_type_user WHERE description = '".$this->getDescription()."'")->fetch_object();
+		
+		if($sql){
+			$this->result['result']['success'] = 1;
+			$this->result['result']['message'] = 'El tipo de usuario "<strong>'.$this->getDescription().'</strong>" ya existe.';
+		}else{
+			$this->result['result']['success'] = 0;
+			$this->result['result']['message'] = 'Ocurrió un error al realizar la consulta.';
 		}
 
 		return $this->result;
@@ -191,6 +207,16 @@ class Mtype_user {
 		return $this->RegistryDate;
 	}
 
+	public function setUpdateDate($UpdateDate = null){
+
+		$this->UpdateDate = $UpdateDate;
+	}
+
+	public function getUpdateDate(){
+		
+		return $this->UpdateDate;
+	}
+	
 	public function setState($State = null){
 
 		$this->State = $State;
