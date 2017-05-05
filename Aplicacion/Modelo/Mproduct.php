@@ -53,7 +53,7 @@ class Mproduct {
 
 	public function selectProductMenu(){
 
-		$sql = $this->db->_query("SELECT idproduct, product_name, product_icono, product_order FROM tbl_product WHERE state = 1");
+		$sql = $this->db->_query("SELECT idproduct, product_name, product_icono, product_order FROM tbl_product WHERE state = 1 ORDER BY idproduct");
 		$array_product = array();
 
 		while($datos = $sql->fetch_object()){
@@ -68,24 +68,6 @@ class Mproduct {
 			$this->result['result']['success'] = 0;
 			$this->result['result']['message'] = 'Ocurrió un error al realizar la consulta.';
 			$this->result['result']['array_product'] = null;
-		}
-
-		return $this->result;
-	}
-
-
-	public function insertProduct(){
-		
-		$sql = $this->db->_query("INSERT INTO tbl_product (product_name) VALUES ('".$this->getProductName()."')");
-		
-		if($sql){
-			$this->result['result']['success'] = 1;
-			$this->result['result']['message'] = 'El producto <strong>'.$this->getProductName().'</strong> se ha registrado satisfactoriamente.';
-			$this->result['result']['id'] = $this->db->mysql()->insert_id;
-			$this->result['result']['product'] = $this->getProductName();
-		}else{
-			$this->result['result']['success'] = 0;
-			$this->result['result']['message'] = 'El producto <strong>'.$this->getProductName().'</strong> no se ha registrado, ocurrió un error.';
 		}
 
 		return $this->result;
@@ -128,6 +110,81 @@ class Mproduct {
 	}
 
 
+	public function insertProduct(){
+		
+		if ($this->getIdProduct()!='' || $this->getIdProduct()!=null) {
+			
+			$sql = $this->db->_query("UPDATE tbl_product SET product_name = '".$this->getProductName()."', product_icono = '".$this->getProductIcono()."', update_date = '".$this->getUpdateDate()."' WHERE idproduct = ".$this->getIdProduct()."");
+
+			if($sql){
+				$this->result['result']['success'] = 1;
+				$this->result['result']['message'] = 'Los datos del producto "<strong>'.$this->getProductName().'</strong>" se han actualizado satisfactoriamente.';
+				$this->result['result']['id'] = $this->getIdProduct();
+				$this->result['result']['username'] = $this->getProductName();
+				$this->result['result']['nameboton'] = 'Guardar';
+			} else {
+				$this->result['result']['success'] = 0;
+				$this->result['result']['message'] = 'Ocurrió un error, los datos del producto "<strong>'.$this->getProductName().'</strong>" no se ha actualizado.';
+				$this->result['result']['nameboton'] = 'Actualizar';
+			}
+			
+		} else {
+			$sql = $this->db->_query("INSERT INTO tbl_product (product_name, product_icono, update_date) VALUES ('".$this->getProductName()."', '".$this->getProductIcono()."', '".$this->getUpdateDate()."')");
+
+			if($sql){
+				$this->result['result']['success'] = 1;
+				$this->result['result']['message'] = 'El producto "<strong>'.$this->getProductName().'</strong>" se ha registrado satisfactoriamente.';
+				$this->result['result']['id'] = $this->db->mysql()->insert_id;
+				$this->result['result']['product_name'] = $this->getProductName();
+				$this->result['result']['nameboton'] = 'Guardar';
+			} else {
+				$this->result['result']['success'] = 0;
+				$this->result['result']['message'] = 'Ocurrió un error, el producto "<strong>'.$this->getProductName().'</strong>"" no se ha registrado.';
+				$this->result['result']['nameboton'] = 'Guardar';
+			}
+		}
+
+		return $this->result;
+	}
+
+
+	public function updateProduct(){
+
+		$sql = $this->db->_query("SELECT * FROM tbl_product WHERE idproduct = ".$this->getIdProduct()." AND state = 1")->fetch_object();
+	
+		if($sql){
+			$this->result['result']['success'] = 1;
+			$this->result['result']['message'] = 'Actualice los datos correspondientes.';
+			$this->result['result']['objProduct'] = $sql;
+			$this->result['result']['nameboton'] = 'Actualizar';
+		} else {
+			$this->result['result']['success'] = 0;
+			$this->result['result']['message'] = 'Ocurrió un error al realizar la consulta.';
+			$this->result['result']['objProduct'] = '';
+			$this->result['result']['nameboton'] = 'Guardar';
+		}
+
+		return $this->result;
+	}
+
+
+	public function deleteProduct(){
+
+		$sql = $this->db->_query("UPDATE tbl_product SET state = 0 WHERE idproduct = ".$this->getIdProduct()."");
+
+		if($sql){
+			$this->result['result']['success'] = 1;
+			$this->result['result']['message'] = 'El producto se ha <strong>deshabilitado</strong> correctamente.';
+			$this->result['result']['id'] = $this->getIdProduct();
+		} else {
+			$this->result['result']['success'] = 0;
+			$this->result['result']['message'] = 'Ocurrió un error, vuelva a realizar la acción.';
+		}
+
+		return $this->result;
+	}
+
+
 	public function listProduct( $funcion ){
 
 		$sql = $this->db->_query("SELECT idproduct, product_name FROM tbl_product WHERE state = 1");
@@ -138,6 +195,22 @@ class Mproduct {
 		}
 
 		return $lista;
+	}
+
+
+	public function validateProduct(){
+
+		$sql = $this->db->_query("SELECT idproduct FROM tbl_product WHERE product_name = '".$this->getProductName()."'")->fetch_object();
+		
+		if($sql){
+			$this->result['result']['success'] = 1;
+			$this->result['result']['message'] = 'El producto "<strong>'.$this->getProductName().'</strong>" ya existe.';
+		}else{
+			$this->result['result']['success'] = 0;
+			$this->result['result']['message'] = 'Ocurrió un error al realizar la consulta.';
+		}
+
+		return $this->result;
 	}
 
 

@@ -39,16 +39,19 @@ class File extends Nucleo\Includes\Controlador{
 					$extension = $ext[0];
 					$size = round(($file['size'] / (1024*1024)), 2).'MB';
 					//$url = 'http://www.retailcs.com/extranet/'.$dir_name.$file['name'];
-					$url = 'http://'.$_SERVER["HTTP_HOST"].'/extranet/'.$dir_name.$file['name'];
+					//$url = 'http://'.$_SERVER["HTTP_HOST"].'/extranet/'.$dir_name.$file['name'];
+					$url = HTTP_HOST.$dir_name.$file['name'];
 				}
 								
 				$mfile = $this->modelo('Mfile');
+				$fechaHoy = date('Y-m-d');
 
 				$mfile->setFileName(utf8_decode($_POST['file-name']));
 				$mfile->setFileExt($extension);
 				$mfile->setPublicationDate($_POST['registry-date']);
 				$mfile->setFileSize($size);
 				$mfile->setFileUrl($url);
+				$mfile->setUpdateDate($fechaHoy);
 				$mfile->setIdFileType($_POST['idfile-type']);
 				$mfile->setIdProduct($_POST['idproduct']);
 				$mfile->setIdVersion($_POST['idversion-product']);

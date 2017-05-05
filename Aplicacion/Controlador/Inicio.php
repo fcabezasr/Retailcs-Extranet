@@ -21,10 +21,10 @@ class Inicio extends Nucleo\Includes\Controlador{
 			$params = array("page" => $inc, "menu_product" => $menu_product);
 
 			// Activamos esta VIEW cuando está en PRODUCCIÓN
-			//parent::vista("contenedor", $params);
+			parent::vista("contenedor", $params);
 
 			// Activamos esta VIEW cuando está en CONSTRUCCIÓN
-			parent::vista("construction");
+			//parent::vista("construction");
 		} else {
 			header('Location: ./login/');
 		}
@@ -250,6 +250,95 @@ class Inicio extends Nucleo\Includes\Controlador{
 		}
 
 		return printMenuProduct($array_menu);
+	}
+
+
+	/********************         PRODUCT     ********************/
+
+	public function insertProduct($product_id = null, $product_name = null, $product_icono = null){
+
+		$fechaActual = date('Y/m/d');
+		$product = $this->modelo('Mproduct');
+		$product->setIdProduct($product_id);
+		$product->setProductName(urldecode($product_name));
+		$product->setProductIcono(urldecode($product_icono));
+		$product->setUpdateDate($fechaActual);
+		$result = $product->insertProduct();
+		
+		if ($result['result']['success']) {
+			$result['result']['datatable'] = $this->tableProduct();
+			$result['result']['menuproduct'] = $this->menuProduct();
+		} else {
+			$result['result']['datatable'] = '';
+			$result['result']['menuproduct'] = '';
+		}		
+
+		echo json_encode($result);
+	}
+
+
+	public function updateProduct($idproduct = null){
+
+		$product = $this->modelo('Mproduct');
+		$product->setIdProduct($idproduct);
+		$result = $product->updateProduct();
+
+		if ($result['result']['success']) {
+			$result['result']['datatable'] = $this->tableProduct();
+			$result['result']['menuproduct'] = $this->menuProduct();
+		} else {
+			$result['result']['datatable'] = '';
+			$result['result']['menuproduct'] = '';
+		}
+
+		echo json_encode($result);
+	}
+
+
+	public function deleteProduct($idproduct = null){
+
+		$product = $this->modelo('Mproduct');
+		$product->setIdProduct($idproduct);
+		$result = $product->deleteProduct();
+
+		if ($result['result']['success']) {
+			$result['result']['datatable'] = $this->tableProduct();
+			$result['result']['menuproduct'] = $this->menuProduct();
+		} else {
+			$result['result']['datatable'] = '';
+			$result['result']['menuproduct'] = '';
+		}
+
+		echo json_encode($result);
+	}
+
+
+	public function tableProduct(){
+
+		$m_product = $this->modelo('Mproduct');
+		$result = $m_product->selectProduct();
+
+		if ($result['result']['success']) {
+			$arrayProduct = array();
+
+			foreach ($result['result']['arrayProduct'] as $key => $productData) {
+				$data['idproduct'] = $productData->idproduct;
+				$data['product_name'] = $productData->product_name;
+				$data['product_icono'] = $productData->product_icono;
+				$data['product_order'] = $productData->product_order;
+				$data['registry_date'] = $productData->registry_date;
+				
+				if ($productData->state) {
+					$data['state'] = 'Habilitado';
+				} else {
+					$data['state'] = 'Deshabilitado';
+				}
+
+				array_push($arrayProduct, $data);
+			}
+		}
+
+		return printTableProduct($arrayProduct);
 	}
 
 }

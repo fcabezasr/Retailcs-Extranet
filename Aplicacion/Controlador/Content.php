@@ -23,6 +23,7 @@ class Content extends Nucleo\Includes\Controlador{
 
 		$content->setContentDescription(utf8_decode($data->idcontent_type.' '.$dateUpdate));
 		$content->setPublicationDate($dateUpdate);
+		$content->setUpdateDate($dateUpdate);
 		$content->setIdContentType($data->idcontent_type);
 		$content->setIdProduct($data->idproduct);
 		$content->setIdVersion($data->idversion_product);
@@ -34,6 +35,7 @@ class Content extends Nucleo\Includes\Controlador{
 
 			$content_detail->setDetailDescription(utf8_decode($data->detail_description));
 			$content_detail->setRegistryDate($data->registry_date);
+			$content_detail->setUpdateDate($dateUpdate);
 			$content_detail->setIdContent($result['result']['id']);
 
 			$result2 = $content_detail->insertContentDetail();

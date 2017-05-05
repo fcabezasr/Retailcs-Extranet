@@ -263,7 +263,18 @@ class Page extends Nucleo\Includes\Controlador {
 				$listProduct = '';
 
 				if(isset($product)) $product->listProduct(function($idproduct, $product_name) use(&$listProduct){
-				$listProduct.= printList($idproduct, $product_name);
+					$listProduct.= printList($idproduct, $product_name);
+				});
+				
+				$param['listProduct'] = $listProduct;
+				break;
+
+			case 'archivo':
+				$product = $this->modelo('Mproduct');
+				$listProduct = '';
+
+				if(isset($product)) $product->listProduct(function($idproduct, $product_name) use(&$listProduct){
+					$listProduct.= printList($idproduct, $product_name);
 				});
 				
 				$param['listProduct'] = $listProduct;
@@ -278,6 +289,62 @@ class Page extends Nucleo\Includes\Controlador {
 		}
 
 		echo $inc = parent::vista(DIR_COMPONENTES.$pagina, $param, true);
+	}
+
+
+	/********************          USER       ********************/
+
+	public function insertUser($iduser = null, $user_name = null, $password = null, $business_name = null, $type_user = null){
+		
+		$fechaActual = date('Y/m/d');
+		$user = $this->modelo('Muser');
+		$user->setIdUser($iduser);
+		$user->setUserName($user_name);
+		$user->setUserPass($password);
+		$user->setUpdateDate($fechaActual);
+		$user->setIdBusiness($business_name);
+		$user->setIdTypeUser($type_user);
+		$result = $user->insertUser();
+		
+		if ($result['result']['success']) {
+			$result['result']['datatable'] = $this->tableUser();
+		} else {
+			$result['result']['datatable'] = '';
+		}
+		
+		echo json_encode($result);
+	}
+
+
+	public function updateUser($iduser = null){
+
+		$user = $this->modelo('Muser');
+		$user->setIdUser($iduser);
+		$result = $user->updateUser();
+
+		if ($result['result']['success']) {
+			$result['result']['datatable'] = $this->tableUser();
+		} else {
+			$result['result']['datatable'] = '';
+		}
+
+		echo json_encode($result);
+	}
+
+
+	public function deleteUser($iduser = null){
+
+		$user = $this->modelo('Muser');
+		$user->setIdUser($iduser);
+		$result = $user->deleteUser();
+
+		if ($result['result']['success']) {
+			$result['result']['datatable'] = $this->tableUser();
+		} else {
+			$result['result']['datatable'] = '';
+		}
+
+		echo json_encode($result);
 	}
 
 
@@ -332,6 +399,59 @@ class Page extends Nucleo\Includes\Controlador {
 	}
 
 
+	/********************        TYPE USER    ********************/
+
+	public function insertTypeUser($idtype_user = null, $description_type = null){
+
+		$fechaActual = date('Y/m/d');
+		$type_user = $this->modelo('Mtype_user');
+		$type_user->setIdTypeUser($idtype_user);
+		$type_user->setDescription(urldecode($description_type));
+		$type_user->setUpdateDate($fechaActual);
+		$result = $type_user->insertTypeUser();
+
+		if ($result['result']['success']) {
+			$result['result']['datatable'] = $this->tableTypeUser();
+		} else {
+			$result['result']['datatable'] = '';
+		}
+				
+		echo json_encode($result);
+	}
+
+
+	public function updateTypeUser($idtype_user = null){
+
+		$type_user = $this->modelo('Mtype_user');
+		$type_user->setIdTypeUser($idtype_user);
+		$result = $type_user->updateTypeUser();
+
+		if ($result['result']['success']) {
+			$result['result']['datatable'] = $this->tableTypeUser();
+		} else {
+			$result['result']['datatable'] = '';
+		}
+
+		echo json_encode($result);
+	}
+
+
+	public function deleteTypeUser($idtype_user = null){
+
+		$type_user = $this->modelo('Mtype_user');
+		$type_user->setIdTypeUser($idtype_user);
+		$result = $type_user->deleteTypeUser();
+
+		if ($result['result']['success']) {
+			$result['result']['datatable'] = $this->tableTypeUser();
+		} else {
+			$result['result']['datatable'] = '';
+		}
+
+		echo json_encode($result);
+	}
+
+
 	public function tableTypeUser(){
 
 		$type_user = $this->modelo('Mtype_user');
@@ -359,6 +479,60 @@ class Page extends Nucleo\Includes\Controlador {
 	}
 
 
+	/********************         PRODUCT     ********************/
+/*
+	public function insertProduct($product_id = null, $product_name = null, $product_icono = null){
+
+		$fechaActual = date('Y/m/d');
+		$product = $this->modelo('Mproduct');
+		$product->setIdProduct($product_id);
+		$product->setProductName(urldecode($product_name));
+		$product->setProductIcono(urldecode($product_icono));
+		$product->setUpdateDate($fechaActual);
+		$result = $product->insertProduct();
+		
+		if ($result['result']['success']) {
+			$result['result']['datatable'] = $this->tableProduct();
+		} else {
+			$result['result']['datatable'] = '';
+		}		
+
+		echo json_encode($result);
+	}
+
+
+	public function updateProduct($idproduct = null){
+
+		$product = $this->modelo('Mproduct');
+		$product->setIdProduct($idproduct);
+		$result = $product->updateProduct();
+
+		if ($result['result']['success']) {
+			$result['result']['datatable'] = $this->tableProduct();
+		} else {
+			$result['result']['datatable'] = '';
+		}
+
+		echo json_encode($result);
+	}
+
+
+	public function deleteProduct($idproduct = null){
+
+		$product = $this->modelo('Mproduct');
+		$product->setIdProduct($idproduct);
+		$result = $product->deleteProduct();
+
+		if ($result['result']['success']) {
+			$result['result']['datatable'] = $this->tableProduct();
+		} else {
+			$result['result']['datatable'] = '';
+		}
+
+		echo json_encode($result);
+	}
+*/
+
 	public function tableProduct(){
 
 		$m_product = $this->modelo('Mproduct');
@@ -385,6 +559,59 @@ class Page extends Nucleo\Includes\Controlador {
 		}
 
 		return printTableProduct($arrayProduct);
+	}
+
+
+	/********************         VERSION     ********************/
+
+	public function insertVersion($idversion = null, $version_description = null){
+
+		$fechaActual = date('Y/m/d');
+		$version = $this->modelo('Mversion');
+		$version->setIdVersion($idversion);
+		$version->setVersionDescription($version_description);
+		$version->setUpdateDate($fechaActual);
+		$result = $version->insertVersion();
+
+		if ($result['result']['success']) {
+			$result['result']['datatable'] = $this->tableVersion();
+		} else {
+			$result['result']['datatable'] = '';
+		}
+		
+		echo json_encode($result);
+	}
+
+
+	public function updateVersion($idversion = null){
+
+		$version = $this->modelo('Mversion');
+		$version->setIdVersion($idversion);
+		$result = $version->updateVersion();
+
+		if ($result['result']['success']) {
+			$result['result']['datatable'] = $this->tableVersion();
+		} else {
+			$result['result']['datatable'] = '';
+		}
+
+		echo json_encode($result);
+	}
+
+
+	public function deleteVersion($idversion = null){
+
+		$version = $this->modelo('Mversion');
+		$version->setIdVersion($idversion);
+		$result = $version->deleteVersion();
+
+		if ($result['result']['success']) {
+			$result['result']['datatable'] = $this->tableVersion();
+		} else {
+			$result['result']['datatable'] = '';
+		}
+
+		echo json_encode($result);
 	}
 
 
@@ -416,11 +643,104 @@ class Page extends Nucleo\Includes\Controlador {
 	}
 
 
+	/********************  PRODUCT & VERSION  ********************/
+
+	public function insertVersionProduct($data_json = null){
+
+		$data = json_decode(urldecode($data_json));
+
+		$m_version_product = $this->modelo('Mversion_product');
+		$m_version_product->setIdProduct($data->idproduct_pv);
+		$m_version_product->setIdVersion($data->idversion_pv);
+		$m_version_product->setRegistryDescription($data->registry_description);
+		$result = $m_version_product->insertVersionProduct();
+
+		if ($result['result']['success']) {
+			$result['result']['datatable'] = $this->tableVersionProduct();
+		} else {
+			$result['result']['datatable'] = '';
+		}		
+
+		echo json_encode($result);
+	}
+
+
+	public function updateVersionProduct($idproduct = null, $idversion = null){
+
+		$m_version_product = $this->modelo('Mversion_product');
+		$m_version_product->setIdProduct($idproduct);
+		$m_version_product->setIdVersion($idversion);
+		$result = $m_version_product->updateVersionProduct();
+
+		if ($result['result']['success']) {
+			$result['result']['datatable'] = $this->tableVersionProduct();
+		} else {
+			$result['result']['datatable'] = '';
+		}
+
+		echo json_encode($result);
+	}
+
+
+	public function deleteVersionProduct($idproduct = null, $idversion = null){
+
+		$m_version_product = $this->modelo('Mversion_product');
+		$m_version_product->setIdProduct($idproduct);
+		$m_version_product->setIdVersion($idversion);
+		$result = $m_version_product->deleteVersionProduct();
+
+		if ($result['result']['success']) {
+			$result['result']['datatable'] = $this->tableVersionProduct();
+		} else {
+			$result['result']['datatable'] = '';
+		}
+
+		echo json_encode($result);
+	}
+
+
 	public function tableVersionProduct(){
 
-		$arrayVersionProduct = array();
+		$m_product = $this->modelo('Mproduct');
+		$m_version = $this->modelo('Mversion');
+		$m_version_product = $this->modelo('Mversion_product');
+		$result = $m_version_product->selectVersionProduct();
+
+		if ($result['result']['success']) {
+			$arrayVersionProduct = array();
+
+			foreach ($result['result']['array_version_product'] as $key => $versionProductData) {
+				$data['idproduct'] = $versionProductData->idproduct;
+				$data['idversion'] = $versionProductData->idversion;
+				$data['registry_description'] = $versionProductData->registry_description;
+				$data['registry_date'] = $versionProductData->registry_date;
+
+				$m_product->setIdProduct($versionProductData->idproduct);
+				$p_result = $m_product->selectProductxIdProduct();
+
+				if ($p_result['result']['success']) {
+					$data['product_name'] = $p_result['result']['product']->product_name;
+				}
+
+				$m_version->setIdVersion($versionProductData->idversion);
+				$v_result = $m_version->selectVersionxIdVersion();
+				
+				if ($v_result['result']['success']) {
+					$data['version_description'] = $v_result['result']['object_version']->version_description;
+				}
+
+				if ($versionProductData->state) {
+					$data['state'] = 'Habilitado';
+				} else {
+					$data['state'] = 'Deshabilitado';
+				}
+
+				array_push($arrayVersionProduct, $data);
+			}
+		}
 
 		return printTableVersionProduct($arrayVersionProduct);
 	}
 
+	
 }

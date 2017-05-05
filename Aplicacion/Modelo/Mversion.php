@@ -88,16 +88,72 @@ class Mversion {
 
 	public function insertVersion(){
 		
-		$sql = $this->db->_query("INSERT INTO tbl_version (version_description) VALUES ('".$this->getVersionDescription()."')");
-		
+		if ($this->getIdVersion()!='' || $this->getIdVersion()!=null) {
+			$sql = $this->db->_query("UPDATE tbl_version SET version_description = '".$this->getVersionDescription()."', update_date = '".$this->getUpdateDate()."' WHERE idversion = ".$this->getIdVersion()."");
+
+			if($sql){
+				$this->result['result']['success'] = 1;
+				$this->result['result']['message'] = 'Los datos de la versión "<strong>'.$this->getVersionDescription().'</strong>" se han actualizado satisfactoriamente.';
+				$this->result['result']['id'] = $this->getIdVersion();
+				$this->result['result']['version'] = $this->getVersionDescription();
+				$this->result['result']['nameboton'] = 'Guardar';
+			} else {
+				$this->result['result']['success'] = 0;
+				$this->result['result']['message'] = 'Ocurrió un error, los datos de la versión "<strong>'.$this->getVersionDescription().'</strong>" no se ha actualizado.';
+				$this->result['result']['nameboton'] = 'Actualizar';
+			}
+			
+		} else {
+			$sql = $this->db->_query("INSERT INTO tbl_version (version_description, update_date) VALUES ('".$this->getVersionDescription()."', '".$this->getUpdateDate()."')");
+			
+			if($sql){
+				$this->result['result']['success'] = 1;
+				$this->result['result']['message'] = 'La versión "<strong>'.$this->getVersionDescription().'</strong>" se ha registrado satisfactoriamente.';
+				$this->result['result']['id'] = $this->db->mysql()->insert_id;
+				$this->result['result']['version'] = $this->getVersionDescription();
+				$this->result['result']['nameboton'] = 'Guardar';
+			}else{
+				$this->result['result']['success'] = 0;
+				$this->result['result']['message'] = 'Ocurrió un error, la versión "<strong>'.$this->getVersionDescription().'</strong>"" no se ha registrado.';
+				$this->result['result']['nameboton'] = 'Guardar';
+			}
+		}
+
+		return $this->result;
+	}
+
+
+	public function updateVersion(){
+
+		$sql = $this->db->_query("SELECT * FROM tbl_version WHERE idversion = ".$this->getIdVersion()." AND state = 1")->fetch_object();
+	
 		if($sql){
 			$this->result['result']['success'] = 1;
-			$this->result['result']['message'] = 'La versión <strong>'.$this->getVersionDescription().'</strong> se ha registrado satisfactoriamente.';
-			$this->result['result']['id'] = $this->db->mysql()->insert_id;
-			$this->result['result']['version'] = $this->getVersionDescription();
-		}else{
+			$this->result['result']['message'] = 'Actualice los datos correspondientes.';
+			$this->result['result']['objVersion'] = $sql;
+			$this->result['result']['nameboton'] = 'Actualizar';
+		} else {
 			$this->result['result']['success'] = 0;
-			$this->result['result']['message'] = 'La versión <strong>'.$this->getVersionDescription().'</strong> no se ha registrado, ocurrió un error.';
+			$this->result['result']['message'] = 'Ocurrió un error al realizar la consulta.';
+			$this->result['result']['objVersion'] = '';
+			$this->result['result']['nameboton'] = 'Guardar';
+		}
+
+		return $this->result;
+	}
+
+
+	public function deleteVersion(){
+
+		$sql = $this->db->_query("UPDATE tbl_version SET state = 0 WHERE idversion = ".$this->getIdVersion()."");
+
+		if($sql){
+			$this->result['result']['success'] = 1;
+			$this->result['result']['message'] = 'La versión se ha <strong>deshabilitado</strong> correctamente.';
+			$this->result['result']['id'] = $this->getIdVersion();
+		} else {
+			$this->result['result']['success'] = 0;
+			$this->result['result']['message'] = 'Ocurrió un error, vuelva a realizar la acción.';
 		}
 
 		return $this->result;
@@ -115,7 +171,23 @@ class Mversion {
 
 		return $lista;
 	}
-	
+
+
+	public function validateVersion(){
+
+		$sql = $this->db->_query("SELECT idversion FROM tbl_version WHERE version_description = '".$this->getVersionDescription()."'")->fetch_object();
+		
+		if($sql){
+			$this->result['result']['success'] = 1;
+			$this->result['result']['message'] = 'La versión "<strong>'.$this->getVersionDescription().'</strong>" ya existe.';
+		}else{
+			$this->result['result']['success'] = 0;
+			$this->result['result']['message'] = 'Ocurrió un error al realizar la consulta.';
+		}
+
+		return $this->result;
+	}
+
 
 	/********************* MÉTODOS SET & GET *********************/
 

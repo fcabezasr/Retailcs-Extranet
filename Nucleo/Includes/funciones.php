@@ -237,6 +237,20 @@
 	function printTableVersionProduct($arrayVersionProduct){
 
 		$tbody = '';
+		foreach ($arrayVersionProduct as $key => $version_product) {
+			$tbody.= 
+			'<tr>
+				<td class="td-center">'.($key+1).'</td>
+				<td class="td-center">'.strtoupper($version_product['product_name']).'</td>
+				<td class="td-center">'.strtoupper($version_product['version_description']).'</td>
+				<td class="td-center">'.$version_product['registry_date'].'</td>
+				<td class="td-center">'.$version_product['state'].'</td>
+				<td class="td-center">
+					<!--<button class="btn btn-xs btn-info btn-version-product-edit" idproduct="'.$version_product['idproduct'].'" idversion="'.$version_product['idversion'].'" type="button"><i class="fa fa-pencil"></i> Editar </button>-->
+					<button class="btn btn-xs btn-danger btn-version-product-remove" idproduct="'.$version_product['idproduct'].'" idversion="'.$version_product['idversion'].'" type="button"><i class="fa fa-trash-o"></i> Eliminar </button>
+				</td>
+			</tr>';
+		}
 
 		$tableVersionProduct = 
 		'<table id="table-version-product" class="table table-striped table-bordered" cellspacing="0" width="100%">

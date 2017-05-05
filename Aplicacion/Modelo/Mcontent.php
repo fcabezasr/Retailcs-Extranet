@@ -39,7 +39,7 @@ class Mcontent {
 
     public function selectContentxIdProductMenu(){
 
-    	$sql = $this->db->_query("SELECT idcontent, idcontent_type, idproduct, idversion  FROM tbl_content WHERE idproduct = ".$this->getIdProduct()." AND state = 1");
+    	$sql = $this->db->_query("SELECT idcontent, idcontent_type, idproduct, idversion  FROM tbl_content WHERE idproduct = ".$this->getIdProduct()." AND state = 1 ORDER BY idcontent_type");
 		$array_content = array();
 		
 		while($datos = $sql->fetch_object()){
@@ -131,7 +131,7 @@ class Mcontent {
     	if ($content) {
     		$idcontent = $content->idcontent;
     	} else {
-	    	$content = $this->db->_query("INSERT INTO tbl_content (content_description, publication_date, idcontent_type, idproduct, idversion) VALUES ('".$this->getContentDescription()."','".$this->getPublicationDate()."', ".$this->getIdContentType().", ".$this->getIdProduct().", ".$this->getIdVersion().") ");
+	    	$content = $this->db->_query("INSERT INTO tbl_content (content_description, publication_date, update_date, idcontent_type, idproduct, idversion) VALUES ('".$this->getContentDescription()."','".$this->getPublicationDate()."','".$this->getUpdateDate()."', ".$this->getIdContentType().", ".$this->getIdProduct().", ".$this->getIdVersion().") ");
 			$idcontent = $this->db->mysql()->insert_id; //ID del registro insertado.
     	}
 

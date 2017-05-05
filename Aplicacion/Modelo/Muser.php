@@ -73,7 +73,7 @@ class Muser {
 				$this->result['result']['username'] = '';
 				$this->result['result']['nameboton'] = 'Actualizar';
 			}
-
+			
 		} else {
 			$sql = $this->db->_query("INSERT INTO tbl_user (user_name, user_pass, update_date, idtype_user, idbusiness) VALUES ('".$this->getUserName()."', '".$this->getUserPass()."', '".$this->getUpdateDate()."', ".$this->getIdTypeUser().", ".$this->getIdBusiness().")");
 

@@ -1,13 +1,13 @@
 $(document).ready(function(){
 
 	$("#menu_toggle").on("click",function(){
+
 		var img = $('#logo-retailcs');
 		if (img.hasClass('logo-small')) {
 			img.removeClass('logo-small').attr('src', './Static/images/logo-retailcs.png').css('width', '50px');
 		} else {
 			img.addClass('logo-small').attr('src', './Static/images/logo-small-name.png').css('width', '100%');
 		}
-		
 	});
 
 
@@ -57,7 +57,8 @@ $(document).ready(function(){
 		$('.child_menu li').removeClass('active');
 		$(this).parent().addClass('active');
 
-		var pagina = $(this).attr('page'), seccion = $(this).attr('section');
+		var pagina = $(this).attr('page'), 
+			seccion = $(this).attr('section');
 
 		$.ajax({
 			async: true,
@@ -217,7 +218,7 @@ $(document).ready(function(){
 			} else {
 				$.ajax({
 					async: true,
-					url: './user/insertUser/'+iduser+'/'+user_name+'/'+password+'/'+business_name+'/'+type_user+'/',
+					url: './page/insertUser/'+iduser+'/'+user_name+'/'+password+'/'+business_name+'/'+type_user+'/',
 					cache: false,
 					data: { },
 					type: 'POST',
@@ -231,15 +232,15 @@ $(document).ready(function(){
 						$('#div-message').removeClass('alert-info alert-danger');
 						if (data.result.success == 1) {
 							$('#div-message').addClass('alert-info');
+							
+							//Actualizar TableUser
+							$('#content-table-user').html(data.result.datatable);
 						} else {
 							$('#div-message').addClass('alert-danger');
 						}
 						$('#div-alert').css('display', 'block');
 						$('#btn-guardar-user').html(data.result.nameboton);
 						$('#form-user')[0].reset();
-
-						//Actualizar TableUser
-						$('#content-table-user').html(data.result.tableuser);
 					},
 					error: function(xhr, status){
 						alert('Ha ocurrido un error...');
@@ -263,13 +264,16 @@ $(document).ready(function(){
 			$(this).attr('data-parsley-id', index);
 		});
 
-		var id = '#'+$(this).prop('id'), parsley = $(this).attr('data-parsley-id');
+		if ($(this).attr('required') != undefined) {
+			var id = '#'+$(this).prop('id'), 
+				parsley = $(this).attr('data-parsley-id');
 
-		$('#parsley-id-'+parsley).remove();
-		if ($(id).val().length > 0) {
-			$(id).removeClass('parsley-error');
-		} else {
-			$(id).addClass('parsley-error').parent().append('<ul class="parsley-errors-list filled" id="parsley-id-'+parsley+'"><li class="parsley-required">Este campo es necesario.</li></ul>');
+			$('#parsley-id-'+parsley).remove();
+			if ($(id).val().length > 0) {
+				$(id).removeClass('parsley-error');
+			} else {
+				$(id).addClass('parsley-error').parent().append('<ul class="parsley-errors-list filled" id="parsley-id-'+parsley+'"><li class="parsley-required">Este campo es necesario.</li></ul>');
+			}
 		}
 	});
 
@@ -304,7 +308,7 @@ $(document).ready(function(){
 			
 			$.ajax({
 				async: true,
-				url: './user/insertTypeUser/'+idtype_user+'/'+description_type+'/',
+				url: './page/insertTypeUser/'+idtype_user+'/'+description_type+'/',
 				cache: false,
 				data: { },
 				type: 'POST',
@@ -318,15 +322,15 @@ $(document).ready(function(){
 					$('#div-message').removeClass('alert-info alert-danger');
 					if (data.result.success == 1) {
 						$('#div-message').addClass('alert-info');
+
+						//Actualizar TableUser
+						$('#content-table-type-user').html(data.result.datatable);
 					} else {
 						$('#div-message').addClass('alert-danger');
 					}
 					$('#div-alert').css('display', 'block');
 					$('#btn-guardar-type-user').html(data.result.nameboton);
 					$('#form-type-user')[0].reset();
-
-					//Actualizar TableUser
-					$('#content-table-type-user').html(data.result.tabletypeuser);
 				},
 				error: function(xhr, status){
 					alert('Ha ocurrido un error...');
@@ -365,11 +369,14 @@ $(document).ready(function(){
 		});
 
 		if (cont <= 0) {
-			var product_name = $('#product-name').val();
-			
+			var product_id = $('#product-id').val(),
+				product_name = $('#product-name').val(),
+				product_icono = $('input:radio[name=radio-product]:checked').val();
+
 			$.ajax({
 				async: true,
-				url: './ajax/insertProduct/'+product_name+'/',
+				//url: './page/insertProduct/'+product_id+'/'+product_name+'/'+product_icono+'/',
+				url: './inicio/insertProduct/'+product_id+'/'+product_name+'/'+product_icono+'/',
 				cache: false,
 				data: { },
 				type: 'POST',
@@ -383,10 +390,16 @@ $(document).ready(function(){
 					$('#div-message').removeClass('alert-info alert-danger');
 					if (data.result.success == 1) {
 						$('#div-message').addClass('alert-info');
+
+						// Actualizar TableProduct
+						$('#content-table-product').html(data.result.datatable);
+						// Actualiza el MENU PRODUCT
+						$('#menu-product').html(data.result.menuproduct);
 					} else {
 						$('#div-message').addClass('alert-danger');
 					}
 					$('#div-alert').css('display', 'block');
+					$('#btn-guardar-product').html(data.result.nameboton);
 					$('#form-product')[0].reset();
 				},
 				error: function(xhr, status){
@@ -426,13 +439,12 @@ $(document).ready(function(){
 		});
 
 		if (cont <= 0) {
-			var idproduct = $('#idproduct_v').val(),
-				version_description = $('#version-description').val(),
-				registry_description = $('#registry-description').val();
+			var idversion = $('#version-id').val(),
+				version_description = $('#version-description').val();
 			
 			$.ajax({
 				async: true,
-				url: './ajax/insertVersion/'+idproduct+'/'+version_description+'/'+registry_description+'/',
+				url: './page/insertVersion/'+idversion+'/'+version_description+'/',
 				cache: false,
 				data: { },
 				type: 'POST',
@@ -442,14 +454,18 @@ $(document).ready(function(){
 				},
 				success: function(data){
 					console.log(data);
-					$('.text-message').html(data.result.message+' '+data.result.message2);
+					$('.text-message').html(data.result.message);
 					$('#div-message').removeClass('alert-info alert-danger');
 					if (data.result.success == 1) {
 						$('#div-message').addClass('alert-info');
+
+						//Actualizar TableVersion
+						$('#content-table-version').html(data.result.datatable);
 					} else {
 						$('#div-message').addClass('alert-danger');
 					}
 					$('#div-alert').css('display', 'block');
+					$('#btn-guardar-version').html(data.result.nameboton);
 					$('#form-version')[0].reset();
 				},
 				error: function(xhr, status){
@@ -613,6 +629,530 @@ $(document).ready(function(){
 	});
 
 
+	$(document).on('click', '#btn-guardar-version-product', function(){
+
+		var a = '#'+$(this).parents('.form-horizontal').prop('id'), cont = 0;
+
+		$(a).find('.form-control').each(function(index, value){
+			var id = '#'+$(this).prop('id'), val = $(id).attr('required');
+			$(id).attr('data-parsley-id',index);
+
+			if (!(typeof val == "undefined")) {
+				$('#parsley-id-'+index).remove();
+				if ($(id).val().length > 0) {
+					$(id).removeClass('parsley-error');
+				} else {
+					$(id).addClass('parsley-error').parent().append('<ul class="parsley-errors-list filled" id="parsley-id-'+index+'"><li class="parsley-required">Este campo es necesario.</li></ul>');
+				}
+			}
+		});
+
+		$(a).find('.parsley-errors-list').each(function(index, value){
+			cont++;
+		});
+		
+		if (cont <= 0) {
+			var data = {};
+			data['idproduct_pv'] = $('#idproduct_pv').val();
+			data['idversion_pv'] = $('#idversion_pv').val();
+			data['registry_description'] = $('#registry-description').val();
+
+			var data_json = JSON.stringify(data);
+	
+			$.ajax({
+				async: true,
+				url: './page/insertVersionProduct/'+data_json+'/',
+				cache: false,
+				data: { },
+				type: 'POST',
+				dataType: 'json',
+				beforeSend: function(){
+					fcnLoading(); //Inicializa el div Loading
+				},
+				success: function(data){
+					console.log(data);
+					$('.text-message').html(data.result.message);
+					$('#div-message').removeClass('alert-info alert-danger');
+					if (data.result.success == 1) {
+						$('#div-message').addClass('alert-info');
+
+						//Actualizar TableVersionProduct
+						$('#content-table-version-product').html(data.result.datatable);
+					} else {
+						$('#div-message').addClass('alert-danger');
+					}
+					$('#div-alert').css('display', 'block');
+					$('#btn-guardar-version-product').html(data.result.nameboton);
+					$('#form-version-product')[0].reset();
+				},
+				error: function(xhr, status){
+					alert('Ha ocurrido un error...');
+				},
+				complete: function(xhr, status){
+					fcnFinishLoading(); //Finaliza el div Loading
+					setTimeout(function(){ $('#div-alert').css('display', 'none'); }, 5000); //Finaliza el mensaje de alerta
+				}
+			});
+		}
+		
+		return false;
+	});
+
+
+	/********************      EDIT     ********************/
+
+	$(document).on('click', '.btn-user-edit', function(){
+
+		var iduser = $(this).attr('iduser');
+
+		$.ajax({
+			async: true,
+			url: './page/updateUser/'+iduser+'/',
+			cache: false,
+			data: { },
+			type: 'POST',
+			dataType: 'json',
+			beforeSend: function(){
+				fcnLoading(); //Inicializa el div Loading
+			},
+			success: function(data){
+				// Función que Limpia los campos
+				fcnClearInput('#form-user');
+
+				console.log(data);
+				$('.text-message').html(data.result.message);
+				$('#div-message').removeClass('alert-info alert-danger');
+				if (data.result.success == 1) {
+					$('#div-message').addClass('alert-info');
+					$('#user-id').val(data.result.objUser.iduser);
+					$('#user-name').val(data.result.objUser.user_name);
+					$('#password').val(data.result.objUser.user_pass);
+					$('#repeat-password').val(data.result.objUser.user_pass);
+					$('#business-name').val(data.result.objUser.idbusiness);
+					$('#type-user').val(data.result.objUser.idtype_user);
+					$('#btn-guardar-user').html(data.result.nameboton);
+
+					//Actualizar TableUser
+					$('#content-table-user').html(data.result.datatable);
+				} else {
+					$('#div-message').addClass('alert-danger');
+				}
+				$('#div-alert').css('display', 'block');
+			},
+			error: function(xhr, status){
+				alert('Ha ocurrido un error...');
+			},
+			complete: function(xhr, status){
+				fcnFinishLoading(); //Finaliza el div Loading
+				setTimeout(function(){ $('#div-alert').css('display', 'none'); }, 5000); //Finaliza el mensaje de alerta
+			}
+		});
+	});
+
+
+	$(document).on('click', '.btn-user-type-edit', function(){
+
+		var idtype_user = $(this).attr('idtypeuser');
+
+		$.ajax({
+			async: true,
+			url: './page/updateTypeUser/'+idtype_user+'/',
+			cache: false,
+			data: { },
+			type: 'POST',
+			dataType: 'json',
+			beforeSend: function(){
+				fcnLoading(); //Inicializa el div Loading
+			},
+			success: function(data){
+				// Función que Limpia los campos
+				fcnClearInput('#form-type-user');
+
+				console.log(data);
+				$('.text-message').html(data.result.message);
+				$('#div-message').removeClass('alert-info alert-danger');
+				if (data.result.success == 1) {
+					$('#div-message').addClass('alert-info');
+					$('#user-idtype').val(data.result.objTypeUser.idtype_user);
+					$('#description-type').val(data.result.objTypeUser.description);
+					$('#btn-guardar-type-user').html(data.result.nameboton);
+
+					//Actualizar TableUserType
+					$('#content-table-type-user').html(data.result.datatable);
+				} else {
+					$('#div-message').addClass('alert-danger');
+				}
+				$('#div-alert').css('display', 'block');
+			},
+			error: function(xhr, status){
+				alert('Ha ocurrido un error...');
+			},
+			complete: function(xhr, status){
+				fcnFinishLoading(); //Finaliza el div Loading
+				setTimeout(function(){ $('#div-alert').css('display', 'none'); }, 5000); //Finaliza el mensaje de alerta
+			}
+		});
+	});
+
+
+	$(document).on('click', '.btn-product-edit', function(){
+
+		var idproduct = $(this).attr('idproduct');
+
+		$.ajax({
+			async: true,
+			//url: './page/updateProduct/'+idproduct+'/',
+			url: './inicio/updateProduct/'+idproduct+'/',
+			cache: false,
+			data: { },
+			type: 'POST',
+			dataType: 'json',
+			beforeSend: function(){
+				fcnLoading(); //Inicializa el div Loading
+			},
+			success: function(data){
+				// Función que Limpia los campos
+				fcnClearInput('#form-product');
+
+				console.log(data);
+				$('.text-message').html(data.result.message);
+				$('#div-message').removeClass('alert-info alert-danger');
+				if (data.result.success == 1) {
+					$('#div-message').addClass('alert-info');
+					$('#product-id').val(data.result.objProduct.idproduct);
+					$('#product-name').val(data.result.objProduct.product_name);
+					$('input:radio[name=radio-product]').each(function(index, value){
+						if ($(this).val() == data.result.objProduct.product_icono) {
+							$(this).prop('checked', true);
+						} else {
+							$(this).prop('checked', false);
+						}
+					});
+					$('#btn-guardar-product').html(data.result.nameboton);
+
+					// Actualizar TableProduct
+					$('#content-table-product').html(data.result.datatable);
+					// Actualiza el MENU PRODUCT
+					$('#menu-product').html(data.result.menuproduct);
+				} else {
+					$('#div-message').addClass('alert-danger');
+				}
+				$('#div-alert').css('display', 'block');
+			},
+			error: function(xhr, status){
+				alert('Ha ocurrido un error...');
+			},
+			complete: function(xhr, status){
+				fcnFinishLoading(); //Finaliza el div Loading
+				setTimeout(function(){ $('#div-alert').css('display', 'none'); }, 5000); //Finaliza el mensaje de alerta
+			}
+		});
+	});
+
+
+	$(document).on('click', '.btn-version-edit', function(){
+
+		var idversion = $(this).attr('idversion');
+
+		$.ajax({
+			async: true,
+			url: './page/updateVersion/'+idversion+'/',
+			cache: false,
+			data: { },
+			type: 'POST',
+			dataType: 'json',
+			beforeSend: function(){
+				fcnLoading(); //Inicializa el div Loading
+			},
+			success: function(data){
+				// Función que Limpia los campos
+				fcnClearInput('#form-version');
+
+				console.log(data);
+				$('.text-message').html(data.result.message);
+				$('#div-message').removeClass('alert-info alert-danger');
+				if (data.result.success == 1) {
+					$('#div-message').addClass('alert-info');
+					$('#version-id').val(data.result.objVersion.idversion);
+					$('#version-description').val(data.result.objVersion.version_description);
+					$('#btn-guardar-version').html(data.result.nameboton);
+
+					//Actualizar TableProduct
+					$('#content-table-version').html(data.result.datatable);
+				} else {
+					$('#div-message').addClass('alert-danger');
+				}
+				$('#div-alert').css('display', 'block');
+			},
+			error: function(xhr, status){
+				alert('Ha ocurrido un error...');
+			},
+			complete: function(xhr, status){
+				fcnFinishLoading(); //Finaliza el div Loading
+				setTimeout(function(){ $('#div-alert').css('display', 'none'); }, 5000); //Finaliza el mensaje de alerta
+			}
+		});
+	});
+
+
+	/*
+	$(document).on('click', '.btn-version-product-edit', function(){
+
+		var idproduct = $(this).attr('idproduct'),
+			idversion = $(this).attr('idversion');
+
+		$.ajax({
+			async: true,
+			url: './page/updateVersionProduct/'+idproduct+'/'+idversion+'/',
+			cache: false,
+			data: { },
+			type: 'POST',
+			dataType: 'json',
+			beforeSend: function(){
+				fcnLoading(); //Inicializa el div Loading
+			},
+			success: function(data){
+				// Función que Limpia los campos
+				fcnClearInput('#form-version-product');
+
+				console.log(data);
+				$('.text-message').html(data.result.message);
+				$('#div-message').removeClass('alert-info alert-danger');
+				if (data.result.success == 1) {
+					$('#div-message').addClass('alert-info');
+					$('#idproduct_pv').val(data.result.objVersionProduct.idproduct);
+					$('#idversion_pv').val(data.result.objVersionProduct.idversion);
+					$('#registry-description').val(data.result.objVersionProduct.registry_description);
+					$('#btn-guardar-version').html(data.result.nameboton);
+
+					//Actualizar TableVersionProduct
+					$('#content-table-version-product').html(data.result.datatable);
+				} else {
+					$('#div-message').addClass('alert-danger');
+				}
+				$('#div-alert').css('display', 'block');
+			},
+			error: function(xhr, status){
+				alert('Ha ocurrido un error...');
+			},
+			complete: function(xhr, status){
+				fcnFinishLoading(); //Finaliza el div Loading
+				setTimeout(function(){ $('#div-alert').css('display', 'none'); }, 5000); //Finaliza el mensaje de alerta
+			}
+		});
+	});
+	*/
+
+
+	/********************     REMOVE    ********************/
+
+	$(document).on('click', '.btn-user-remove', function(){
+
+		var iduser = $(this).attr('iduser');
+
+		$.ajax({
+			async: true,
+			url: './page/deleteUser/'+iduser+'/',
+			cache: false,
+			data: { },
+			type: 'POST',
+			dataType: 'json',
+			beforeSend: function(){
+				fcnLoading(); //Inicializa el div Loading
+			},
+			success: function(data){
+				console.log(data);
+				$('.text-message').html(data.result.message);
+				$('#div-message').removeClass('alert-info alert-danger');
+				if (data.result.success == 1) {
+					$('#div-message').addClass('alert-info');
+					
+					//Actualizar TableUser
+					$('#content-table-user').html(data.result.datatable);
+				} else {
+					$('#div-message').addClass('alert-danger');
+				}
+				$('#div-alert').css('display', 'block');
+				$('#form-user')[0].reset();
+			},
+			error: function(xhr, status){
+				alert('Ha ocurrido un error...');
+			},
+			complete: function(xhr, status){
+				fcnFinishLoading(); //Finaliza el div Loading
+				setTimeout(function(){ $('#div-alert').css('display', 'none'); }, 5000); //Finaliza el mensaje de alerta
+			}
+		});
+	});
+
+
+	$(document).on('click', '.btn-user-type-remove', function(){
+
+		var idtype_user = $(this).attr('idtypeuser');
+
+		$.ajax({
+			async: true,
+			url: './page/deleteTypeUser/'+idtype_user+'/',
+			cache: false,
+			data: { },
+			type: 'POST',
+			dataType: 'json',
+			beforeSend: function(){
+				fcnLoading(); //Inicializa el div Loading
+			},
+			success: function(data){
+				console.log(data);
+				$('.text-message').html(data.result.message);
+				$('#div-message').removeClass('alert-info alert-danger');
+				if (data.result.success == 1) {
+					$('#div-message').addClass('alert-info');
+
+					//Actualizar TableUser
+					$('#content-table-type-user').html(data.result.datatable);
+				} else {
+					$('#div-message').addClass('alert-danger');
+				}
+				$('#div-alert').css('display', 'block');
+				$('#form-type-user')[0].reset();
+			},
+			error: function(xhr, status){
+				alert('Ha ocurrido un error...');
+			},
+			complete: function(xhr, status){
+				fcnFinishLoading(); //Finaliza el div Loading
+				setTimeout(function(){ $('#div-alert').css('display', 'none'); }, 5000); //Finaliza el mensaje de alerta
+			}
+		});
+	});
+
+
+	$(document).on('click', '.btn-product-remove', function(){
+
+		var idproduct = $(this).attr('idproduct');
+
+		$.ajax({
+			async: true,
+			//url: './page/deleteProduct/'+idproduct+'/',
+			url: './inicio/deleteProduct/'+idproduct+'/',
+			cache: false,
+			data: { },
+			type: 'POST',
+			dataType: 'json',
+			beforeSend: function(){
+				fcnLoading(); //Inicializa el div Loading
+			},
+			success: function(data){
+				console.log(data);
+				$('.text-message').html(data.result.message);
+				$('#div-message').removeClass('alert-info alert-danger');
+				if (data.result.success == 1) {
+					$('#div-message').addClass('alert-info');
+
+					// Actualizar TableProduct
+					$('#content-table-product').html(data.result.datatable);
+					// Actualiza el MENU PRODUCT
+					$('#menu-product').html(data.result.menuproduct);
+				} else {
+					$('#div-message').addClass('alert-danger');
+				}
+				$('#div-alert').css('display', 'block');
+				$('#form-product')[0].reset();
+			},
+			error: function(xhr, status){
+				alert('Ha ocurrido un error...');
+			},
+			complete: function(xhr, status){
+				fcnFinishLoading(); //Finaliza el div Loading
+				setTimeout(function(){ $('#div-alert').css('display', 'none'); }, 5000); //Finaliza el mensaje de alerta
+			}
+		});
+	});
+
+
+	$(document).on('click', '.btn-version-remove', function(){
+
+		var idversion = $(this).attr('idversion');
+
+		$.ajax({
+			async: true,
+			url: './page/deleteVersion/'+idversion+'/',
+			cache: false,
+			data: { },
+			type: 'POST',
+			dataType: 'json',
+			beforeSend: function(){
+				fcnLoading(); //Inicializa el div Loading
+			},
+			success: function(data){
+				console.log(data);
+				$('.text-message').html(data.result.message);
+				$('#div-message').removeClass('alert-info alert-danger');
+				if (data.result.success == 1) {
+					$('#div-message').addClass('alert-info');
+					
+					//Actualizar TableVersion
+					$('#content-table-version').html(data.result.datatable);
+				} else {
+					$('#div-message').addClass('alert-danger');
+				}
+				$('#div-alert').css('display', 'block');
+				$('#form-version')[0].reset();
+			},
+			error: function(xhr, status){
+				alert('Ha ocurrido un error...');
+			},
+			complete: function(xhr, status){
+				fcnFinishLoading(); //Finaliza el div Loading
+				setTimeout(function(){ $('#div-alert').css('display', 'none'); }, 5000); //Finaliza el mensaje de alerta
+			}
+		});
+	});
+
+
+
+	$(document).on('click', '.btn-version-product-remove', function(){
+
+		var idproduct = $(this).attr('idproduct'),
+			idversion = $(this).attr('idversion');
+
+		$.ajax({
+			async: true,
+			url: './page/deleteVersionProduct/'+idproduct+'/'+idversion+'/',
+			cache: false,
+			data: { },
+			type: 'POST',
+			dataType: 'json',
+			beforeSend: function(){
+				fcnLoading(); //Inicializa el div Loading
+			},
+			success: function(data){
+				console.log(data);
+				$('.text-message').html(data.result.message);
+				$('#div-message').removeClass('alert-info alert-danger');
+				if (data.result.success == 1) {
+					$('#div-message').addClass('alert-info');
+					
+					//Actualizar TableVersionProduct
+					$('#content-table-version-product').html(data.result.datatable);
+				} else {
+					$('#div-message').addClass('alert-danger');
+				}
+				$('#div-alert').css('display', 'block');
+				$('#form-version-product')[0].reset();
+			},
+			error: function(xhr, status){
+				alert('Ha ocurrido un error...');
+			},
+			complete: function(xhr, status){
+				fcnFinishLoading(); //Finaliza el div Loading
+				setTimeout(function(){ $('#div-alert').css('display', 'none'); }, 5000); //Finaliza el mensaje de alerta
+			}
+		});
+	});
+
+
+	/********************    OTROS    ********************/
+
 	$(document).on('click', '.upload-file', function(){
 
 		var temp = $(this).val();
@@ -660,177 +1200,31 @@ $(document).ready(function(){
 	});
 
 
-	$(document).on('click', '.btn-user-remove', function(){
+	$(document).on('change', '#idproduct_pv', function(){
 
-		var iduser = $(this).attr('iduser');
+		var idproduct_pv = $(this).val(),
+			idversion_pv = $('#idversion_pv').val(),
+			text_product = '',
+			text_version = '';
+		
+		if (idproduct_pv != 0) text_product = $(this).find('option:selected').html();
+		if (idversion_pv != 0) text_version = $('#idversion_pv').find('option:selected').html();
 
-		$.ajax({
-			async: true,
-			url: './user/deleteUser/'+iduser+'/',
-			cache: false,
-			data: { },
-			type: 'POST',
-			dataType: 'json',
-			beforeSend: function(){
-				fcnLoading(); //Inicializa el div Loading
-			},
-			success: function(data){
-				console.log(data);
-				$('.text-message').html(data.result.message);
-				$('#div-message').removeClass('alert-info alert-danger');
-				if (data.result.success == 1) {
-					$('#div-message').addClass('alert-info');
-				} else {
-					$('#div-message').addClass('alert-danger');
-				}
-				$('#div-alert').css('display', 'block');
-				$('#form-user')[0].reset();
-
-				//Actualizar TableUser
-				$('#content-table-user').html(data.result.tableuser);
-			},
-			error: function(xhr, status){
-				alert('Ha ocurrido un error...');
-			},
-			complete: function(xhr, status){
-				fcnFinishLoading(); //Finaliza el div Loading
-				setTimeout(function(){ $('#div-alert').css('display', 'none'); }, 5000); //Finaliza el mensaje de alerta
-			}
-		});
+		$('#registry-description').val(text_product+' '+text_version);
 	});
 
 
-	$(document).on('click', '.btn-user-edit', function(){
+	$(document).on('change', '#idversion_pv', function(){
 
-		var iduser = $(this).attr('iduser');
+		var idproduct_pv = $('#idproduct_pv').val(),
+			idversion_pv = $(this).val(),
+			text_product = '',
+			text_version = '';
+		
+		if (idproduct_pv != 0) text_product = $('#idproduct_pv').find('option:selected').html();
+		if (idversion_pv != 0) text_version = $(this).find('option:selected').html();
 
-		$.ajax({
-			async: true,
-			url: './user/updateUser/'+iduser+'/',
-			cache: false,
-			data: { },
-			type: 'POST',
-			dataType: 'json',
-			beforeSend: function(){
-				fcnLoading(); //Inicializa el div Loading
-			},
-			success: function(data){
-				// Función que Limpia los campos
-				fcnClearInput('#form-user');
-
-				console.log(data);
-				$('.text-message').html(data.result.message);
-				$('#div-message').removeClass('alert-info alert-danger');
-				if (data.result.success == 1) {
-					$('#div-message').addClass('alert-info');
-					$('#user-id').val(data.result.objUser.iduser);
-					$('#user-name').val(data.result.objUser.user_name);
-					$('#password').val(data.result.objUser.user_pass);
-					$('#repeat-password').val(data.result.objUser.user_pass);
-					$('#business-name').val(data.result.objUser.idbusiness);
-					$('#type-user').val(data.result.objUser.idtype_user);
-					$('#btn-guardar-user').html(data.result.nameboton);
-				} else {
-					$('#div-message').addClass('alert-danger');
-				}
-				$('#div-alert').css('display', 'block');
-
-				//Actualizar TableUser
-				//$('#content-table-user').html(data.result.tableuser);
-			},
-			error: function(xhr, status){
-				alert('Ha ocurrido un error...');
-			},
-			complete: function(xhr, status){
-				fcnFinishLoading(); //Finaliza el div Loading
-				setTimeout(function(){ $('#div-alert').css('display', 'none'); }, 5000); //Finaliza el mensaje de alerta
-			}
-		});
-	});
-
-
-	$(document).on('click', '.btn-user-type-remove', function(){
-
-		var idtype_user = $(this).attr('idtypeuser');
-
-		$.ajax({
-			async: true,
-			url: './user/deleteTypeUser/'+idtype_user+'/',
-			cache: false,
-			data: { },
-			type: 'POST',
-			dataType: 'json',
-			beforeSend: function(){
-				fcnLoading(); //Inicializa el div Loading
-			},
-			success: function(data){
-				console.log(data);
-				$('.text-message').html(data.result.message);
-				$('#div-message').removeClass('alert-info alert-danger');
-				if (data.result.success == 1) {
-					$('#div-message').addClass('alert-info');
-				} else {
-					$('#div-message').addClass('alert-danger');
-				}
-				$('#div-alert').css('display', 'block');
-				$('#form-type-user')[0].reset();
-
-				//Actualizar TableUser
-				$('#content-table-type-user').html(data.result.tabletypeuser);
-			},
-			error: function(xhr, status){
-				alert('Ha ocurrido un error...');
-			},
-			complete: function(xhr, status){
-				fcnFinishLoading(); //Finaliza el div Loading
-				setTimeout(function(){ $('#div-alert').css('display', 'none'); }, 5000); //Finaliza el mensaje de alerta
-			}
-		});
-	});
-
-
-	$(document).on('click', '.btn-user-type-edit', function(){
-
-		var idtype_user = $(this).attr('idtypeuser');
-
-		$.ajax({
-			async: true,
-			url: './user/updateTypeUser/'+idtype_user+'/',
-			cache: false,
-			data: { },
-			type: 'POST',
-			dataType: 'json',
-			beforeSend: function(){
-				fcnLoading(); //Inicializa el div Loading
-			},
-			success: function(data){
-				// Función que Limpia los campos
-				fcnClearInput('#form-type-user');
-
-				console.log(data);
-				$('.text-message').html(data.result.message);
-				$('#div-message').removeClass('alert-info alert-danger');
-				if (data.result.success == 1) {
-					$('#div-message').addClass('alert-info');
-					$('#user-idtype').val(data.result.objTypeUser.idtype_user);
-					$('#description-type').val(data.result.objTypeUser.description);
-					$('#btn-guardar-type-user').html(data.result.nameboton);
-				} else {
-					$('#div-message').addClass('alert-danger');
-				}
-				$('#div-alert').css('display', 'block');
-
-				//Actualizar TableUser
-				//$('#content-table-type-user').html(data.result.tabletypeuser);
-			},
-			error: function(xhr, status){
-				alert('Ha ocurrido un error...');
-			},
-			complete: function(xhr, status){
-				fcnFinishLoading(); //Finaliza el div Loading
-				setTimeout(function(){ $('#div-alert').css('display', 'none'); }, 5000); //Finaliza el mensaje de alerta
-			}
-		});
+		$('#registry-description').val(text_product+' '+text_version);
 	});
 
 
@@ -862,6 +1256,86 @@ $(document).ready(function(){
 
 					if ($('#user-name').val().length == 0) {
 						$('#user-name').addClass('parsley-error').attr('data-parsley-id', 1).parent().append('<ul class="parsley-errors-list filled" id="parsley-id-1"><li class="parsley-required">Este campo es necesario.</li></ul>');
+					}
+				}
+			},
+			error: function(xhr, status){
+				alert('Ha ocurrido un error...');
+			},
+			complete: function(xhr, status){
+			}
+		});
+	});
+
+
+	$(document).on('keyup', '#product-name', function(){
+
+		var product_name = $(this).val();
+
+		$.ajax({
+			async: true,
+			url: './ajax/validateProduct/'+product_name+'/',
+			cache: false,
+			data: { },
+			type: 'POST',
+			dataType: 'json',
+			beforeSend: function(){
+			},
+			success: function(data){
+				if (data.result.success) {
+					$('#product-name').addClass('parsley-error').attr('data-parsley-id', 1).parent().append('<ul class="parsley-errors-list filled" id="parsley-id-1"><li class="parsley-required">'+data.result.message+'</li></ul>');
+
+					var product_id = $('#product-id').val();
+					if (product_id.length > 0) {
+						$('#product-name').removeClass('parsley-error');
+						$("#parsley-id-1").remove();
+					}
+				} else {
+					$('#product-name').removeClass('parsley-error');
+					$("#parsley-id-1").remove();
+
+					if ($('#product-name').val().length == 0) {
+						$('#product-name').addClass('parsley-error').attr('data-parsley-id', 1).parent().append('<ul class="parsley-errors-list filled" id="parsley-id-1"><li class="parsley-required">Este campo es necesario.</li></ul>');
+					}
+				}
+			},
+			error: function(xhr, status){
+				alert('Ha ocurrido un error...');
+			},
+			complete: function(xhr, status){
+			}
+		});
+	});
+
+
+	$(document).on('keyup', '#version-description', function(){
+
+		var version_description = $(this).val();
+
+		$.ajax({
+			async: true,
+			url: './ajax/validateVersion/'+version_description+'/',
+			cache: false,
+			data: { },
+			type: 'POST',
+			dataType: 'json',
+			beforeSend: function(){
+			},
+			success: function(data){
+				if (data.result.success) {
+					$('#version-description').addClass('parsley-error').attr('data-parsley-id', 1).parent().append('<ul class="parsley-errors-list filled" id="parsley-id-1"><li class="parsley-required">'+data.result.message+'</li></ul>');
+
+					var version_id = $('#version-id').val();
+					if (version_id.length > 0) {
+						$('#version-description').removeClass('parsley-error');
+						$("#parsley-id-1").remove();
+					}
+				} else {
+					$('#version-description').removeClass('parsley-error');
+					$("#parsley-id-1").remove();
+
+					if ($('#version-description').val().length == 0) {
+						$('#version-description').addClass('parsley-error').attr('data-parsley-id', 1).parent().append('<ul class="parsley-errors-list filled" id="parsley-id-1"><li class="parsley-required">Este campo es necesario.</li></ul>');
 					}
 				}
 			},
@@ -922,7 +1396,8 @@ $(document).ready(function(){
 		fcnClearInput('#'+idform);
 	});
 
-	/*** OTRAS FUNCIONES ***/
+
+	/*************** OTRAS FUNCIONES ***************/
 
 	function fcnLoading(){
 		

@@ -35,42 +35,6 @@ class Ajax extends Nucleo\Includes\Controlador{
 	}
 
 
-	public function insertProduct($product_name = null){
-
-		$product = $this->modelo('Mproduct');
-		$product->setProductName(urldecode($product_name));		
-		$result = $product->insertProduct();
-		
-		echo json_encode($result);
-	}
-
-
-	public function insertVersion($idproduct = null, $version_description = null, $registry_description = null){
-
-		$version = $this->modelo('Mversion');
-		$version->setVersionDescription($version_description);		
-		$result = $version->insertVersion();
-
-		if ($result['result']['id'] > 0) {
-			
-			$version_product = $this->modelo('Mversion_product');
-
-			$version_product->setIdProduct($idproduct);
-			$version_product->setIdVersion($result['result']['id']);
-			$version_product->setRegistryDescription(urldecode($registry_description));
-			$result2 = $version_product->insertVersionProduct();
-
-			if ($result2['result']['success']) {
-				$result['result']['message2'] = $result2['result']['message'];
-			} else {
-				$result['result']['message2'] = $result2['result']['message'];
-			}
-		}
-		
-		echo json_encode($result);
-	}
-
-
 	public function listVersion($idproduct = null){
 
 		$version_product = $this->modelo('Mversion_product');
@@ -93,6 +57,26 @@ class Ajax extends Nucleo\Includes\Controlador{
 		}
 
 		echo $option_version;
+	}
+
+
+	public function validateProduct($product_name = null){
+
+		$m_product = $this->modelo('Mproduct');
+		$m_product->setProductName($product_name);
+		$result = $m_product->validateProduct();
+
+		echo json_encode($result);
+	}
+
+
+	public function validateVersion($version_description = null){
+
+		$m_version = $this->modelo('Mversion');
+		$m_version->setVersionDescription($version_description);
+		$result = $m_version->validateVersion();
+
+		echo json_encode($result);
 	}
 
 }

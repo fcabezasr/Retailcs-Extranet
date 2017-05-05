@@ -35,7 +35,7 @@ class Mfile {
 
     public function selectFilexIdProductMenu(){
 
-    	$sql = $this->db->_query("SELECT idfile, idfile_type, idproduct, idversion FROM tbl_file WHERE idproduct = '".$this->getIdProduct()."' AND state = 1");
+    	$sql = $this->db->_query("SELECT idfile, idfile_type, idproduct, idversion FROM tbl_file WHERE idproduct = '".$this->getIdProduct()."' AND state = 1 ORDER BY idfile_type");
 		$array_file = array();
 		
 		while($datos = $sql->fetch_object()){
@@ -145,7 +145,7 @@ class Mfile {
 
     public function insertFile(){
 
-    	$file = $this->db->_query("INSERT INTO tbl_file (file_name, file_ext, publication_date, file_size, file_url, idfile_type, idproduct, idversion) VALUES ('".$this->getFileName()."', '".$this->getFileExt()."', '".$this->getPublicationDate()."', '".$this->getFileSize()."', '".$this->getFileUrl()."', ".$this->getIdFileType().", ".$this->getIdProduct().", ".$this->getIdVersion().") ");
+    	$file = $this->db->_query("INSERT INTO tbl_file (file_name, file_ext, publication_date, file_size, file_url, update_date, idfile_type, idproduct, idversion) VALUES ('".$this->getFileName()."', '".$this->getFileExt()."', '".$this->getPublicationDate()."', '".$this->getFileSize()."', '".$this->getFileUrl()."', '".$this->getUpdateDate()."', ".$this->getIdFileType().", ".$this->getIdProduct().", ".$this->getIdVersion().") ");
 		$idfile = $this->db->mysql()->insert_id; //ID del registro insertado.
     	
     	if($idfile){

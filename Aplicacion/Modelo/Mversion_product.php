@@ -25,6 +25,28 @@ class Mversion_product {
 
 	/********************* MÉTODOS *********************/
 
+    public function selectVersionProduct(){
+
+    	$sql = $this->db->_query("SELECT idproduct, idversion, registry_description, registry_date, state FROM tbl_version_product WHERE state = 1");
+		$array_version_product = array();
+		
+		while($datos = $sql->fetch_object()){
+			array_push($array_version_product, $datos);
+		}
+
+		if($array_version_product){
+			$this->result['result']['success'] = 1;
+			$this->result['result']['message'] = 'La consulta se realizó satisfactoriamente.';
+			$this->result['result']['array_version_product'] = $array_version_product;
+		}else{
+			$this->result['result']['success'] = 0;
+			$this->result['result']['message'] = 'Ocurrió un error al realizar la consulta.';
+			$this->result['result']['array_version_product'] = null;
+		}
+
+		return $this->result;
+    }
+
 
     public function selectVersionProductxIdProductMenu(){
 
@@ -97,15 +119,57 @@ class Mversion_product {
 
 	public function insertVersionProduct(){
 		
-		$sql = $this->db->_query("INSERT INTO tbl_version_product (idproduct, idversion, registry_description) VALUES (".$this->getIdProduct().", ".$this->getIdVersion().", '".$this->getRegistryDescription()."')");
+		$sql = $this->db->_query("SELECT idproduct, idversion FROM tbl_version_product WHERE idproduct = ".$this->getIdProduct()." AND idversion = ".$this->getIdVersion()." AND state = 1")->fetch_object();
+
+		if ($sql) {
+			$this->result['result']['success'] = 0;
+			$this->result['result']['message'] = 'La vinculación entre el producto y la versión ya existe.';
+		} else {
+			$sql = $this->db->_query("INSERT INTO tbl_version_product (idproduct, idversion, registry_description) VALUES (".$this->getIdProduct().", ".$this->getIdVersion().", '".$this->getRegistryDescription()."')");
 		
+			if($sql){
+				$this->result['result']['success'] = 1;
+				$this->result['result']['message'] = 'El producto y la versión se han asociado satisfactoriamente.';
+			}else{
+				$this->result['result']['success'] = 0;
+				$this->result['result']['message'] = 'Ocurrió un error., el producto y la versión no se han asociado.';
+			}
+		}
+
+		return $this->result;
+	}
+
+
+    public function updateVersionProduct(){
+
+    	$sql = $this->db->_query("SELECT * FROM tbl_version_product WHERE idproduct = ".$this->getIdProduct()." AND idversion = ".$this->getIdVersion()." AND state = 1")->fetch_object();
+
 		if($sql){
 			$this->result['result']['success'] = 1;
-			$this->result['result']['message'] = 'El producto y la versión se han asociado satisfactoriamente.';
-			$this->result['result']['id'] = $this->db->mysql()->insert_id;
+			$this->result['result']['message'] = 'La consulta se realizó satisfactoriamente.';
+			$this->result['result']['objVersionProduct'] = $sql;
+			$this->result['result']['nameboton'] = 'Actualizar';
 		}else{
 			$this->result['result']['success'] = 0;
-			$this->result['result']['message'] = 'El producto y la versión no se han asociado, ocurrió un error.';
+			$this->result['result']['message'] = 'Ocurrió un error al realizar la consulta.';
+			$this->result['result']['objVersionProduct'] = null;
+			$this->result['result']['nameboton'] = 'Guardar';
+		}
+
+		return $this->result;
+    }
+
+
+	public function deleteVersionProduct(){
+
+		$sql = $this->db->_query("UPDATE tbl_version_product SET state = 0 WHERE idproduct = ".$this->getIdProduct()." AND idversion = ".$this->getIdVersion()."");
+
+		if($sql){
+			$this->result['result']['success'] = 1;
+			$this->result['result']['message'] = 'La versión - producto se ha <strong>deshabilitado</strong> correctamente.';
+		} else {
+			$this->result['result']['success'] = 0;
+			$this->result['result']['message'] = 'Ocurrió un error, vuelva a realizar la acción.';
 		}
 
 		return $this->result;

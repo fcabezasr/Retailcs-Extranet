@@ -240,3 +240,7 @@ ul.list-icono li input.icono-product {
 .input-none {
     display: none;
 }
+
+textarea.form-control {
+    resize: vertical !important;
+}
