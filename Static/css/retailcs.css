@@ -244,3 +244,56 @@ ul.list-icono li input.icono-product {
 textarea.form-control {
     resize: vertical !important;
 }
+
+
+/************* Page Inicio *************/
+
+.info-reciente .x_title small {
+    text-transform: none !important;
+}
+
+.info-reciente .widget_tally_box .ui-ribbon-container {
+    height: 280px;
+    margin-bottom: 20px;
+}
+
+.info-reciente .widget_tally_box .state-ribbon {
+    display: none;
+}
+
+.info-reciente .widget_tally_box .tile-stats {
+    border: 0px solid #E4E4E4;
+    margin-bottom: 0px;
+}
+
+.info-reciente .widget_tally_box .tile-stats .divider {
+    border-bottom: 2px solid #ddd;
+}
+
+.info-reciente .widget_tally_box .x_content .name_title {
+    font-size: 18px;
+    line-height: 30px;
+}
+
+.info-reciente .widget_tally_box .x_content .list-inline.widget_tally {
+    margin-left: 0px;
+}
+
+.info-reciente .widget_tally_box .x_content .list-inline.widget_tally .month {
+    text-align: left;
+}
+
+.info-reciente .widget_tally_box .x_content .list-inline.widget_tally .count .badge {
+    text-align: right;
+    margin-right: 0px;
+}
+
+.info-reciente .ui-ribbon-container .ui-ribbon {
+    z-index: 5;
+    background: #DF6D69;
+}
+
+.info-reciente .ui-ribbon-container .ui-ribbon::before,
+.info-reciente .ui-ribbon-container .ui-ribbon::after {
+    border-top: 2px solid #DF6D69;
+}

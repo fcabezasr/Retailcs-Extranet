@@ -325,3 +325,9 @@
 
 		return $menuProduct;
 	}
+
+
+	function printInformationRecent($array_menu){
+
+		return $array_menu;
+	}

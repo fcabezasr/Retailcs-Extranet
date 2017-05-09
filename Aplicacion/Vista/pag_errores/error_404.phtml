@@ -1,3 +1,73 @@
 <?php header("HTTP/1.0 404 Not Found"); ?>
 
-<h1>ERROR 404</h1>
+
+
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <!-- Meta, title, CSS, favicons, etc. -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <base href="<?php echo HTTP_HOST; ?>"/>
+
+    <title>Retail Custom Solutions</title>
+
+    <!-- Bootstrap -->
+    <link href="./Static/vendors/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="./Static/vendors/font-awesome/css/font-awesome.min.css" rel="stylesheet">
+    <!-- Datatables -->
+    <link href="./Static/vendors/datatables.net-bs/css/dataTables.bootstrap.min.css" rel="stylesheet">
+    <!-- Custom Theme Style -->
+    <link href="./Static/build/css/custom.min.css" rel="stylesheet">
+    <link href="./Static/css/retailcs.css" rel="stylesheet">
+
+  </head>
+
+  <body class="nav-md">
+  
+	<div class="container body">
+		<div class="main_container">
+		<!-- page content -->
+			<div class="col-md-12">
+				<div class="col-middle">
+					<div class="text-center text-center">
+						<h1 class="error-number">404</h1>
+						<h2>Lo sentimos pero no hemos podido encontrar esta página</h2>
+						<p>Esta página que estás buscando no existe <a href="#">¿Informar de esto?</a></p>
+						<div class="mid_center">
+							<h3>Buscar</h3>
+							<form>
+								<div class="col-xs-12 form-group pull-right top_search">
+									<div class="input-group">
+										<input type="text" class="form-control" placeholder="Search for...">
+										<span class="input-group-btn">
+											<button class="btn btn-default" type="button">¡Ir!</button>
+										</span>
+									</div>
+								</div>
+							</form>
+						</div>
+					</div>
+				</div>
+			</div>
+		<!-- /page content -->
+		</div>
+	</div> 
+
+    <!-- jQuery -->
+    <script src="./Static/vendors/jquery/dist/jquery.min.js"></script>
+    <script src="./Static/vendors/bootstrap/dist/js/bootstrap.min.js"></script>
+    <!-- Datatables -->
+    <script src="./Static/vendors/datatables.net/js/jquery.dataTables.min.js"></script>
+    <script src="./Static/vendors/datatables.net-bs/js/dataTables.bootstrap.min.js"></script>
+    <!-- Custom Theme Scripts -->
+    <script src="./Static/build/js/custom.min.js"></script>
+    <script src="./Static/js/retailcs.js"></script>
+
+  </body>
+</html>
+
+
+

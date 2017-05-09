@@ -140,7 +140,28 @@ class Mfile {
 		}
 
 		return $this->result;
-    }	
+    }
+
+
+    public function countFilexIdProductIdContentTypeIdVersionxRegistryDate(){
+
+		$fechaHoy = $this->getRegistryDate();
+		$fechaAnterior = date($fechaHoy, strtotime('-1 month'));
+
+    	$sql = $this->db->_query("SELECT idfile FROM tbl_file WHERE idfile_type = '".$this->getIdFileType()."' AND idproduct = '".$this->getIdProduct()."' AND idversion = '".$this->getIdVersion()."' AND (registry_date BETWEEN '".$fechaAnterior."' AND '".$fechaHoy."')  AND state = 1");
+
+		if($sql->num_rows > 0){
+			$this->result['result']['success'] = 1;
+			$this->result['result']['message'] = 'La consulta se realizó satisfactoriamente.';
+			$this->result['result']['countFile'] = $sql->num_rows;
+		}else{
+			$this->result['result']['success'] = 0;
+			$this->result['result']['message'] = 'Ocurrió un error al realizar la consulta.';
+			$this->result['result']['countFile'] = 0;
+		}
+
+		return $this->result;
+    }
 
 
     public function insertFile(){

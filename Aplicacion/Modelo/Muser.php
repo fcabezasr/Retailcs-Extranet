@@ -203,6 +203,7 @@ class Muser {
 			$this->result['result']['success'] = 1;
 			$this->result['result']['message'] = 'Se ha iniciado sesión correctamente.';
 			$this->result['result']['id'] = $_SESSION['User']['Id'];
+			$this->result['result']['name'] = $_SESSION['User']['Name'];
 		} else {
 			$this->result['result']['success'] = 0;
 			$this->result['result']['message'] = 'Los datos son incorrectos.';

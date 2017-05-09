@@ -1,6 +1,6 @@
 $(document).ready(function(){
 
-	$("#menu_toggle").on("click",function(){
+	$(document).on('click', '#menu_toggle', function(){
 
 		var img = $('#logo-retailcs');
 		if (img.hasClass('logo-small')) {
@@ -11,7 +11,7 @@ $(document).ready(function(){
 	});
 
 
-	$('.sub_menu').on('click', function(){
+	$(document).on('click', '.sub_menu', function(){
 
 		$('.menu-sup li').removeClass('active');
 		$('.menu-inf').hide();
@@ -20,7 +20,7 @@ $(document).ready(function(){
 	});
 
 
-	$('.net-servicio').on('click', function(){
+	$(document).on('click', '.net-servicio', function(){
 
 		var version = $(this).attr('ver'),
 			pagina = $(this).parents('.menu-inf').attr('page'),
@@ -52,7 +52,7 @@ $(document).ready(function(){
 	});
 
 	
-	$('.gestion-admin').on('click', function(){
+	$(document).on('click', '.gestion-admin', function(){
 
 		$('.child_menu li').removeClass('active');
 		$(this).parent().addClass('active');
@@ -84,7 +84,7 @@ $(document).ready(function(){
 	});
 
 
-	$('.redes-sociales').on('click', function(){
+	$(document).on('click', '.redes-sociales', function(){
 
 		$('.child_menu li').removeClass('active');
 		$(this).parent().addClass('active');
@@ -401,6 +401,9 @@ $(document).ready(function(){
 					$('#div-alert').css('display', 'block');
 					$('#btn-guardar-product').html(data.result.nameboton);
 					$('#form-product')[0].reset();
+
+					// Refresca el JS del MENU
+					init_sidebar();
 				},
 				error: function(xhr, status){
 					alert('Ha ocurrido un error...');
@@ -833,11 +836,14 @@ $(document).ready(function(){
 					// Actualizar TableProduct
 					$('#content-table-product').html(data.result.datatable);
 					// Actualiza el MENU PRODUCT
-					$('#menu-product').html(data.result.menuproduct);
+					//$('#menu-product').html(data.result.menuproduct);
 				} else {
 					$('#div-message').addClass('alert-danger');
 				}
 				$('#div-alert').css('display', 'block');
+
+				// Refresca el JS del MENU
+				//init_sidebar();
 			},
 			error: function(xhr, status){
 				alert('Ha ocurrido un error...');
@@ -1057,6 +1063,9 @@ $(document).ready(function(){
 				}
 				$('#div-alert').css('display', 'block');
 				$('#form-product')[0].reset();
+
+				// Refresca el JS del MENU
+				init_sidebar();
 			},
 			error: function(xhr, status){
 				alert('Ha ocurrido un error...');
@@ -1396,6 +1405,38 @@ $(document).ready(function(){
 		fcnClearInput('#'+idform);
 	});
 
+
+	$(document).on('click', '.info-recent', function(){
+
+		var version = $(this).attr('ver'),
+			pagina = $(this).parents('.widget_tally_box').attr('page'),
+			servicio = $(this).parents('.widget_tally_box').attr('ser');
+
+		$.ajax({
+			async: true,
+			url: './page/service/'+pagina+'/'+servicio+'/'+version+'/',
+			cache: false,
+			data: {},
+			type: 'GET',
+			beforeSend: function(){
+				fcnLoading(); //Inicializa el div Loading
+			},
+			success: function(data){
+				$('#principal').html(data);
+			},
+			error: function(xhr, status){
+				alert('Ha ocurrido un error...');
+				console.log(status);
+				console.log(xhr);
+			},
+			complete: function(xhr, status){
+				fcnFinishLoading(); //Finaliza el div Loading
+			}
+		});
+		
+		return false;
+
+	});
 
 	/*************** OTRAS FUNCIONES ***************/
 

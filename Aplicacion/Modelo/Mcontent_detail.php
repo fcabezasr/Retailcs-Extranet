@@ -68,6 +68,27 @@ class Mcontent_detail {
 	}
 
 
+	public function countContentDetailxIdContentxRegistryDate(){
+
+		$fechaHoy = $this->getRegistryDate();
+		$fechaAnterior = date($fechaHoy, strtotime('-1 month'));
+
+		$sql = $this->db->_query("SELECT idcontent_detail FROM tbl_content_detail WHERE idcontent = '".$this->getIdContent()."' AND (registry_date BETWEEN '".$fechaAnterior."' AND '".$fechaHoy."') AND state = 1");
+
+		if($sql->num_rows > 0){
+			$this->result['result']['success'] = 1;
+			$this->result['result']['message'] = 'La consulta se realizó satisfactoriamente.';
+			$this->result['result']['countContent'] = $sql->num_rows;
+		}else{
+			$this->result['result']['success'] = 0;
+			$this->result['result']['message'] = 'Ocurrió un error al realizar la consulta.';
+			$this->result['result']['countContent'] = 0;
+		}
+
+		return $this->result;
+	}
+
+
 	public function insertContentDetail(){
 
 		$sql = $this->db->_query("INSERT INTO tbl_content_detail (detail_description, registry_date, update_date, idcontent) VALUES ('".$this->getDetailDescription()."','".$this->getRegistryDate()."','".$this->getUpdateDate()."',  ".$this->getIdContent().") ");
