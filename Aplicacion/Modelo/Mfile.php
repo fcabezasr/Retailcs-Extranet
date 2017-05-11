@@ -146,7 +146,7 @@ class Mfile {
     public function countFilexIdProductIdContentTypeIdVersionxRegistryDate(){
 
 		$fechaHoy = $this->getRegistryDate();
-		$fechaAnterior = date($fechaHoy, strtotime('-1 month'));
+		$fechaAnterior = date('Y/m/d', strtotime('-1 month'));
 
     	$sql = $this->db->_query("SELECT idfile FROM tbl_file WHERE idfile_type = '".$this->getIdFileType()."' AND idproduct = '".$this->getIdProduct()."' AND idversion = '".$this->getIdVersion()."' AND (registry_date BETWEEN '".$fechaAnterior."' AND '".$fechaHoy."')  AND state = 1");
 

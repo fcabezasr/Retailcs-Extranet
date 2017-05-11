@@ -266,6 +266,10 @@ textarea.form-control {
     margin-bottom: 0px;
 }
 
+.info-reciente .widget_tally_box .tile-stats h3 {
+    text-transform: uppercase;
+}
+
 .info-reciente .widget_tally_box .tile-stats .divider {
     border-bottom: 2px solid #ddd;
 }
@@ -273,6 +277,7 @@ textarea.form-control {
 .info-reciente .widget_tally_box .x_content .name_title {
     font-size: 18px;
     line-height: 30px;
+    text-transform: capitalize;
 }
 
 .info-reciente .widget_tally_box .x_content .list-inline.widget_tally {

@@ -308,12 +308,12 @@
 						$FileType = $array_file_type['FileType'];
 						$menuProduct.= '<li><a href="javascript:void(0)" class="sub_menu">'.$FileType['Description'].'<span class="fa fa-chevron-down"></span></a><ul class="nav child_menu menu-inf" page="'.$FileType['Short'].'" id="'.$FileType['Id'].'">';
 
-							if (count($FileType['ArrayVersion']) > 0) {
-								foreach ($FileType['ArrayVersion'] as $key => $array_version) {
-									$Version = $array_version['Version'];
-									$menuProduct.= '<li><a href="javascript:void(0)" class="net-servicio" ver="'.$Version['Id'].'" order="'.$Version['Order'].'"> Versión '.$Version['Description'].' <span class="badge badge-success">'.$Version['Count'].'</span> </a></li>';
-								}
+						if (count($FileType['ArrayVersion']) > 0) {
+							foreach ($FileType['ArrayVersion'] as $key => $array_version) {
+								$Version = $array_version['Version'];
+								$menuProduct.= '<li><a href="javascript:void(0)" class="net-servicio" ver="'.$Version['Id'].'" order="'.$Version['Order'].'"> Versión '.$Version['Description'].' <span class="badge badge-success">'.$Version['Count'].'</span> </a></li>';
 							}
+						}
 
 						$menuProduct.= '</ul></li>';
 					}
@@ -327,7 +327,68 @@
 	}
 
 
-	function printInformationRecent($array_menu){
+	function printInformationRecent($array_information){
 
-		return $array_menu;
+		$informationRecent = '';
+
+		if (count($array_information) > 0) {
+
+			foreach ($array_information as $key => $array_product) {				
+				$product = $array_product['Product'];
+
+				if (count($product['ArrayContentType']) > 0) {
+
+					foreach ($product['ArrayContentType'] as $key => $array_content_type) {						
+						$content_type = $array_content_type['ContentType'];
+
+						if (count($content_type['ArrayVersion']) > 0) {
+							$infoRecentList = '';
+							$countList = 0;
+							
+							foreach ($content_type['ArrayVersion'] as $key => $array_version) {	
+								$version = $array_version['Version'];
+								
+								if ($version['Count'] > 0) {
+									$infoRecentList.= 
+									'<li>
+                                        <a href="javascript:void(0)" ver="'.$version['Id'].'" order="" class="info-recent">
+                                            <span class="month">Versión '.$version['Description'].'</span>
+                                            <span class="count"><span class="badge badge-success">'.$version['Count'].'</span></span>
+                                        </a>
+                                    </li>';
+									$countList+= $version['Count'];
+								}
+							}
+
+							if ($countList > 0) {
+								$informationRecent.= 
+								'<div class="col-md-3 col-xs-12 widget_fj widget_tally_box" ser="'.$product['Id'].'" page="'.$content_type['Short'].'">
+			                        <div class="x_panel ui-ribbon-container fixed_height_390_fj">
+			                            <div class="ui-ribbon-wrapper">
+			                                <div class="ui-ribbon">Nuevo</div>
+			                            </div>
+			                            <div class="tile-stats">
+			                                <div class="icon"><i class="fa '.$product['Icon'].'"></i></div>
+			                                <div class="count">'.$countList.'</div>
+			                                <h3>'.$product['Name'].'</h3>
+			                                <div class="divider"></div>
+			                            </div>   
+			                            <div class="x_content">
+			                                <h3 class="name_title">'.$content_type['Description'].'</h3>
+			                                <div>
+			                                    <ul class="list-inline widget_tally">'
+			                                    .$infoRecentList.
+												'</ul>
+			                                </div>
+			                            </div>                        
+			                        </div>
+			                    </div>';
+							}
+						}
+					}
+				}
+			}
+		}
+
+		return $informationRecent;
 	}

@@ -71,7 +71,7 @@ class Mcontent_detail {
 	public function countContentDetailxIdContentxRegistryDate(){
 
 		$fechaHoy = $this->getRegistryDate();
-		$fechaAnterior = date($fechaHoy, strtotime('-1 month'));
+		$fechaAnterior = date('Y/m/d', strtotime('-1 month'));
 
 		$sql = $this->db->_query("SELECT idcontent_detail FROM tbl_content_detail WHERE idcontent = '".$this->getIdContent()."' AND (registry_date BETWEEN '".$fechaAnterior."' AND '".$fechaHoy."') AND state = 1");
 
