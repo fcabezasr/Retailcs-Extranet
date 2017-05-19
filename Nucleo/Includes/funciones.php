@@ -77,7 +77,6 @@
 				<td class="td-center">'.($key+1).'</td>
 				<td class="td-center">'.$business['business_name'].'</td>
 				<td class="td-center">'.$business['ruc'].'</td>
-				<td class="td-center">'.$business['address'].'</td>
 				<td class="td-center">'.$business['registry_date'].'</td>
 				<td class="td-center">'.($business['state']==1?'Habilitado':'Deshabilitado').'</td>
 				<td class="td-center">
@@ -94,7 +93,6 @@
 					<th>N°</th>
 					<th>Empresa</th>
 					<th>Ruc</th>
-					<th>Dirección</th>
 					<th>Fecha Registro</th>
 					<th>Estado</th>
 					<th>Acciones</th>

@@ -91,7 +91,7 @@ class Mcontent_detail {
 
 	public function insertContentDetail(){
 
-		$sql = $this->db->_query("INSERT INTO tbl_content_detail (detail_description, registry_date, update_date, idcontent) VALUES ('".$this->getDetailDescription()."','".$this->getRegistryDate()."','".$this->getUpdateDate()."',  ".$this->getIdContent().") ");
+		$sql = $this->db->_query("INSERT INTO tbl_content_detail (detail_description, registry_date, update_date, idcontent) VALUES ('".$this->getDetailDescription()."','".$this->getRegistryDate()."','".$this->getUpdateDate()."', ".$this->getIdContent().") ");
 
 		if($sql){
 			$this->result['result']['success'] = 1;

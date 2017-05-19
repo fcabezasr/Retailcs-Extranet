@@ -73,7 +73,8 @@ class Mbusiness {
 	public function insertBusiness(){
 		
 		if ($this->getIdBusiness()!='' || $this->getIdBusiness()!=null) {
-			$sql = $this->db->_query("UPDATE tbl_business SET business_name = '".$this->getBusinessName()."', ruc = '".$this->getRuc()."', address = '".$this->getAddress()."', update_date = '".$this->getUpdateDate()."', state = 1 WHERE idbusiness = ".$this->getIdBusiness()."");
+			//$sql = $this->db->_query("UPDATE tbl_business SET business_name = '".$this->getBusinessName()."', ruc = '".$this->getRuc()."', address = '".$this->getAddress()."', update_date = '".$this->getUpdateDate()."', state = 1 WHERE idbusiness = ".$this->getIdBusiness()."");
+			$sql = $this->db->_query("UPDATE tbl_business SET business_name = '".$this->getBusinessName()."', ruc = '".$this->getRuc()."', update_date = '".$this->getUpdateDate()."', state = 1 WHERE idbusiness = ".$this->getIdBusiness()."");
 
 			if($sql){
 				$this->result['result']['success'] = 1;
@@ -89,8 +90,9 @@ class Mbusiness {
 				$this->result['result']['nameboton'] = 'Actualizar';
 			}			
 		} else {
-			$sql = $this->db->_query("INSERT INTO tbl_business (business_name, ruc, address, update_date) VALUES ('".$this->getBusinessName()."', '".$this->getRuc()."', '".$this->getAddress()."', '".$this->getUpdateDate()."')");
-
+			//$sql = $this->db->_query("INSERT INTO tbl_business (business_name, ruc, address, update_date) VALUES ('".$this->getBusinessName()."', '".$this->getRuc()."', '".$this->getAddress()."', '".$this->getUpdateDate()."')");
+			$sql = $this->db->_query("INSERT INTO tbl_business (business_name, ruc, update_date) VALUES ('".$this->getBusinessName()."', '".$this->getRuc()."', '".$this->getUpdateDate()."')");
+			
 			if($sql){
 				$this->result['result']['success'] = 1;
 				$this->result['result']['message'] = 'La empresa "<strong>'.$this->getBusinessName().'</strong>" se ha registrado satisfactoriamente.';
@@ -99,7 +101,7 @@ class Mbusiness {
 				$this->result['result']['nameboton'] = 'Guardar';
 			} else {
 				$this->result['result']['success'] = 0;
-				$this->result['result']['message'] = 'Ocurrió un error, la empresa "<strong>'.$this->getBusinessName().'</strong>"" no se ha registrado.';
+				$this->result['result']['message'] = 'Ocurrió un error, la empresa "<strong>'.$this->getBusinessName().'</strong>" no se ha registrado.';
 				$this->result['result']['id'] = '';
 				$this->result['result']['businessname'] = '';
 				$this->result['result']['nameboton'] = 'Guardar';
@@ -113,7 +115,7 @@ class Mbusiness {
 	public function updateBusiness(){
 
 		$sql = $this->db->_query("SELECT * FROM tbl_business WHERE idbusiness = ".$this->getIdBusiness()."")->fetch_object();
-	
+		
 		if($sql){
 			$this->result['result']['success'] = 1;
 			$this->result['result']['message'] = 'Actualice los datos correspondientes.';

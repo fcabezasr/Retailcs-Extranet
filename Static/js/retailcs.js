@@ -15,7 +15,8 @@ $(document).ready(function(){
 		// Para passwords que tienen que contener tanto números como letras
 		exp_password = /^[0-9a-zA-Z_.@]+$/,
 		// Para urls
-		exp_url = /^(ht|f)tps?:\/\/\w+([\.\-\w]+)?\.([a-z]{2,6})?([\.\-\w\/_]+)$/i,
+		//exp_url = /^(ht|f)tps?:\/\/\w+([\.\-\w]+)?\.([a-z]{2,6})?([\.\-\w\/_]+)$/i,
+		exp_url = /(ftp|http|https):\/\/(\w+:{0,1}\w*@)?(\S+)(:[0-9]+)?(\/|\/([\w#!:.?+=&%@!\-\/]))?/,
 		// Para alphanumeric
 		exp_alphanumeric = /^[0-9a-zA-Z_.\s]+$/;
 
@@ -345,68 +346,6 @@ $(document).ready(function(){
 	});
 
 	/*** FIN - FJ - COMPONENTE QUE VALIDA FORMULARIOS ***/
-
-
-	$(document).on('click', '#btn-guardar-content', function(){
-
-		var a = '#'+$(this).parents('.form-horizontal').prop('id'), cont = 0;
-
-		$(a).find('.form-control').each(function(index, value){
-			var id = '#'+$(this).prop('id'), val = $(id).attr('required');
-			$(id).attr('data-parsley-id',index);
-
-			if (!(typeof val == "undefined")) {
-				$('#parsley-id-'+index).remove();
-				if ($(id).val().length > 0) {
-					$(id).removeClass('parsley-error');
-				} else {
-					$(id).addClass('parsley-error').parent().append('<ul class="parsley-errors-list filled" id="parsley-id-'+index+'"><li class="parsley-required">Este campo es necesario.</li></ul>');
-				}
-			}
-		});
-
-		$(a).find('.parsley-errors-list').each(function(index, value){
-			cont++;
-		});
-		
-		if (cont <= 0) {
-			var formData = new FormData($("#form-content")[0]);
-
-			$.ajax({
-			    url: './content/insertContent/',
-			    cache: false, //necesario para subir archivos via ajax
-			    data: formData, // Form data: datos del formulario
-			    type: 'POST',
-			    contentType: false,
-			    processData: false,
-			    dataType: 'json',
-			    beforeSend: function(){
-			    	fcnLoading(); //Inicializa el div Loading
-			    },
-				success: function(data){
-					console.log(data);
-					$('.text-message').html(data.result.message);
-					$('#div-message').removeClass('alert-info alert-danger');
-					if (data.result.success == 1) {
-						$('#div-message').addClass('alert-info');
-					} else {
-						$('#div-message').addClass('alert-danger');
-					}
-					$('#div-alert').css('display', 'block');
-					$('#form-content')[0].reset();
-				},
-				error: function(xhr, status){
-					alert('Ha ocurrido un error...');
-				},
-				complete: function(xhr, status){
-					fcnFinishLoading(); //Finaliza el div Loading
-					setTimeout(function(){ $('#div-alert').css('display', 'none'); }, 5000); //Finaliza el mensaje de alerta
-				}
-			});
-		}
-		
-		return false;
-	});
 
 
 	$(document).on('click', '#btn-guardar-business', function(){
@@ -1543,7 +1482,7 @@ $(document).ready(function(){
 
 	$(document).on('input', '#business-name', function(){
 
-		var business_name = fcnValidateExpReg($(this).val(), exp_letras_latinas);
+		var business_name = fcnValidateExpReg($(this).val(), exp_alphanumeric);
     	$(this).val(business_name);
 
 		$.ajax({

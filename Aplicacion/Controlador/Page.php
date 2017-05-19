@@ -309,9 +309,9 @@ class Page extends Nucleo\Includes\Controlador {
 				$fechaActual = date('Y/m/d');
 				$business = $this->modelo('Mbusiness');
 				$business->setIdBusiness($_POST['business-id']);
-				$business->setBusinessName(utf8_decode(addslashes($_POST['business-name'])));
-				$business->setRuc(utf8_decode(addslashes($_POST['ruc'])));
-				$business->setAddress(utf8_decode(addslashes($_POST['address'])));
+				$business->setBusinessName($_POST['business-name']);
+				$business->setRuc($_POST['ruc']);
+				//$business->setAddress($_POST['address']);
 				$business->setUpdateDate($fechaActual);
 				$result = $business->insertBusiness();
 
@@ -325,7 +325,7 @@ class Page extends Nucleo\Includes\Controlador {
 
 			}
 		} else {
-			throw new Exception("Error Processing Request", 1);   
+			throw new Exception("Error Processing Request", 1);
 		}
 	}
 
@@ -373,7 +373,7 @@ class Page extends Nucleo\Includes\Controlador {
 				$data['idbusiness'] = $businessData->idbusiness;
 				$data['business_name'] = $businessData->business_name;
 				$data['ruc'] = $businessData->ruc;
-				$data['address'] = $businessData->address;
+				//$data['address'] = $businessData->address;
 				$data['registry_date'] = $businessData->registry_date;
 				$data['state'] = $businessData->state;
 

@@ -83,7 +83,7 @@ class Muser {
 				$this->result['result']['nameboton'] = 'Guardar';
 			} else {
 				$this->result['result']['success'] = 0;
-				$this->result['result']['message'] = 'Ocurrió un error, el usuario "<strong>'.$this->getUserName().'</strong>"" no se ha registrado.';
+				$this->result['result']['message'] = 'Ocurrió un error, el usuario "<strong>'.$this->getUserName().'</strong>" no se ha registrado.';
 				$this->result['result']['id'] = '';
 				$this->result['result']['username'] = '';
 				$this->result['result']['nameboton'] = 'Guardar';

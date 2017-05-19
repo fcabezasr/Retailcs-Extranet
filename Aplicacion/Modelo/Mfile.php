@@ -148,7 +148,7 @@ class Mfile {
 		$fechaHoy = $this->getRegistryDate();
 		$fechaAnterior = date('Y/m/d', strtotime('-1 month'));
 
-    	$sql = $this->db->_query("SELECT idfile FROM tbl_file WHERE idfile_type = '".$this->getIdFileType()."' AND idproduct = '".$this->getIdProduct()."' AND idversion = '".$this->getIdVersion()."' AND (registry_date BETWEEN '".$fechaAnterior."' AND '".$fechaHoy."')  AND state = 1");
+    	$sql = $this->db->_query("SELECT idfile FROM tbl_file WHERE idfile_type = '".$this->getIdFileType()."' AND idproduct = '".$this->getIdProduct()."' AND idversion = '".$this->getIdVersion()."' AND (publication_date BETWEEN '".$fechaAnterior."' AND '".$fechaHoy."') AND state = 1");
 
 		if($sql->num_rows > 0){
 			$this->result['result']['success'] = 1;
