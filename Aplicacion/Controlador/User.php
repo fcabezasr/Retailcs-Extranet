@@ -5,8 +5,10 @@ class User extends Nucleo\Includes\Controlador{
 	public $obj = null;
 
 	function __construct(){
+
 		parent::__construct();
 	}
+
 
 	// Método que se llama por defecto
 	public function index(){
@@ -34,4 +36,3 @@ class User extends Nucleo\Includes\Controlador{
 	}
 
 }
-

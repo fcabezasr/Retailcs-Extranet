@@ -26,10 +26,9 @@ class Mversion {
 
 	/********************* MÉTODOS *********************/
 
-
 	public function selectVersion(){
 
-		$sql = $this->db->_query("SELECT idversion, version_description, version_order, DATE_FORMAT(registry_date, '%d-%m-%Y') AS registry_date, state FROM tbl_version WHERE state = 1");
+		$sql = $this->db->_query("SELECT idversion, version_description, version_order, DATE_FORMAT(registry_date, '%d-%m-%Y') AS registry_date, state FROM tbl_version WHERE 1");
 		$array_version = array();
 
 		while($datos = $sql->fetch_object()){
@@ -89,7 +88,7 @@ class Mversion {
 	public function insertVersion(){
 		
 		if ($this->getIdVersion()!='' || $this->getIdVersion()!=null) {
-			$sql = $this->db->_query("UPDATE tbl_version SET version_description = '".$this->getVersionDescription()."', update_date = '".$this->getUpdateDate()."' WHERE idversion = ".$this->getIdVersion()."");
+			$sql = $this->db->_query("UPDATE tbl_version SET version_description = '".$this->getVersionDescription()."', update_date = '".$this->getUpdateDate()."', state = 1 WHERE idversion = ".$this->getIdVersion()."");
 
 			if($sql){
 				$this->result['result']['success'] = 1;
@@ -102,7 +101,6 @@ class Mversion {
 				$this->result['result']['message'] = 'Ocurrió un error, los datos de la versión "<strong>'.$this->getVersionDescription().'</strong>" no se ha actualizado.';
 				$this->result['result']['nameboton'] = 'Actualizar';
 			}
-			
 		} else {
 			$sql = $this->db->_query("INSERT INTO tbl_version (version_description, update_date) VALUES ('".$this->getVersionDescription()."', '".$this->getUpdateDate()."')");
 			
@@ -125,7 +123,7 @@ class Mversion {
 
 	public function updateVersion(){
 
-		$sql = $this->db->_query("SELECT * FROM tbl_version WHERE idversion = ".$this->getIdVersion()." AND state = 1")->fetch_object();
+		$sql = $this->db->_query("SELECT * FROM tbl_version WHERE idversion = ".$this->getIdVersion()."")->fetch_object();
 	
 		if($sql){
 			$this->result['result']['success'] = 1;
@@ -145,15 +143,22 @@ class Mversion {
 
 	public function deleteVersion(){
 
-		$sql = $this->db->_query("UPDATE tbl_version SET state = 0 WHERE idversion = ".$this->getIdVersion()."");
+		$sql = $this->db->_query("SELECT idproduct, idversion FROM tbl_version_product WHERE idversion = ".$this->getIdVersion()." AND state = 1");
 
-		if($sql){
-			$this->result['result']['success'] = 1;
-			$this->result['result']['message'] = 'La versión se ha <strong>deshabilitado</strong> correctamente.';
-			$this->result['result']['id'] = $this->getIdVersion();
-		} else {
+		if ($sql->num_rows > 0) {
 			$this->result['result']['success'] = 0;
-			$this->result['result']['message'] = 'Ocurrió un error, vuelva a realizar la acción.';
+			$this->result['result']['message'] = '<strong>Alerta!</strong> La Versión está vinculado a algún Producto, por ende no puede eliminarlo.';
+		} else {
+			$sql = $this->db->_query("UPDATE tbl_version SET state = 0 WHERE idversion = ".$this->getIdVersion()."");
+
+			if($sql){
+				$this->result['result']['success'] = 1;
+				$this->result['result']['message'] = 'La versión se ha <strong>deshabilitado</strong> correctamente.';
+				$this->result['result']['id'] = $this->getIdVersion();
+			} else {
+				$this->result['result']['success'] = 0;
+				$this->result['result']['message'] = 'Ocurrió un error, vuelva a realizar la acción.';
+			}
 		}
 
 		return $this->result;

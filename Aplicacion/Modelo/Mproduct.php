@@ -27,10 +27,9 @@ class Mproduct {
 
 	/********************* MÉTODOS *********************/
 
-
 	public function selectProduct(){
 
-		$sql = $this->db->_query("SELECT idproduct, product_name, product_icono, product_order, DATE_FORMAT(registry_date, '%d-%m-%Y') AS registry_date, state FROM tbl_product WHERE state = 1");
+		$sql = $this->db->_query("SELECT idproduct, product_name, product_icono, product_order, DATE_FORMAT(registry_date, '%d-%m-%Y') AS registry_date, state FROM tbl_product WHERE 1");
 		$array_product = array();
 
 		while($datos = $sql->fetch_object()){
@@ -114,7 +113,7 @@ class Mproduct {
 		
 		if ($this->getIdProduct()!='' || $this->getIdProduct()!=null) {
 			
-			$sql = $this->db->_query("UPDATE tbl_product SET product_name = '".$this->getProductName()."', product_icono = '".$this->getProductIcono()."', update_date = '".$this->getUpdateDate()."' WHERE idproduct = ".$this->getIdProduct()."");
+			$sql = $this->db->_query("UPDATE tbl_product SET product_name = '".$this->getProductName()."', product_icono = '".$this->getProductIcono()."', update_date = '".$this->getUpdateDate()."', state = 1 WHERE idproduct = ".$this->getIdProduct()."");
 
 			if($sql){
 				$this->result['result']['success'] = 1;
@@ -126,8 +125,7 @@ class Mproduct {
 				$this->result['result']['success'] = 0;
 				$this->result['result']['message'] = 'Ocurrió un error, los datos del producto "<strong>'.$this->getProductName().'</strong>" no se ha actualizado.';
 				$this->result['result']['nameboton'] = 'Actualizar';
-			}
-			
+			}			
 		} else {
 			$sql = $this->db->_query("INSERT INTO tbl_product (product_name, product_icono, update_date) VALUES ('".$this->getProductName()."', '".$this->getProductIcono()."', '".$this->getUpdateDate()."')");
 
@@ -150,7 +148,7 @@ class Mproduct {
 
 	public function updateProduct(){
 
-		$sql = $this->db->_query("SELECT * FROM tbl_product WHERE idproduct = ".$this->getIdProduct()." AND state = 1")->fetch_object();
+		$sql = $this->db->_query("SELECT * FROM tbl_product WHERE idproduct = ".$this->getIdProduct()."")->fetch_object();
 	
 		if($sql){
 			$this->result['result']['success'] = 1;
@@ -170,15 +168,22 @@ class Mproduct {
 
 	public function deleteProduct(){
 
-		$sql = $this->db->_query("UPDATE tbl_product SET state = 0 WHERE idproduct = ".$this->getIdProduct()."");
+		$sql = $this->db->_query("SELECT idproduct, idversion FROM tbl_version_product WHERE idproduct = ".$this->getIdProduct()." AND state = 1");
 
-		if($sql){
-			$this->result['result']['success'] = 1;
-			$this->result['result']['message'] = 'El producto se ha <strong>deshabilitado</strong> correctamente.';
-			$this->result['result']['id'] = $this->getIdProduct();
-		} else {
+		if ($sql->num_rows > 0) {
 			$this->result['result']['success'] = 0;
-			$this->result['result']['message'] = 'Ocurrió un error, vuelva a realizar la acción.';
+			$this->result['result']['message'] = '<strong>Alerta!</strong> El Producto está vinculado a alguna Versión, por ende no puede eliminarlo.';
+		} else {
+			$sql = $this->db->_query("UPDATE tbl_product SET state = 0 WHERE idproduct = ".$this->getIdProduct()."");
+
+			if($sql){
+				$this->result['result']['success'] = 1;
+				$this->result['result']['message'] = 'El producto se ha <strong>deshabilitado</strong> correctamente.';
+				$this->result['result']['id'] = $this->getIdProduct();
+			} else {
+				$this->result['result']['success'] = 0;
+				$this->result['result']['message'] = 'Ocurrió un error, vuelva a realizar la acción.';
+			}
 		}
 
 		return $this->result;

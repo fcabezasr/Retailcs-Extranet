@@ -366,12 +366,7 @@ class Page extends Nucleo\Includes\Controlador {
 				$data['type_user'] = '';
 				$data['idbusiness'] = $userData->idbusiness;
 				$data['business'] = '';
-				
-				if ($userData->state) {
-					$data['state'] = 'Habilitado';
-				} else {
-					$data['state'] = 'Deshabilitado';
-				}
+				$data['state'] = $userData->state;
 
 				$type_user->setIdTypeUser($userData->idtype_user);
 				$array_typeUser = $type_user->selectTypeUserxId();
@@ -444,8 +439,6 @@ class Page extends Nucleo\Includes\Controlador {
 
 		if ($result['result']['success']) {
 			$result['result']['datatable'] = $this->tableTypeUser();
-		} else {
-			$result['result']['datatable'] = '';
 		}
 
 		echo json_encode($result);
@@ -464,12 +457,7 @@ class Page extends Nucleo\Includes\Controlador {
 				$data['idtype_user'] = $typeUserData->idtype_user;
 				$data['description'] = $typeUserData->description;
 				$data['registry_date'] = $typeUserData->registry_date;
-				
-				if ($typeUserData->state) {
-					$data['state'] = 'Habilitado';
-				} else {
-					$data['state'] = 'Deshabilitado';
-				}
+				$data['state'] = $typeUserData->state;
 
 				array_push($arrayTypeUser, $data);
 			}
@@ -480,58 +468,6 @@ class Page extends Nucleo\Includes\Controlador {
 
 
 	/********************         PRODUCT     ********************/
-/*
-	public function insertProduct($product_id = null, $product_name = null, $product_icono = null){
-
-		$fechaActual = date('Y/m/d');
-		$product = $this->modelo('Mproduct');
-		$product->setIdProduct($product_id);
-		$product->setProductName(urldecode($product_name));
-		$product->setProductIcono(urldecode($product_icono));
-		$product->setUpdateDate($fechaActual);
-		$result = $product->insertProduct();
-		
-		if ($result['result']['success']) {
-			$result['result']['datatable'] = $this->tableProduct();
-		} else {
-			$result['result']['datatable'] = '';
-		}		
-
-		echo json_encode($result);
-	}
-
-
-	public function updateProduct($idproduct = null){
-
-		$product = $this->modelo('Mproduct');
-		$product->setIdProduct($idproduct);
-		$result = $product->updateProduct();
-
-		if ($result['result']['success']) {
-			$result['result']['datatable'] = $this->tableProduct();
-		} else {
-			$result['result']['datatable'] = '';
-		}
-
-		echo json_encode($result);
-	}
-
-
-	public function deleteProduct($idproduct = null){
-
-		$product = $this->modelo('Mproduct');
-		$product->setIdProduct($idproduct);
-		$result = $product->deleteProduct();
-
-		if ($result['result']['success']) {
-			$result['result']['datatable'] = $this->tableProduct();
-		} else {
-			$result['result']['datatable'] = '';
-		}
-
-		echo json_encode($result);
-	}
-*/
 
 	public function tableProduct(){
 
@@ -547,12 +483,7 @@ class Page extends Nucleo\Includes\Controlador {
 				$data['product_icono'] = $productData->product_icono;
 				$data['product_order'] = $productData->product_order;
 				$data['registry_date'] = $productData->registry_date;
-				
-				if ($productData->state) {
-					$data['state'] = 'Habilitado';
-				} else {
-					$data['state'] = 'Deshabilitado';
-				}
+				$data['state'] = $productData->state;
 
 				array_push($arrayProduct, $data);
 			}
@@ -628,13 +559,8 @@ class Page extends Nucleo\Includes\Controlador {
 				$data['version_description'] = $versionData->version_description;
 				$data['version_order'] = $versionData->version_order;
 				$data['registry_date'] = $versionData->registry_date;
+				$data['state'] = $versionData->state;
 				
-				if ($versionData->state) {
-					$data['state'] = 'Habilitado';
-				} else {
-					$data['state'] = 'Deshabilitado';
-				}
-
 				array_push($arrayVersion, $data);
 			}
 		}
@@ -645,23 +571,71 @@ class Page extends Nucleo\Includes\Controlador {
 
 	/********************  PRODUCT & VERSION  ********************/
 
-	public function insertVersionProduct($data_json = null){
+	public function insertVersionProduct(){
 
-		$data = json_decode(urldecode($data_json));
+		if(!empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest'){
 
-		$m_version_product = $this->modelo('Mversion_product');
-		$m_version_product->setIdProduct($data->idproduct_pv);
-		$m_version_product->setIdVersion($data->idversion_pv);
-		$m_version_product->setRegistryDescription($data->registry_description);
-		$result = $m_version_product->insertVersionProduct();
+			if (isset($_POST)) {
+				$m_version_product = $this->modelo('Mversion_product');
+				
+				if ($_POST['idproduct_bck'] != '' && $_POST['idversion_bck'] != '') {
+					// Verificamos si ambos valores son iguales, por ende solo es una ACTUALIZACIÓN
+					if ($_POST['idproduct_bck'] == $_POST['idproduct_pv'] && $_POST['idversion_bck'] == $_POST['idversion_pv']) {
+						// Enviamos los datos para Actualizar
+						$m_version_product->setIdProduct($_POST['idproduct_pv']);
+						$m_version_product->setIdVersion($_POST['idversion_pv']);
+						$m_version_product->setRegistryDescription(utf8_decode(addslashes($_POST['registry-description'])));
+						$m_version_product->setState(0);
+						$result = $m_version_product->insertVersionProduct();
 
-		if ($result['result']['success']) {
-			$result['result']['datatable'] = $this->tableVersionProduct();
+						if ($result['result']['success']) {
+							$result['result']['datatable'] = $this->tableVersionProduct();
+						} else {
+							$result['result']['datatable'] = '';
+						}
+					} else {
+						// Enviamos los datos iniciales para VERIFICAR si no están vinculados a otros registros.
+						$m_version_product->setIdProduct($_POST['idproduct_bck']);
+						$m_version_product->setIdVersion($_POST['idversion_bck']);
+						$result = $m_version_product->deleteVersionProduct();
+
+						if ($result['result']['success']) {
+							// Enviamos los datos cambiados para VERIFICAR si ya EXISTEN
+							$m_version_product->setIdProduct($_POST['idproduct_pv']);
+							$m_version_product->setIdVersion($_POST['idversion_pv']);
+							$m_version_product->setRegistryDescription(utf8_decode(addslashes($_POST['registry-description'])));
+							$m_version_product->setState(1);
+							$result = $m_version_product->insertVersionProduct();
+
+							if ($result['result']['success']) {
+								$result['result']['datatable'] = $this->tableVersionProduct();
+							} else {
+								$result['result']['datatable'] = '';
+							}
+						} else {
+							$result['result']['message'] = '<strong>Alerta!</strong> La relación inicial de la Versión & Producto está vinculado a algún Contenido o Archivo, por ende no puede cambiarlo.';
+							$result['result']['nameboton'] = 'Guardar';
+						}
+					}
+				} else {
+					$m_version_product->setIdProduct($_POST['idproduct_pv']);
+					$m_version_product->setIdVersion($_POST['idversion_pv']);
+					$m_version_product->setRegistryDescription(utf8_decode(addslashes($_POST['registry-description'])));
+					$m_version_product->setState(1);
+					$result = $m_version_product->insertVersionProduct();
+
+					if ($result['result']['success']) {
+						$result['result']['datatable'] = $this->tableVersionProduct();
+					} else {
+						$result['result']['datatable'] = '';
+					}
+				}
+
+				echo json_encode($result);
+			}
 		} else {
-			$result['result']['datatable'] = '';
-		}		
-
-		echo json_encode($result);
+			throw new Exception("Error Processing Request", 1);   
+		}
 	}
 
 
@@ -714,6 +688,7 @@ class Page extends Nucleo\Includes\Controlador {
 				$data['idversion'] = $versionProductData->idversion;
 				$data['registry_description'] = $versionProductData->registry_description;
 				$data['registry_date'] = $versionProductData->registry_date;
+				$data['state'] = $versionProductData->state;
 
 				$m_product->setIdProduct($versionProductData->idproduct);
 				$p_result = $m_product->selectProductxIdProduct();
@@ -729,12 +704,6 @@ class Page extends Nucleo\Includes\Controlador {
 					$data['version_description'] = $v_result['result']['object_version']->version_description;
 				}
 
-				if ($versionProductData->state) {
-					$data['state'] = 'Habilitado';
-				} else {
-					$data['state'] = 'Deshabilitado';
-				}
-
 				array_push($arrayVersionProduct, $data);
 			}
 		}
@@ -742,5 +711,4 @@ class Page extends Nucleo\Includes\Controlador {
 		return printTableVersionProduct($arrayVersionProduct);
 	}
 
-	
 }

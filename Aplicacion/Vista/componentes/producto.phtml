@@ -41,6 +41,7 @@
 							<label class="control-label col-md-3 col-sm-3 col-xs-12" for="product-id">Id</label>
 							<div class="col-md-6 col-sm-6 col-xs-12">
 								<input type="text" id="product-id" name="product-id" placeholder="idproduct" class="form-control col-md-7 col-xs-12">
+								<input type="text" id="product-name-bck" name="product-name-bck" placeholder="product_name" class="form-control col-md-7 col-xs-12">
 							</div>
 						</div>
 
@@ -136,6 +137,7 @@
 							<label class="control-label col-md-3 col-sm-3 col-xs-12" for="version-id">Id</label>
 							<div class="col-md-6 col-sm-6 col-xs-12">
 								<input type="text" id="version-id" name="version-id" placeholder="idversion" class="form-control col-md-7 col-xs-12">
+								<input type="text" id="version-description-bck" name="version-description-bck" placeholder="version_description" class="form-control col-md-7 col-xs-12">
 							</div>
 						</div>
 
@@ -186,7 +188,15 @@
 					<div class="clearfix"></div>
 				</div>
 				<div class="x_content">
-					<form id="form-version-product" class="form-horizontal form-label-left" autocomplete="off">
+					<form id="form-version-product" class="form-horizontal form-label-left" autocomplete="off" enctype="multipart/form-data" method="post">
+						<div class="form-group input-none">
+							<label class="control-label col-md-3 col-sm-3 col-xs-12" for="version-id">Id Versión & Id Product</label>
+							<div class="col-md-6 col-sm-6 col-xs-12">
+								<input type="text" id="idproduct_bck" name="idproduct_bck" placeholder="idproduct_bck" class="form-control col-md-7 col-xs-12">
+								<input type="text" id="idversion_bck" name="idversion_bck" placeholder="idversion_bck" class="form-control col-md-7 col-xs-12">
+							</div>
+						</div>
+
 						<div class="form-group">
 							<label class="control-label col-md-3 col-sm-3 col-xs-12" for="idproduct_pv">Producto <span class="required">*</span></label>
 							<div class="col-md-6 col-sm-6 col-xs-12">

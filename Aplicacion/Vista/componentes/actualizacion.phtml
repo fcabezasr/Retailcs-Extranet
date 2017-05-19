@@ -1,7 +1,5 @@
 <?php
-
-	//var_dump($object_product); exit;
-
+	
 	$product = $object_product['ObjectProduct']['Product'];
 	$content_type = $object_product['ObjectProduct']['ContentType'];
 	$array_version = $object_product['ObjectProduct']['ObjectVersion'];
@@ -12,6 +10,7 @@
 			$estado = 1;
 		}
 	}
+
 ?>
 
 <div class="container">
@@ -51,12 +50,12 @@
 					<div class="clearfix"></div>
 				</div>
 				<div class="x_content" <?php ($key_v==0? '': 'style="display: none;"') ?> >
-					<table class="table table-striped">
+					<table class="table table-striped table-actualizacion">
 						<thead>
 							<tr>
-								<th>#</th>
-								<th>Fecha</th>
-								<th>Descripción</th>
+								<th width="10%">N°</th>
+								<th width="15%">Fecha</th>
+								<th width="75%">Descripción</th>
 							</tr>
 						</thead>
 						<tbody>
@@ -78,11 +77,11 @@
 						</tbody>
 					</table>					
 					<div class="actionBar">
-						<a href="javascript:void(0)" idcontent="<?php echo $content->idcontent; ?>" type="button" class="btn btn-primary download-content"><i class="fa fa-download"></i> Descargar en PDF</a>
+						<a href="javascript:void(0)" idcontent="<?php echo $content->idcontent; ?>" description="<?php echo $content_type->content_description; ?>" product="<?php echo $product->product_name; ?>" version="<?php echo $version->version_description; ?>" type="button" class="btn btn-primary download-content"><i class="fa fa-download"></i> Descargar en PDF</a>
 					</div>
 				</div>
 			</div>
-			<!-- Fin - Table Collapse 1 -->		
+			<!-- Fin - Table Collapse 1 -->
 			
 			<?php
 							}

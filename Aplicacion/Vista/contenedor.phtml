@@ -9,7 +9,7 @@
     <base href="<?php echo HTTP_HOST; ?>"/>
 
     <title>Retail Custom Solutions</title>
-
+    <link rel="shortcut icon" href="http://www.retailcs.com/es/public/img/favicon.ico">
     <!-- Bootstrap -->
     <link href="./Static/vendors/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="./Static/vendors/font-awesome/css/font-awesome.min.css" rel="stylesheet">
@@ -45,29 +45,10 @@
               <?php if ($_SESSION['User']['Type'] == 1) { ?>
               <div class="menu_section">
                 <h3>Admin</h3>
-                <ul class="nav side-menu">
-                  <li><a><i class="fa fa-users"></i> Usuario <span class="fa fa-chevron-down"></span></a>
-                    <ul class="nav child_menu">
-                      <li><a href="javascript:void(0)" class="gestion-admin" page="usuario" section="nuevo">Nuevo Usuario</a></li>
-                      <li><a href="javascript:void(0)" class="gestion-admin" page="usuario" section="tipo">Tipo Usuario</a></li>
-                      <!--<li><a href="javascript:void(0)" class="gestion-admin" page="usuario" section="lista">Lista Usuarios</a></li>-->
-                    </ul>
-                  </li>
-                  <li><a><i class="fa fa-tags"></i> Producto <span class="fa fa-chevron-down"></span></a>
-                    <ul class="nav child_menu">
-                      <li><a href="javascript:void(0)" class="gestion-admin" page="producto" section="nuevo">Registrar Producto</a></li>
-                      <li><a href="javascript:void(0)" class="gestion-admin" page="producto" section="version">Registrar Versión</a></li>
-                      <li><a href="javascript:void(0)" class="gestion-admin" page="producto" section="vinculo">Vincular Versión & Producto</a></li>
-                    </ul>
-                  </li>
-                  <li><a><i class="fa fa-file-text-o"></i> Contenido <span class="fa fa-chevron-down"></span></a>
-                    <ul class="nav child_menu">
-                      <li><a href="javascript:void(0)" class="gestion-admin" page="contenido" section="actualizacion">Registrar Actualización</a></li>
-                      <li><a href="javascript:void(0)" class="gestion-admin" page="contenido" section="correcion">Registrar Corrección</a></li>
-                      <li><a href="javascript:void(0)" class="gestion-admin" page="archivo" section="manual">Registrar Manual</a></li>
-                      <li><a href="javascript:void(0)" class="gestion-admin" page="archivo" section="video">Registrar Video</a></li>
-                    </ul>
-                  </li>
+                <ul class="nav side-menu" id="menu-admin">
+
+                  <?php echo $menu_admin; ?>
+                  
                 </ul>
               </div>
               <?php } ?>
@@ -110,7 +91,7 @@
                   </a>
                   <ul class="dropdown-menu dropdown-usermenu pull-right">
                     <!--
-                    <li><a href="javascript:;"> Profile</a></li>                    
+                    <li><a href="javascript:void(0);"> <strong>RETAIL</strong></a></li>                    
                     <li>
                       <a href="javascript:;">
                         <span class="badge bg-red pull-right">50%</span>
@@ -118,8 +99,8 @@
                       </a>
                     </li>
                     -->
-                    <li><a href="javascript:void(0)">Ayuda</a></li>
-                    <li><a href="./login/cerrarSession/"><i class="fa fa-sign-out pull-right"></i> Cerrar Sesión</a></li>
+                    <li><a href="javascript:void(0);">Ayuda</a></li>
+                    <li><a href="javascript:void(0);" id="logout"><i class="fa fa-sign-out pull-right"></i> Cerrar Sesión</a></li>
                   </ul>
                 </li>
 

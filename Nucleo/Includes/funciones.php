@@ -79,10 +79,10 @@
 				<td class="td-center">'.$user['type_user'].'</td>
 				<td class="td-center">'.$user['business'].'</td>
 				<td class="td-center">'.$user['registry_date'].'</td>
-				<td class="td-center">'.$user['state'].'</td>
+				<td class="td-center">'.($user['state']==1?'Habilitado':'Deshabilitado').'</td>
 				<td class="td-center">
 					<button class="btn btn-xs btn-info btn-user-edit" iduser="'.$user['iduser'].'" type="button"><i class="fa fa-pencil"></i> Editar </button>
-					<button class="btn btn-xs btn-danger btn-user-remove" iduser="'.$user['iduser'].'" type="button"><i class="fa fa-trash-o"></i> Eliminar </button>
+					<button class="btn btn-xs btn-danger btn-user-remove" iduser="'.$user['iduser'].'" type="button" '.($user['state']==1?'enabled':'disabled').'><i class="fa fa-trash-o"></i> Eliminar </button>
 				</td>
 			</tr>';
 		}
@@ -116,15 +116,16 @@
 
 		$tbody = '';
 		foreach ($arrayTypeUser as $key => $typeUser) {
+
 			$tbody.= 
 			'<tr>
 				<td class="td-center">'.($key+1).'</td>
 				<td class="td-center">'.$typeUser['description'].'</td>
 				<td class="td-center">'.$typeUser['registry_date'].'</td>
-				<td class="td-center">'.$typeUser['state'].'</td>
+				<td class="td-center">'.($typeUser['state']==1?'Habilitado':'Deshabilitado').'</td>
 				<td class="td-center">
 					<button class="btn btn-xs btn-info btn-user-type-edit" idtypeuser="'.$typeUser['idtype_user'].'" type="button"><i class="fa fa-pencil"></i> Editar </button>
-					<button class="btn btn-xs btn-danger btn-user-type-remove" idtypeuser="'.$typeUser['idtype_user'].'" type="button"><i class="fa fa-trash-o"></i> Eliminar </button>			
+					<button class="btn btn-xs btn-danger btn-user-type-remove" idtypeuser="'.$typeUser['idtype_user'].'" type="button" '.($typeUser['state']==1?'enabled':'disabled').'><i class="fa fa-trash-o"></i> Eliminar </button>			
 				</td>
 			</tr>';
 		}
@@ -162,10 +163,10 @@
 				<td class="td-center"><label><i class="fa '.$product['product_icono'].' fa-icono"></i></label></td>
 				<td class="td-center">'.strtoupper($product['product_name']).'</td>
 				<td class="td-center">'.$product['registry_date'].'</td>
-				<td class="td-center">'.$product['state'].'</td>
+				<td class="td-center">'.($product['state']==1?'Habilitado':'Deshabilitado').'</td>
 				<td class="td-center">
 					<button class="btn btn-xs btn-info btn-product-edit" idproduct="'.$product['idproduct'].'" type="button"><i class="fa fa-pencil"></i> Editar </button>
-					<button class="btn btn-xs btn-danger btn-product-remove" idproduct="'.$product['idproduct'].'" type="button"><i class="fa fa-trash-o"></i> Eliminar </button>			
+					<button class="btn btn-xs btn-danger btn-product-remove" idproduct="'.$product['idproduct'].'" type="button" '.($product['state']==1?'enabled':'disabled').'><i class="fa fa-trash-o"></i> Eliminar </button>			
 				</td>
 			</tr>';
 		}
@@ -203,10 +204,10 @@
 				<td class="td-center">'.($key+1).'</td>
 				<td class="td-center">'.strtoupper($version['version_description']).'</td>
 				<td class="td-center">'.$version['registry_date'].'</td>
-				<td class="td-center">'.$version['state'].'</td>
+				<td class="td-center">'.($version['state']==1?'Habilitado':'Deshabilitado').'</td>
 				<td class="td-center">
 					<button class="btn btn-xs btn-info btn-version-edit" idversion="'.$version['idversion'].'" type="button"><i class="fa fa-pencil"></i> Editar </button>
-					<button class="btn btn-xs btn-danger btn-version-remove" idversion="'.$version['idversion'].'" type="button"><i class="fa fa-trash-o"></i> Eliminar </button>
+					<button class="btn btn-xs btn-danger btn-version-remove" idversion="'.$version['idversion'].'" type="button" '.($version['state']==1?'enabled':'disabled').'><i class="fa fa-trash-o"></i> Eliminar </button>
 				</td>
 			</tr>';
 		}
@@ -244,10 +245,10 @@
 				<td class="td-center">'.strtoupper($version_product['product_name']).'</td>
 				<td class="td-center">'.strtoupper($version_product['version_description']).'</td>
 				<td class="td-center">'.$version_product['registry_date'].'</td>
-				<td class="td-center">'.$version_product['state'].'</td>
+				<td class="td-center">'.($version_product['state']==1?'Habilitado':'Deshabilitado').'</td>
 				<td class="td-center">
-					<!--<button class="btn btn-xs btn-info btn-version-product-edit" idproduct="'.$version_product['idproduct'].'" idversion="'.$version_product['idversion'].'" type="button"><i class="fa fa-pencil"></i> Editar </button>-->
-					<button class="btn btn-xs btn-danger btn-version-product-remove" idproduct="'.$version_product['idproduct'].'" idversion="'.$version_product['idversion'].'" type="button"><i class="fa fa-trash-o"></i> Eliminar </button>
+					<button class="btn btn-xs btn-info btn-version-product-edit" idproduct="'.$version_product['idproduct'].'" idversion="'.$version_product['idversion'].'" type="button"><i class="fa fa-pencil"></i> Editar </button>
+					<button class="btn btn-xs btn-danger btn-version-product-remove" idproduct="'.$version_product['idproduct'].'" idversion="'.$version_product['idversion'].'" type="button" '.($version_product['state']==1?'enabled':'disabled').'><i class="fa fa-trash-o"></i> Eliminar </button>
 				</td>
 			</tr>';
 		}
@@ -333,19 +334,20 @@
 
 		if (count($array_information) > 0) {
 
-			foreach ($array_information as $key => $array_product) {				
+			foreach ($array_information as $key => $array_product) {
 				$product = $array_product['Product'];
 
 				if (count($product['ArrayContentType']) > 0) {
 
-					foreach ($product['ArrayContentType'] as $key => $array_content_type) {						
+					foreach ($product['ArrayContentType'] as $key => $array_content_type) {
 						$content_type = $array_content_type['ContentType'];
 
 						if (count($content_type['ArrayVersion']) > 0) {
 							$infoRecentList = '';
 							$countList = 0;
 							
-							foreach ($content_type['ArrayVersion'] as $key => $array_version) {	
+							sort($content_type['ArrayVersion'], 3);
+							foreach ($content_type['ArrayVersion'] as $key => $array_version) {
 								$version = $array_version['Version'];
 								
 								if ($version['Count'] > 0) {
@@ -364,9 +366,9 @@
 								$informationRecent.= 
 								'<div class="col-md-3 col-xs-12 widget_fj widget_tally_box" ser="'.$product['Id'].'" page="'.$content_type['Short'].'">
 			                        <div class="x_panel ui-ribbon-container fixed_height_390_fj">
-			                            <div class="ui-ribbon-wrapper">
+			                            <!--<div class="ui-ribbon-wrapper">
 			                                <div class="ui-ribbon">Nuevo</div>
-			                            </div>
+			                            </div>-->
 			                            <div class="tile-stats">
 			                                <div class="icon"><i class="fa '.$product['Icon'].'"></i></div>
 			                                <div class="count">'.$countList.'</div>
@@ -380,7 +382,60 @@
 			                                    .$infoRecentList.
 												'</ul>
 			                                </div>
-			                            </div>                        
+			                            </div>
+			                        </div>
+			                    </div>';
+							}
+						}
+					}
+				}
+
+				if (count($product['ArrayFileType']) > 0) {
+
+					foreach ($product['ArrayFileType'] as $key => $array_file_type) {
+						$file_type = $array_file_type['FileType'];
+
+						if (count($file_type['ArrayVersion']) > 0) {
+							$infoRecentList = '';
+							$countList = 0;
+							
+							sort($file_type['ArrayVersion'], 3);
+							foreach ($file_type['ArrayVersion'] as $key => $array_version) {
+								$version = $array_version['Version'];
+								
+								if ($version['Count'] > 0) {
+									$infoRecentList.= 
+									'<li>
+                                        <a href="javascript:void(0)" ver="'.$version['Id'].'" order="" class="info-recent">
+                                            <span class="month">Versión '.$version['Description'].'</span>
+                                            <span class="count"><span class="badge badge-success">'.$version['Count'].'</span></span>
+                                        </a>
+                                    </li>';
+									$countList+= $version['Count'];
+								}
+							}
+
+							if ($countList > 0) {
+								$informationRecent.= 
+								'<div class="col-md-3 col-xs-12 widget_fj widget_tally_box" ser="'.$product['Id'].'" page="'.$file_type['Short'].'">
+			                        <div class="x_panel ui-ribbon-container fixed_height_390_fj">
+			                            <!--<div class="ui-ribbon-wrapper">
+			                                <div class="ui-ribbon">Nuevo</div>
+			                            </div>-->
+			                            <div class="tile-stats">
+			                                <div class="icon"><i class="fa '.$product['Icon'].'"></i></div>
+			                                <div class="count">'.$countList.'</div>
+			                                <h3>'.$product['Name'].'</h3>
+			                                <div class="divider"></div>
+			                            </div>   
+			                            <div class="x_content">
+			                                <h3 class="name_title">'.$file_type['Description'].'</h3>
+			                                <div>
+			                                    <ul class="list-inline widget_tally">'
+			                                    .$infoRecentList.
+												'</ul>
+			                                </div>
+			                            </div>
 			                        </div>
 			                    </div>';
 							}
@@ -388,6 +443,10 @@
 					}
 				}
 			}
+		}
+
+		if ($informationRecent=='') {
+			$informationRecent = '<div class="col-md-12 col-xs-12"><div class="x_panel">No hay información reciente...</div></div>';
 		}
 
 		return $informationRecent;

@@ -1,5 +1,62 @@
 $(document).ready(function(){
 
+	/*** INICIO - FJ - EXPRESIÓNES REGULARES ***/
+	
+	// Para números, útil para filtrar los famosos ids.
+	var exp_numeros = /^[0-9]+$/,
+		// Para números, útil para filtrar los famosos ids.
+		exp_decimal = /^[0-9.]+$/,
+		// Sólo letras, pero esto no incluye los acentos, así que si introduces á no es correcto.
+		exp_letras = /^[a-zA-Z]+$/,
+		// Para caracteres latinos(acentos), espacios y guiones bajos. el espacio se indica con \s.
+		exp_letras_latinas = /^[0-9a-zA-ZáéíóúàèìòùÀÈÌÒÙÁÉÍÓÚñÑüÜ_.\s]+$/,
+		// Para emails, válidos pueden ser: miemail@gmail.com, mi.email@gmail.es, ...
+		exp_email = /^[a-zA-Z0-9\._-]+@[a-zA-Z0-9-]{2,}[.][a-zA-Z]{2,4}$/,
+		// Para passwords que tienen que contener tanto números como letras
+		exp_password = /^[0-9a-zA-Z_.@]+$/,
+		// Para urls
+		exp_url = /^(ht|f)tps?:\/\/\w+([\.\-\w]+)?\.([a-z]{2,6})?([\.\-\w\/_]+)$/i,
+		// Para alphanumeric
+		exp_alphanumeric = /^[0-9a-zA-Z_.\s]+$/;
+
+	var url_file = 'http://www.retailcs.com/apps/extranet/Files/';
+
+
+	/*** INICIO - FJ - LOGIN - LOGOUT ***/
+
+	$(document).on('click', '#logout', function(){
+
+		$.ajax({
+			async: true,
+			url: './login/cerrarSession/',
+			cache: false,
+			data: {},
+			type: 'POST',
+			dataType: 'json',
+			beforeSend: function(){
+				fcnLoading(); //Inicializa el div Loading
+			},
+			success: function(data){				
+				if (data.result.success) {
+					window.location.href = './';
+				} else {
+					$('#principal').html(data);
+				}
+			},
+			error: function(xhr, status){
+				alert('Ha ocurrido un error...');
+				console.log(status);
+				console.log(xhr);
+			},
+			complete: function(xhr, status){
+				fcnFinishLoading(); //Finaliza el div Loading
+			}
+		});
+		
+		return false;
+	});
+
+
 	$(document).on('click', '#menu_toggle', function(){
 
 		var img = $('#logo-retailcs');
@@ -156,19 +213,29 @@ $(document).ready(function(){
 
 	$(document).on('click', '.download-content', function(){
 
-		var idcontent = $(this).attr('idcontent');
+		var idcontent = $(this).attr('idcontent'),
+			description = $(this).attr('description'),
+			product = $(this).attr('product'),
+			version = $(this).attr('version');
 
 		$.ajax({
 			async: true,
-			url: './ajax/contentPdf/'+idcontent+'/',
+			url: './ajax/contentPdf/'+idcontent+'/'+description+'/'+product+'/'+version+'/',
 			cache: false,
-			data: {},
-			type: 'GET',
+			data: { },
+			type: 'POST',
+			dataType: 'JSON',
 			beforeSend: function(){
 				fcnLoading(); //Inicializa el div Loading
 			},
 			success: function(data){
-				$('#principal').html(data);
+				console.log(data);
+
+				if (data.result.success) {
+					window.location.href = './Files/fpdf/Pdf.php?idcontent='+data.result.idcontent+'&description='+data.result.description+'&product='+data.result.product+'&version='+data.result.version;
+				} else {
+					$('#principal').html('Ocurrió un error al generar el PDF, intentelo de nuevo.');
+				}
 			},
 			error: function(xhr, status){
 				alert('Ha ocurrido un error...');
@@ -375,7 +442,6 @@ $(document).ready(function(){
 
 			$.ajax({
 				async: true,
-				//url: './page/insertProduct/'+product_id+'/'+product_name+'/'+product_icono+'/',
 				url: './inicio/insertProduct/'+product_id+'/'+product_name+'/'+product_icono+'/',
 				cache: false,
 				data: { },
@@ -395,6 +461,7 @@ $(document).ready(function(){
 						$('#content-table-product').html(data.result.datatable);
 						// Actualiza el MENU PRODUCT
 						$('#menu-product').html(data.result.menuproduct);
+						$('#menu-admin').html(data.result.menuadmin);
 					} else {
 						$('#div-message').addClass('alert-danger');
 					}
@@ -508,25 +575,19 @@ $(document).ready(function(){
 		});
 		
 		if (cont <= 0) {
-			var data = {};
-			data['idcontent_type'] = $('#idcontent-type').val();
-			data['idproduct'] = $('#idproduct').val();
-			data['idversion_product'] = $('#idversion-product').val();
-			data['detail_description'] = $('#detail-description').val();
-			data['registry_date'] = $('#registry-date').val();
+			var formData = new FormData($("#form-content")[0]);
 
-			var data_json = JSON.stringify(data);
-	
 			$.ajax({
-				async: true,
-				url: './content/insertContent/'+data_json+'/',
-				cache: false,
-				data: { },
-				type: 'POST',
-				dataType: 'json',
-				beforeSend: function(){
-					fcnLoading(); //Inicializa el div Loading
-				},
+			    url: './content/insertContent/',
+			    cache: false, //necesario para subir archivos via ajax
+			    data: formData, // Form data: datos del formulario
+			    type: 'POST',
+			    contentType: false,
+			    processData: false,
+			    dataType: 'json',
+			    beforeSend: function(){
+			    	fcnLoading(); //Inicializa el div Loading
+			    },
 				success: function(data){
 					console.log(data);
 					$('.text-message').html(data.result.message);
@@ -565,6 +626,33 @@ $(document).ready(function(){
 				$('#parsley-id-'+index).remove();
 				if ($(id).val().length > 0) {
 					$(id).removeClass('parsley-error');
+
+					if ($(id).hasClass('url')) {
+						if ($(id).val().match(exp_url)) {
+							$(id).removeClass('parsley-error');
+						} else {
+							$(id).addClass('parsley-error').parent().append('<ul class="parsley-errors-list filled" id="parsley-id-'+index+'"><li class="parsley-required">URL inválido, no cumple el formato: Ej. <strong>"http://www.youtube.com/xxx"</strong>.</li></ul>');
+						}
+					}
+
+					if ($(id).hasClass('file-loading')) {
+						var file_upload = this.files[0],
+							sizeByte = file_upload.size,
+							siezekiloByte = parseInt(sizeByte / 1024),
+							size_file_validate = 5120;
+
+						if(siezekiloByte <= size_file_validate){
+							$(id).removeClass('parsley-error');
+						} else {
+							$(id).addClass('parsley-error').parent().append('<ul class="parsley-errors-list filled" id="parsley-id-'+index+'"><li class="parsley-required">El tamaño del archivo no debe ser mayor a <strong>"'+(size_file_validate/1024)+'MB"</strong>.</li></ul>');
+						}
+
+						if(!existeUrl(url_file+file_upload.name)){
+							$(id).removeClass('parsley-error');
+						} else {
+							$(id).addClass('parsley-error').parent().append('<ul class="parsley-errors-list filled" id="parsley-id-'+index+'"><li class="parsley-required">El archivo <strong>"'+file_upload.name+'"</strong> ya existe.</li></ul>');
+						}
+					}
 				} else {
 					$(id).addClass('parsley-error').parent().append('<ul class="parsley-errors-list filled" id="parsley-id-'+index+'"><li class="parsley-required">Este campo es necesario.</li></ul>');
 				}
@@ -655,23 +743,19 @@ $(document).ready(function(){
 		});
 		
 		if (cont <= 0) {
-			var data = {};
-			data['idproduct_pv'] = $('#idproduct_pv').val();
-			data['idversion_pv'] = $('#idversion_pv').val();
-			data['registry_description'] = $('#registry-description').val();
+			var formData = new FormData($("#form-version-product")[0]);
 
-			var data_json = JSON.stringify(data);
-	
 			$.ajax({
-				async: true,
-				url: './page/insertVersionProduct/'+data_json+'/',
-				cache: false,
-				data: { },
-				type: 'POST',
-				dataType: 'json',
-				beforeSend: function(){
-					fcnLoading(); //Inicializa el div Loading
-				},
+			    url: './page/insertVersionProduct/',
+			    cache: false, //necesario para subir archivos via ajax
+			    data: formData, // Form data: datos del formulario
+			    type: 'POST',
+			    contentType: false,
+			    processData: false,
+			    dataType: 'json',
+			    beforeSend: function(){
+			    	fcnLoading(); //Inicializa el div Loading
+			    },
 				success: function(data){
 					console.log(data);
 					$('.text-message').html(data.result.message);
@@ -728,6 +812,7 @@ $(document).ready(function(){
 				if (data.result.success == 1) {
 					$('#div-message').addClass('alert-info');
 					$('#user-id').val(data.result.objUser.iduser);
+					$('#user-name-bck').val(data.result.objUser.user_name);
 					$('#user-name').val(data.result.objUser.user_name);
 					$('#password').val(data.result.objUser.user_pass);
 					$('#repeat-password').val(data.result.objUser.user_pass);
@@ -777,6 +862,7 @@ $(document).ready(function(){
 				if (data.result.success == 1) {
 					$('#div-message').addClass('alert-info');
 					$('#user-idtype').val(data.result.objTypeUser.idtype_user);
+					$('#description-type-bck').val(data.result.objTypeUser.description);
 					$('#description-type').val(data.result.objTypeUser.description);
 					$('#btn-guardar-type-user').html(data.result.nameboton);
 
@@ -804,7 +890,6 @@ $(document).ready(function(){
 
 		$.ajax({
 			async: true,
-			//url: './page/updateProduct/'+idproduct+'/',
 			url: './inicio/updateProduct/'+idproduct+'/',
 			cache: false,
 			data: { },
@@ -823,6 +908,7 @@ $(document).ready(function(){
 				if (data.result.success == 1) {
 					$('#div-message').addClass('alert-info');
 					$('#product-id').val(data.result.objProduct.idproduct);
+					$('#product-name-bck').val(data.result.objProduct.product_name);
 					$('#product-name').val(data.result.objProduct.product_name);
 					$('input:radio[name=radio-product]').each(function(index, value){
 						if ($(this).val() == data.result.objProduct.product_icono) {
@@ -837,6 +923,7 @@ $(document).ready(function(){
 					$('#content-table-product').html(data.result.datatable);
 					// Actualiza el MENU PRODUCT
 					//$('#menu-product').html(data.result.menuproduct);
+					//$('#menu-admin').html(data.result.menuadmin);
 				} else {
 					$('#div-message').addClass('alert-danger');
 				}
@@ -880,6 +967,7 @@ $(document).ready(function(){
 				if (data.result.success == 1) {
 					$('#div-message').addClass('alert-info');
 					$('#version-id').val(data.result.objVersion.idversion);
+					$('#version-description-bck').val(data.result.objVersion.version_description);
 					$('#version-description').val(data.result.objVersion.version_description);
 					$('#btn-guardar-version').html(data.result.nameboton);
 
@@ -901,7 +989,6 @@ $(document).ready(function(){
 	});
 
 
-	/*
 	$(document).on('click', '.btn-version-product-edit', function(){
 
 		var idproduct = $(this).attr('idproduct'),
@@ -926,13 +1013,15 @@ $(document).ready(function(){
 				$('#div-message').removeClass('alert-info alert-danger');
 				if (data.result.success == 1) {
 					$('#div-message').addClass('alert-info');
+					$('#idproduct_bck').val(data.result.objVersionProduct.idproduct);
+					$('#idversion_bck').val(data.result.objVersionProduct.idversion);
 					$('#idproduct_pv').val(data.result.objVersionProduct.idproduct);
 					$('#idversion_pv').val(data.result.objVersionProduct.idversion);
 					$('#registry-description').val(data.result.objVersionProduct.registry_description);
-					$('#btn-guardar-version').html(data.result.nameboton);
+					$('#btn-guardar-version-product').html(data.result.nameboton);
 
 					//Actualizar TableVersionProduct
-					$('#content-table-version-product').html(data.result.datatable);
+					//$('#content-table-version-product').html(data.result.datatable);
 				} else {
 					$('#div-message').addClass('alert-danger');
 				}
@@ -947,7 +1036,7 @@ $(document).ready(function(){
 			}
 		});
 	});
-	*/
+	
 
 
 	/********************     REMOVE    ********************/
@@ -1038,7 +1127,6 @@ $(document).ready(function(){
 
 		$.ajax({
 			async: true,
-			//url: './page/deleteProduct/'+idproduct+'/',
 			url: './inicio/deleteProduct/'+idproduct+'/',
 			cache: false,
 			data: { },
@@ -1058,6 +1146,7 @@ $(document).ready(function(){
 					$('#content-table-product').html(data.result.datatable);
 					// Actualiza el MENU PRODUCT
 					$('#menu-product').html(data.result.menuproduct);
+					$('#menu-admin').html(data.result.menuadmin);
 				} else {
 					$('#div-message').addClass('alert-danger');
 				}
@@ -1116,7 +1205,6 @@ $(document).ready(function(){
 			}
 		});
 	});
-
 
 
 	$(document).on('click', '.btn-version-product-remove', function(){
@@ -1236,10 +1324,11 @@ $(document).ready(function(){
 		$('#registry-description').val(text_product+' '+text_version);
 	});
 
+	
+	$(document).on('input', '#user-name', function(){
 
-	$(document).on('keyup', '#user-name', function(){
-
-		var user_name = $(this).val();
+		var user_name = fcnValidateExpReg($(this).val(), exp_letras);
+    	$(this).val(user_name);
 
 		$.ajax({
 			async: true,
@@ -1252,19 +1341,21 @@ $(document).ready(function(){
 			},
 			success: function(data){
 				if (data.result.success) {
-					$('#user-name').addClass('parsley-error').attr('data-parsley-id', 1).parent().append('<ul class="parsley-errors-list filled" id="parsley-id-1"><li class="parsley-required">'+data.result.message+'</li></ul>');
+					$('#user-name').addClass('parsley-error').attr('data-parsley-id', 2).parent().append('<ul class="parsley-errors-list filled" id="parsley-id-2"><li class="parsley-required">'+data.result.message+'</li></ul>');
 
-					var user_id = $('#user-id').val();
-					if (user_id.length > 0) {
+					var user_name = $('#user-name').val().toLowerCase(),
+						user_name_bck = $('#user-name-bck').val().toLowerCase();
+
+					if (user_name == user_name_bck && user_name != '') {
 						$('#user-name').removeClass('parsley-error');
-						$("#parsley-id-1").remove();
+						$("#parsley-id-2").remove();
 					}
 				} else {
 					$('#user-name').removeClass('parsley-error');
-					$("#parsley-id-1").remove();
+					$("#parsley-id-2").remove();
 
 					if ($('#user-name').val().length == 0) {
-						$('#user-name').addClass('parsley-error').attr('data-parsley-id', 1).parent().append('<ul class="parsley-errors-list filled" id="parsley-id-1"><li class="parsley-required">Este campo es necesario.</li></ul>');
+						$('#user-name').addClass('parsley-error').attr('data-parsley-id', 2).parent().append('<ul class="parsley-errors-list filled" id="parsley-id-2"><li class="parsley-required">Este campo es necesario.</li></ul>');
 					}
 				}
 			},
@@ -1277,9 +1368,10 @@ $(document).ready(function(){
 	});
 
 
-	$(document).on('keyup', '#product-name', function(){
+	$(document).on('input', '#product-name', function(){
 
-		var product_name = $(this).val();
+		var product_name = fcnValidateExpReg($(this).val(), exp_alphanumeric);
+    	$(this).val(product_name);
 
 		$.ajax({
 			async: true,
@@ -1292,19 +1384,21 @@ $(document).ready(function(){
 			},
 			success: function(data){
 				if (data.result.success) {
-					$('#product-name').addClass('parsley-error').attr('data-parsley-id', 1).parent().append('<ul class="parsley-errors-list filled" id="parsley-id-1"><li class="parsley-required">'+data.result.message+'</li></ul>');
+					$('#product-name').addClass('parsley-error').attr('data-parsley-id', 2).parent().append('<ul class="parsley-errors-list filled" id="parsley-id-2"><li class="parsley-required">'+data.result.message+'</li></ul>');
 
-					var product_id = $('#product-id').val();
-					if (product_id.length > 0) {
+					var product_name = $('#product-name').val().toLowerCase(),
+						product_name_bck = $('#product-name-bck').val().toLowerCase();
+
+					if (product_name == product_name_bck && product_name != '') {
 						$('#product-name').removeClass('parsley-error');
-						$("#parsley-id-1").remove();
+						$("#parsley-id-2").remove();
 					}
 				} else {
 					$('#product-name').removeClass('parsley-error');
-					$("#parsley-id-1").remove();
+					$("#parsley-id-2").remove();
 
 					if ($('#product-name').val().length == 0) {
-						$('#product-name').addClass('parsley-error').attr('data-parsley-id', 1).parent().append('<ul class="parsley-errors-list filled" id="parsley-id-1"><li class="parsley-required">Este campo es necesario.</li></ul>');
+						$('#product-name').addClass('parsley-error').attr('data-parsley-id', 2).parent().append('<ul class="parsley-errors-list filled" id="parsley-id-2"><li class="parsley-required">Este campo es necesario.</li></ul>');
 					}
 				}
 			},
@@ -1317,9 +1411,10 @@ $(document).ready(function(){
 	});
 
 
-	$(document).on('keyup', '#version-description', function(){
+	$(document).on('input', '#version-description', function(){
 
-		var version_description = $(this).val();
+		var version_description = fcnValidateExpReg($(this).val(), exp_decimal);
+    	$(this).val(version_description);
 
 		$.ajax({
 			async: true,
@@ -1332,19 +1427,21 @@ $(document).ready(function(){
 			},
 			success: function(data){
 				if (data.result.success) {
-					$('#version-description').addClass('parsley-error').attr('data-parsley-id', 1).parent().append('<ul class="parsley-errors-list filled" id="parsley-id-1"><li class="parsley-required">'+data.result.message+'</li></ul>');
+					$('#version-description').addClass('parsley-error').attr('data-parsley-id', 2).parent().append('<ul class="parsley-errors-list filled" id="parsley-id-2"><li class="parsley-required">'+data.result.message+'</li></ul>');
 
-					var version_id = $('#version-id').val();
-					if (version_id.length > 0) {
+					var version_description = $('#version-description').val().toLowerCase(),
+						version_description_bck = $('#version-description-bck').val().toLowerCase();
+
+					if (version_description == version_description_bck && version_description != '') {
 						$('#version-description').removeClass('parsley-error');
-						$("#parsley-id-1").remove();
+						$("#parsley-id-2").remove();
 					}
 				} else {
 					$('#version-description').removeClass('parsley-error');
-					$("#parsley-id-1").remove();
+					$("#parsley-id-2").remove();
 
 					if ($('#version-description').val().length == 0) {
-						$('#version-description').addClass('parsley-error').attr('data-parsley-id', 1).parent().append('<ul class="parsley-errors-list filled" id="parsley-id-1"><li class="parsley-required">Este campo es necesario.</li></ul>');
+						$('#version-description').addClass('parsley-error').attr('data-parsley-id', 2).parent().append('<ul class="parsley-errors-list filled" id="parsley-id-2"><li class="parsley-required">Este campo es necesario.</li></ul>');
 					}
 				}
 			},
@@ -1357,9 +1454,10 @@ $(document).ready(function(){
 	});
 
 
-	$(document).on('keyup', '#description-type', function(){
+	$(document).on('input', '#description-type', function(){
 
-		var description = $(this).val();
+		var description = fcnValidateExpReg($(this).val(), exp_letras);
+    	$(this).val(description);
 
 		$.ajax({
 			async: true,
@@ -1372,19 +1470,21 @@ $(document).ready(function(){
 			},
 			success: function(data){
 				if (data.result.success) {
-					$('#description-type').addClass('parsley-error').attr('data-parsley-id', 1).parent().append('<ul class="parsley-errors-list filled" id="parsley-id-1"><li class="parsley-required">'+data.result.message+'</li></ul>');
+					$('#description-type').addClass('parsley-error').attr('data-parsley-id', 2).parent().append('<ul class="parsley-errors-list filled" id="parsley-id-2"><li class="parsley-required">'+data.result.message+'</li></ul>');
 
-					var user_idtype = $('#user-idtype').val();
-					if (user_idtype.length > 0) {
+					var description_type_bck = $('#description-type-bck').val().toLowerCase(),
+						description_type = $('#description-type').val().toLowerCase();
+
+					if (description_type == description_type_bck && description_type != '') {
 						$('#description-type').removeClass('parsley-error');
-						$("#parsley-id-1").remove();
+						$("#parsley-id-2").remove();
 					}
 				} else {
 					$('#description-type').removeClass('parsley-error');
-					$("#parsley-id-1").remove();
+					$("#parsley-id-2").remove();
 
 					if ($('#description-type').val().length == 0) {
-						$('#description-type').addClass('parsley-error').attr('data-parsley-id', 1).parent().append('<ul class="parsley-errors-list filled" id="parsley-id-1"><li class="parsley-required">Este campo es necesario.</li></ul>');
+						$('#description-type').addClass('parsley-error').attr('data-parsley-id', 2).parent().append('<ul class="parsley-errors-list filled" id="parsley-id-2"><li class="parsley-required">Este campo es necesario.</li></ul>');
 					}
 				}
 			},
@@ -1395,6 +1495,13 @@ $(document).ready(function(){
 			}
 		});
 	});
+
+
+	$(document).on('input', 'input[type=password]', function(){
+		
+		var password = fcnValidateExpReg($(this).val(), exp_password);
+    	$(this).val(password);
+    });
 
 
 	$(document).on('click', '#btn-reset', function(){
@@ -1435,8 +1542,8 @@ $(document).ready(function(){
 		});
 		
 		return false;
-
 	});
+
 
 	/*************** OTRAS FUNCIONES ***************/
 
@@ -1451,10 +1558,45 @@ $(document).ready(function(){
 		$('.div-loading').remove();
 	}
 
+
 	function fcnClearInput(form){
 
 		$(form).find('.form-control').removeClass('parsley-error');
 		$('.parsley-errors-list').remove();
+	}
+
+
+	function fcnValidateExpReg(text, exp_reg){
+
+		var text_macth = '';
+	    for (var i = 0; i < text.length; i++) {
+	        if (text[i].match(exp_reg)) {
+	            text_macth+=text[i];
+	        }
+	    }
+
+	    return text_macth;
+	}
+
+
+	function escapeJSON(string) {
+
+	    return string.replace(/\\/g, '\\\\').
+	        replace(/\u0008/g, '\\b').
+	        replace(/\t/g, '\\t').
+	        replace(/\n/g, '\\n').
+	        replace(/\f/g, '\\f').
+	        replace(/\r/g, '\\r').
+	        replace(/'/g, '\\\'').
+	        replace(/"/g, '\\"');
+	}
+
+
+	function existeUrl(url) {
+		var http = new XMLHttpRequest();
+		http.open('HEAD', url, false);
+		http.send();
+		return http.status!=404;
 	}
 
 });

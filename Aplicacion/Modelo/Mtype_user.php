@@ -28,8 +28,7 @@ class Mtype_user {
 
 	public function selectTypeUser(){
 
-		$sql = $this->db->_query("SELECT idtype_user, description, DATE_FORMAT(registry_date, '%d-%m-%Y') AS registry_date, state FROM tbl_type_user WHERE state = 1");
-		//$sql = $this->db->_query("SELECT idtype_user, description, DATE_FORMAT(registry_date, '%d-%m-%Y') AS registry_date, state FROM tbl_type_user WHERE 1");
+		$sql = $this->db->_query("SELECT idtype_user, description, DATE_FORMAT(registry_date, '%d-%m-%Y') AS registry_date, state FROM tbl_type_user WHERE 1");
 		$arrayTypeUser = array();
 	
 		while($datos = $sql->fetch_object()){
@@ -71,7 +70,7 @@ class Mtype_user {
 	public function insertTypeUser(){
 		
 		if ($this->getIdTypeUser()!='' || $this->getIdTypeUser()!=null) {
-			$sql = $this->db->_query("UPDATE tbl_type_user SET description = '".$this->getDescription()."', update_date = '".$this->getUpdateDate()."' WHERE idtype_user = ".$this->getIdTypeUser()."");
+			$sql = $this->db->_query("UPDATE tbl_type_user SET description = '".$this->getDescription()."', update_date = '".$this->getUpdateDate()."', state = 1 WHERE idtype_user = ".$this->getIdTypeUser()."");
 
 			if($sql){
 				$this->result['result']['success'] = 1;
@@ -86,7 +85,6 @@ class Mtype_user {
 				$this->result['result']['description'] = '';
 				$this->result['result']['nameboton'] = 'Actualizar';
 			}
-
 		} else {
 			$sql = $this->db->_query("INSERT INTO tbl_type_user (description, update_date) VALUES ('".$this->getDescription()."', '".$this->getUpdateDate()."')");
 
@@ -111,7 +109,7 @@ class Mtype_user {
 
 	public function updateTypeUser(){
 
-		$sql = $this->db->_query("SELECT * FROM tbl_type_user WHERE idtype_user = ".$this->getIdTypeUser()." AND state = 1")->fetch_object();
+		$sql = $this->db->_query("SELECT * FROM tbl_type_user WHERE idtype_user = ".$this->getIdTypeUser()."")->fetch_object();
 	
 		if($sql){
 			$this->result['result']['success'] = 1;
@@ -131,15 +129,22 @@ class Mtype_user {
 
 	public function deleteTypeUser(){
 
-		$sql = $this->db->_query("UPDATE tbl_type_user SET state = 0 WHERE idtype_user = ".$this->getIdTypeUser()."");
+		$sql = $this->db->_query("SELECT iduser FROM tbl_user WHERE idtype_user = ".$this->getIdTypeUser()." AND state = 1");
 
-		if($sql){
-			$this->result['result']['success'] = 1;
-			$this->result['result']['message'] = 'El tipo de usuario se ha <strong>deshabilitado</strong> correctamente.';
-			$this->result['result']['id'] = $this->getIdTypeUser();
-		} else {
+		if ($sql->num_rows > 0) {
 			$this->result['result']['success'] = 0;
-			$this->result['result']['message'] = 'Ocurrió un error, vuelva a realizar la acción.';
+			$this->result['result']['message'] = '<strong>Alerta!</strong> El Tipo de Usuario está vinculado a algún Usuario, por ende no puede eliminarlo.';
+		} else {
+			$sql = $this->db->_query("UPDATE tbl_type_user SET state = 0 WHERE idtype_user = ".$this->getIdTypeUser()."");
+
+			if($sql){
+				$this->result['result']['success'] = 1;
+				$this->result['result']['message'] = 'El tipo de usuario se ha <strong>deshabilitado</strong> correctamente.';
+				$this->result['result']['id'] = $this->getIdTypeUser();
+			} else {
+				$this->result['result']['success'] = 0;
+				$this->result['result']['message'] = 'Ocurrió un error, vuelva a realizar la acción.';
+			}
 		}
 
 		return $this->result;

@@ -5,8 +5,10 @@ class File extends Nucleo\Includes\Controlador{
 	public $obj = null;
 
 	function __construct(){
+		
 		parent::__construct();
 	}
+
 
 	// Método que se llama por defecto
 	public function index(){	
@@ -38,15 +40,13 @@ class File extends Nucleo\Includes\Controlador{
 					$ext = array_reverse(explode(".", $file['name']));
 					$extension = $ext[0];
 					$size = round(($file['size'] / (1024*1024)), 2).'MB';
-					//$url = 'http://www.retailcs.com/extranet/'.$dir_name.$file['name'];
-					//$url = 'http://'.$_SERVER["HTTP_HOST"].'/extranet/'.$dir_name.$file['name'];
+					//$url = 'http://www.retailcs.com/apps/extranet/'.$dir_name.$file['name'];
 					$url = HTTP_HOST.$dir_name.$file['name'];
 				}
 								
 				$mfile = $this->modelo('Mfile');
 				$fechaHoy = date('Y-m-d');
-
-				$mfile->setFileName(utf8_decode($_POST['file-name']));
+				$mfile->setFileName(utf8_decode(addslashes($_POST['file-name'])));
 				$mfile->setFileExt($extension);
 				$mfile->setPublicationDate($_POST['registry-date']);
 				$mfile->setFileSize($size);
@@ -55,7 +55,6 @@ class File extends Nucleo\Includes\Controlador{
 				$mfile->setIdFileType($_POST['idfile-type']);
 				$mfile->setIdProduct($_POST['idproduct']);
 				$mfile->setIdVersion($_POST['idversion-product']);
-
 				$result = $mfile->insertFile();
 
 				if ($result['result']['success']) {
@@ -63,7 +62,6 @@ class File extends Nucleo\Includes\Controlador{
 						//comprobamos si existe un directorio para subir el archivo. Si no es así, lo creamos
 						if(!is_dir($dir_name)) 
 							mkdir($dir_name, 0777);
-
 						//comprobamos si el archivo ha subido
 						if ($file['name'] && move_uploaded_file($file['tmp_name'],$dir_name.$file['name'])){
 							sleep(3);//retrasamos la petición 3 segundos
@@ -76,14 +74,12 @@ class File extends Nucleo\Includes\Controlador{
 						$result['result']['file'] = 'La URL se ha guardado correctamente.';
 					}
 				}
+
+				echo json_encode($result);
 			}
-
-			echo json_encode($result);
-
 		} else {
 			throw new Exception("Error Processing Request", 1);   
-		}
-		
+		}		
 	}
 
 }

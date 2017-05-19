@@ -302,3 +302,21 @@ textarea.form-control {
 .info-reciente .ui-ribbon-container .ui-ribbon::after {
     border-top: 2px solid #DF6D69;
 }
+
+
+/********* ACTUALIZACION & CORRECCION *********/
+
+.table.table-correccion thead tr th,
+.table.table-correccion tbody tr th,
+.table.table-correccion tbody tr td,
+.table.table-actualizacion thead tr th,
+.table.table-actualizacion tbody tr th,
+.table.table-actualizacion tbody tr td {
+    text-align: center;
+    vertical-align: middle;
+}
+
+.table.table-correccion tbody tr td:nth-child(3),
+.table.table-actualizacion tbody tr td:nth-child(3) {
+    text-align: justify !important;
+}

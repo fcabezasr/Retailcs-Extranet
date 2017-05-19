@@ -35,7 +35,6 @@ class Mpage {
 	
 			return $result;
 		} else {
-
 			$result = array( 
 				'Estado' => 1,
 				'Contenido' => array(
@@ -46,7 +45,6 @@ class Mpage {
 
 			return $result;
 		}
-
 	}
 
 

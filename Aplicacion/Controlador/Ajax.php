@@ -5,6 +5,7 @@ class Ajax extends Nucleo\Includes\Controlador{
 	public $obj = null;
 
 	function __construct(){
+		
 		parent::__construct();
 	}
 
@@ -14,24 +15,20 @@ class Ajax extends Nucleo\Includes\Controlador{
 	}
 
 
-	public function contentPdf($idcontent = null){
+	public function contentPdf($idcontent = null, $description = null, $product = null, $version = null){
 
-		if (isset($pagina)) $pagina = $pagina;
-		else $pagina = 'pdfcontent';
+		$result = array(
+			'result' => array(
+				'success' => 1, 
+				'message' => 'Generación de PDF', 
+				'idcontent' => $idcontent,
+				'description' => $description,
+				'product' => $product,
+				'version' => $version
+			)
+		);
 
-		$content = $this->modelo('Mcontent');
-		$content->setIdContent($idcontent);
-		$result_content = $content->selectContentxId();
-
-		$content_detail = $this->modelo('Mcontent_detail');
-		$content_detail->setIdContent($idcontent);
-		$array_result_content = $content_detail->SelectContentDetailxIdContent();
-		
-		$param = array('array_result_content' => $array_result_content);
-		
-		$inc = parent::vista(DIR_COMPONENTES.$pagina, $param, true);
-
-		echo $inc;
+		echo json_encode($result);
 	}
 
 
@@ -80,4 +77,3 @@ class Ajax extends Nucleo\Includes\Controlador{
 	}
 
 }
-

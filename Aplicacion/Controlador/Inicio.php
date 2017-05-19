@@ -7,6 +7,7 @@ class Inicio extends Nucleo\Includes\Controlador{
 		parent::__construct();
 	}
 
+
 	// Método que se llama por defecto
 	public function index($name = null){
 
@@ -26,7 +27,8 @@ class Inicio extends Nucleo\Includes\Controlador{
 			// Para obtener el MENU PRODUCT: $is_menu = true
 			$is_menu = true;
 			$menu_product = $this->menuProduct($is_menu);
-			$params = array("page" => $inc, "menu_product" => $menu_product);
+			$menu_admin = $this->menuAdmin();
+			$params = array("page" => $inc, "menu_product" => $menu_product, "menu_admin" => $menu_admin);
 
 			// Activamos esta VIEW cuando está en PRODUCCIÓN
 			parent::vista("contenedor", $params);
@@ -38,6 +40,7 @@ class Inicio extends Nucleo\Includes\Controlador{
 		}
 	}
 
+
 	// Método de Prueba
 	public function index2($name = null){
 
@@ -48,9 +51,16 @@ class Inicio extends Nucleo\Includes\Controlador{
 			if (isset($name)) $name = $name;
 			else $name = 'index';
 
-			$inc = parent::vista(DIR_COMPONENTES.$name, '', true);
-			$menu_product = $this->menuProduct();
-			$params =  array("page" => $inc, "menu_product" => $menu_product);
+			// Para obtener la INFO RECENT: $is_menu = false
+			$is_menu = false;
+			$info_recent = $this->menuProduct($is_menu);
+			$params_index = array("user" => $result['result']['name'], "info_recent" => $info_recent);
+			$inc = parent::vista(DIR_COMPONENTES.$name, $params_index, true);
+			
+			// Para obtener el MENU PRODUCT: $is_menu = true
+			$is_menu = true;
+			$menu_product = $this->menuProduct($is_menu);
+			$params = array("page" => $inc, "menu_product" => $menu_product);
 
 			parent::vista("contenedor", $params);
 		} else {
@@ -68,16 +78,14 @@ class Inicio extends Nucleo\Includes\Controlador{
 		$m_content_detail = $this->modelo('Mcontent_detail');
 		$m_file_type = $this->modelo('Mfile_type');
 		$m_version = $this->modelo('Mversion');
-
 		$p_result = $m_product->selectProductMenu();
-		if ($p_result['result']['success']) {
 
+		if ($p_result['result']['success']) {
 			// Obtenemos un ARRAY de todos los PRODUCT existentes con STATE = 1
 			$array_product = $p_result['result']['array_product'];
 			$array_menu = array();
 
 			foreach ($array_product as $key => $product) {
-
 				// Guardamos cada OBJECT Product en un nuevo ARRAY
 				$array_producto['Product']['Id'] = $product->idproduct;
 				$array_producto['Product']['Name'] = $product->product_name;
@@ -104,7 +112,6 @@ class Inicio extends Nucleo\Includes\Controlador{
 					$array_object_content_type = array();
 
 					foreach ($array_idcontent_type as $key => $idcontent_type) {
-
 						// Obtenemos un OBJECT de CONTENT_TYPE - Where: idcontent_type
 						$m_content_type->setIdContentType($idcontent_type);
 						$ct_result = $m_content_type->selectContentTypexIdContentTypeMenu();
@@ -135,7 +142,6 @@ class Inicio extends Nucleo\Includes\Controlador{
 								$array_object_version = array();
 
 								foreach ($array_idversion as $key => $idversion) {
-
 									// Obtenemos un OBJECT de VERSION - Where: idversion
 									$m_version->setIdVersion($idversion);
 									$v_result = $m_version->selectVersionxIdVersionMenu();
@@ -155,7 +161,6 @@ class Inicio extends Nucleo\Includes\Controlador{
 
 										if ($r_object_content['result']['success']) {
 											$o_content = $r_object_content['result']['object_content'];
-
 											// Obtenemos la cantidad de registros por IdContent en CONTENT DETAIL
 											$m_content_detail->setIdContent($o_content->idcontent);
 
@@ -296,6 +301,33 @@ class Inicio extends Nucleo\Includes\Controlador{
 	}
 
 
+	public function menuAdmin(){
+
+		return '<li>
+			<a><i class="fa fa-users"></i> Usuario <span class="fa fa-chevron-down"></span></a>
+        	<ul class="nav child_menu">
+            	<li><a href="javascript:void(0)" class="gestion-admin" page="usuario" section="nuevo">Nuevo Usuario</a></li>
+                <li><a href="javascript:void(0)" class="gestion-admin" page="usuario" section="tipo">Tipo Usuario</a></li>
+            </ul>
+        </li>
+		<li><a><i class="fa fa-tags"></i> Producto <span class="fa fa-chevron-down"></span></a>
+			<ul class="nav child_menu">
+				<li><a href="javascript:void(0)" class="gestion-admin" page="producto" section="nuevo">Registrar Producto</a></li>
+				<li><a href="javascript:void(0)" class="gestion-admin" page="producto" section="version">Registrar Versión</a></li>
+				<li><a href="javascript:void(0)" class="gestion-admin" page="producto" section="vinculo">Vincular Versión & Producto</a></li>
+			</ul>
+		</li>
+		<li><a><i class="fa fa-file-text-o"></i> Contenido <span class="fa fa-chevron-down"></span></a>
+			<ul class="nav child_menu">
+				<li><a href="javascript:void(0)" class="gestion-admin" page="contenido" section="actualizacion">Registrar Actualización</a></li>
+				<li><a href="javascript:void(0)" class="gestion-admin" page="contenido" section="correcion">Registrar Corrección</a></li>
+				<li><a href="javascript:void(0)" class="gestion-admin" page="archivo" section="manual">Registrar Manual</a></li>
+				<li><a href="javascript:void(0)" class="gestion-admin" page="archivo" section="video">Registrar Video</a></li>
+			</ul>
+		</li>';
+	}
+
+
 	/********************         PRODUCT     ********************/
 
 	public function insertProduct($product_id = null, $product_name = null, $product_icono = null){
@@ -307,10 +339,12 @@ class Inicio extends Nucleo\Includes\Controlador{
 		$product->setProductIcono(urldecode($product_icono));
 		$product->setUpdateDate($fechaActual);
 		$result = $product->insertProduct();
-		
+		$is_menu = true;
+
 		if ($result['result']['success']) {
 			$result['result']['datatable'] = $this->tableProduct();
-			$result['result']['menuproduct'] = $this->menuProduct();
+			$result['result']['menuproduct'] = $this->menuProduct($is_menu);
+			$result['result']['menuadmin'] = $this->menuAdmin();
 		} else {
 			$result['result']['datatable'] = '';
 			$result['result']['menuproduct'] = '';
@@ -325,10 +359,12 @@ class Inicio extends Nucleo\Includes\Controlador{
 		$product = $this->modelo('Mproduct');
 		$product->setIdProduct($idproduct);
 		$result = $product->updateProduct();
+		$is_menu = true;
 
 		if ($result['result']['success']) {
 			$result['result']['datatable'] = $this->tableProduct();
-			$result['result']['menuproduct'] = $this->menuProduct();
+			$result['result']['menuproduct'] = $this->menuProduct($is_menu);
+			$result['result']['menuadmin'] = $this->menuAdmin();
 		} else {
 			$result['result']['datatable'] = '';
 			$result['result']['menuproduct'] = '';
@@ -343,10 +379,12 @@ class Inicio extends Nucleo\Includes\Controlador{
 		$product = $this->modelo('Mproduct');
 		$product->setIdProduct($idproduct);
 		$result = $product->deleteProduct();
+		$is_menu = true;
 
 		if ($result['result']['success']) {
 			$result['result']['datatable'] = $this->tableProduct();
-			$result['result']['menuproduct'] = $this->menuProduct();
+			$result['result']['menuproduct'] = $this->menuProduct($is_menu);
+			$result['result']['menuadmin'] = $this->menuAdmin();
 		} else {
 			$result['result']['datatable'] = '';
 			$result['result']['menuproduct'] = '';
@@ -370,12 +408,7 @@ class Inicio extends Nucleo\Includes\Controlador{
 				$data['product_icono'] = $productData->product_icono;
 				$data['product_order'] = $productData->product_order;
 				$data['registry_date'] = $productData->registry_date;
-				
-				if ($productData->state) {
-					$data['state'] = 'Habilitado';
-				} else {
-					$data['state'] = 'Deshabilitado';
-				}
+				$data['state'] = $productData->state;
 
 				array_push($arrayProduct, $data);
 			}

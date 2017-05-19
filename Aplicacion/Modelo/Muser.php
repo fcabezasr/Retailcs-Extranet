@@ -33,8 +33,7 @@ class Muser {
 
 	public function selectUser(){
 
-		$sql = $this->db->_query("SELECT iduser, user_name, user_pass, DATE_FORMAT(registry_date, '%d-%m-%Y') AS registry_date, state, idtype_user, idbusiness FROM tbl_user WHERE state = 1");
-		//$sql = $this->db->_query("SELECT iduser, user_name, user_pass, DATE_FORMAT(registry_date, '%d-%m-%Y') AS registry_date, state, idtype_user, idbusiness FROM tbl_user WHERE 1");
+		$sql = $this->db->_query("SELECT iduser, user_name, user_pass, DATE_FORMAT(registry_date, '%d-%m-%Y') AS registry_date, state, idtype_user, idbusiness FROM tbl_user WHERE 1");
 		$arrayUser = array();
 	
 		while($datos = $sql->fetch_object()){
@@ -58,7 +57,7 @@ class Muser {
 	public function insertUser(){
 		
 		if ($this->getIdUser()!='' || $this->getIdUser()!=null) {
-			$sql = $this->db->_query("UPDATE tbl_user SET user_name = '".$this->getUserName()."', user_pass = '".$this->getUserPass()."', update_date = '".$this->getUpdateDate()."', idtype_user = ".$this->getIdTypeUser().", idbusiness = ".$this->getIdBusiness()." WHERE iduser = ".$this->getIdUser()."");
+			$sql = $this->db->_query("UPDATE tbl_user SET user_name = '".$this->getUserName()."', user_pass = '".$this->getUserPass()."', update_date = '".$this->getUpdateDate()."', idtype_user = ".$this->getIdTypeUser().", idbusiness = ".$this->getIdBusiness().", state = 1 WHERE iduser = ".$this->getIdUser()."");
 
 			if($sql){
 				$this->result['result']['success'] = 1;
@@ -72,8 +71,7 @@ class Muser {
 				$this->result['result']['id'] = '';
 				$this->result['result']['username'] = '';
 				$this->result['result']['nameboton'] = 'Actualizar';
-			}
-			
+			}			
 		} else {
 			$sql = $this->db->_query("INSERT INTO tbl_user (user_name, user_pass, update_date, idtype_user, idbusiness) VALUES ('".$this->getUserName()."', '".$this->getUserPass()."', '".$this->getUpdateDate()."', ".$this->getIdTypeUser().", ".$this->getIdBusiness().")");
 
@@ -98,7 +96,7 @@ class Muser {
 
 	public function updateUser(){
 
-		$sql = $this->db->_query("SELECT * FROM tbl_user WHERE iduser = ".$this->getIdUser()." AND state = 1")->fetch_object();
+		$sql = $this->db->_query("SELECT * FROM tbl_user WHERE iduser = ".$this->getIdUser()."")->fetch_object();
 	
 		if($sql){
 			$this->result['result']['success'] = 1;
@@ -191,7 +189,15 @@ class Muser {
 		$this->session->start();
 		$this->session->destroy();
 
-		return 1;
+		if (isset($_SESSION['User'])) {
+			$this->result['result']['success'] = 0;
+			$this->result['result']['message'] = 'Ocurrió un problema al finalizar sesión.';
+		} else {
+			$this->result['result']['success'] = 1;
+			$this->result['result']['message'] = 'La sesión ha finalizado correctamente.';
+		}
+
+		return $this->result;
 	}
 
 

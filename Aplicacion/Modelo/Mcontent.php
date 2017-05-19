@@ -85,7 +85,7 @@ class Mcontent {
 
     public function selectContentxIdProductxIdVersionMenu(){
 
-    	$sql = $this->db->_query("SELECT idcontent, idcontent_type, idproduct, idversion  FROM tbl_content WHERE idproduct = ".$this->getIdProduct()." AND idversion = ".$this->getIdVersion()." AND state = 1");
+    	$sql = $this->db->_query("SELECT idcontent, idcontent_type, idproduct, idversion FROM tbl_content WHERE idproduct = ".$this->getIdProduct()." AND idversion = ".$this->getIdVersion()." AND state = 1");
 		$array_content = array();
 		
 		while($datos = $sql->fetch_object()){
