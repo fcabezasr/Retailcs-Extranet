@@ -281,7 +281,14 @@ class Page extends Nucleo\Includes\Controlador {
 				break;
 
 			case 'empresa':
+				switch ($seccion) {
+					case 'nuevo':
+						$param['tableBusiness'] = $this->tableBusiness();
+						break;
 
+					default:
+						break;
+				}
 				break;
 
 			default:
@@ -289,6 +296,92 @@ class Page extends Nucleo\Includes\Controlador {
 		}
 
 		echo $inc = parent::vista(DIR_COMPONENTES.$pagina, $param, true);
+	}
+
+
+	/********************          BUSINESS       ********************/
+
+	public function insertBusiness(){
+		
+		if(!empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest'){
+
+			if (isset($_POST)) {
+				$fechaActual = date('Y/m/d');
+				$business = $this->modelo('Mbusiness');
+				$business->setIdBusiness($_POST['business-id']);
+				$business->setBusinessName(utf8_decode(addslashes($_POST['business-name'])));
+				$business->setRuc(utf8_decode(addslashes($_POST['ruc'])));
+				$business->setAddress(utf8_decode(addslashes($_POST['address'])));
+				$business->setUpdateDate($fechaActual);
+				$result = $business->insertBusiness();
+
+				if ($result['result']['success']) {
+					$result['result']['datatable'] = $this->tableBusiness();
+				} else {
+					$result['result']['datatable'] = '';
+				}
+
+				echo json_encode($result);
+
+			}
+		} else {
+			throw new Exception("Error Processing Request", 1);   
+		}
+	}
+
+
+	public function updateBusiness($idbusiness = null){
+
+		$business = $this->modelo('Mbusiness');
+		$business->setIdBusiness($idbusiness);
+		$result = $business->updateBusiness();
+
+		if ($result['result']['success']) {
+			$result['result']['datatable'] = $this->tableBusiness();
+		} else {
+			$result['result']['datatable'] = '';
+		}
+
+		echo json_encode($result);
+	}
+
+
+	public function deleteBusiness($idbusiness = null){
+
+		$business = $this->modelo('Mbusiness');
+		$business->setIdBusiness($idbusiness);
+		$result = $business->deleteBusiness();
+
+		if ($result['result']['success']) {
+			$result['result']['datatable'] = $this->tableBusiness();
+		} else {
+			$result['result']['datatable'] = '';
+		}
+
+		echo json_encode($result);
+	}
+
+
+	public function tableBusiness(){
+
+		$business = $this->modelo('Mbusiness');
+		$result = $business->selectBusiness();
+		$arrayBusiness = array();
+
+		if ($result['result']['success']) {
+			foreach ($result['result']['arrayBusiness'] as $key => $businessData) {
+				$data['idbusiness'] = $businessData->idbusiness;
+				$data['business_name'] = $businessData->business_name;
+				$data['ruc'] = $businessData->ruc;
+				$data['address'] = $businessData->address;
+				$data['registry_date'] = $businessData->registry_date;
+				$data['state'] = $businessData->state;
+
+				array_push($arrayBusiness, $data);
+			}
+		}
+
+		return printTableBusiness($arrayBusiness);
 	}
 
 
@@ -354,10 +447,9 @@ class Page extends Nucleo\Includes\Controlador {
 		$type_user = $this->modelo('Mtype_user');
 		$business = $this->modelo('Mbusiness');
 		$result = $user->selectUser();
+		$arrayUser = array();
 
 		if ($result['result']['success']) {
-			$arrayUser = array();
-
 			foreach ($result['result']['arrayUser'] as $key => $userData) {
 				$data['iduser'] = $userData->iduser;
 				$data['user_name'] = $userData->user_name;
@@ -473,10 +565,9 @@ class Page extends Nucleo\Includes\Controlador {
 
 		$m_product = $this->modelo('Mproduct');
 		$result = $m_product->selectProduct();
+		$arrayProduct = array();
 
 		if ($result['result']['success']) {
-			$arrayProduct = array();
-
 			foreach ($result['result']['arrayProduct'] as $key => $productData) {
 				$data['idproduct'] = $productData->idproduct;
 				$data['product_name'] = $productData->product_name;
@@ -550,10 +641,9 @@ class Page extends Nucleo\Includes\Controlador {
 
 		$m_version = $this->modelo('Mversion');
 		$result = $m_version->selectVersion();
+		$arrayVersion = array();
 
 		if ($result['result']['success']) {
-			$arrayVersion = array();
-
 			foreach ($result['result']['arrayVersion'] as $key => $versionData) {
 				$data['idversion'] = $versionData->idversion;
 				$data['version_description'] = $versionData->version_description;
@@ -679,10 +769,9 @@ class Page extends Nucleo\Includes\Controlador {
 		$m_version = $this->modelo('Mversion');
 		$m_version_product = $this->modelo('Mversion_product');
 		$result = $m_version_product->selectVersionProduct();
+		$arrayVersionProduct = array();
 
 		if ($result['result']['success']) {
-			$arrayVersionProduct = array();
-
 			foreach ($result['result']['array_version_product'] as $key => $versionProductData) {
 				$data['idproduct'] = $versionProductData->idproduct;
 				$data['idversion'] = $versionProductData->idversion;

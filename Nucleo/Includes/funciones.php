@@ -68,6 +68,50 @@
 	}
 
 
+	function printTableBusiness($arrayBusiness){
+
+		$tbody = '';
+		foreach ($arrayBusiness as $key => $business) {
+			$tbody.= 
+			'<tr>
+				<td class="td-center">'.($key+1).'</td>
+				<td class="td-center">'.$business['business_name'].'</td>
+				<td class="td-center">'.$business['ruc'].'</td>
+				<td class="td-center">'.$business['address'].'</td>
+				<td class="td-center">'.$business['registry_date'].'</td>
+				<td class="td-center">'.($business['state']==1?'Habilitado':'Deshabilitado').'</td>
+				<td class="td-center">
+					<button class="btn btn-xs btn-info btn-business-edit" idbusiness="'.$business['idbusiness'].'" type="button"><i class="fa fa-pencil"></i> Editar </button>
+					<button class="btn btn-xs btn-danger btn-business-remove" idbusiness="'.$business['idbusiness'].'" type="button" '.($business['state']==1?'enabled':'disabled').'><i class="fa fa-trash-o"></i> Eliminar </button>
+				</td>
+			</tr>';
+		}
+
+		$tableUser = 
+		'<table id="table-business" class="table table-striped table-bordered" cellspacing="0" width="100%">
+			<thead>
+				<tr>
+					<th>N°</th>
+					<th>Empresa</th>
+					<th>Ruc</th>
+					<th>Dirección</th>
+					<th>Fecha Registro</th>
+					<th>Estado</th>
+					<th>Acciones</th>
+				</tr>
+			</thead>
+			<tbody>'.$tbody.'</tbody>
+		</table>
+		<script>
+			$(document).ready(function() { 
+				$("#table-business").DataTable();
+			});
+		</script>';
+
+		return $tableUser;
+	}
+
+
 	function printTableUser($arrayUser){
 
 		$tbody = '';
@@ -198,6 +242,7 @@
 	function printTableVersion($arrayVersion){
 
 		$tbody = '';
+		
 		foreach ($arrayVersion as $key => $version) {
 			$tbody.= 
 			'<tr>
@@ -238,6 +283,7 @@
 	function printTableVersionProduct($arrayVersionProduct){
 
 		$tbody = '';
+		
 		foreach ($arrayVersionProduct as $key => $version_product) {
 			$tbody.= 
 			'<tr>

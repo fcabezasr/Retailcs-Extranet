@@ -5,7 +5,7 @@
 		function Conectarse(){
 
 			// Conectarse a y seleccionar una base de datos de MySQL
-			$link = new mysqli('localhost', '', '', '');
+			$link = new mysqli('', '', '', '');
 
 			// ¡Oh, no! Existe un error 'connect_errno', fallando así el intento de conexión
 			if ($link->connect_errno) {

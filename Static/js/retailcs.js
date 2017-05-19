@@ -347,6 +347,135 @@ $(document).ready(function(){
 	/*** FIN - FJ - COMPONENTE QUE VALIDA FORMULARIOS ***/
 
 
+	$(document).on('click', '#btn-guardar-content', function(){
+
+		var a = '#'+$(this).parents('.form-horizontal').prop('id'), cont = 0;
+
+		$(a).find('.form-control').each(function(index, value){
+			var id = '#'+$(this).prop('id'), val = $(id).attr('required');
+			$(id).attr('data-parsley-id',index);
+
+			if (!(typeof val == "undefined")) {
+				$('#parsley-id-'+index).remove();
+				if ($(id).val().length > 0) {
+					$(id).removeClass('parsley-error');
+				} else {
+					$(id).addClass('parsley-error').parent().append('<ul class="parsley-errors-list filled" id="parsley-id-'+index+'"><li class="parsley-required">Este campo es necesario.</li></ul>');
+				}
+			}
+		});
+
+		$(a).find('.parsley-errors-list').each(function(index, value){
+			cont++;
+		});
+		
+		if (cont <= 0) {
+			var formData = new FormData($("#form-content")[0]);
+
+			$.ajax({
+			    url: './content/insertContent/',
+			    cache: false, //necesario para subir archivos via ajax
+			    data: formData, // Form data: datos del formulario
+			    type: 'POST',
+			    contentType: false,
+			    processData: false,
+			    dataType: 'json',
+			    beforeSend: function(){
+			    	fcnLoading(); //Inicializa el div Loading
+			    },
+				success: function(data){
+					console.log(data);
+					$('.text-message').html(data.result.message);
+					$('#div-message').removeClass('alert-info alert-danger');
+					if (data.result.success == 1) {
+						$('#div-message').addClass('alert-info');
+					} else {
+						$('#div-message').addClass('alert-danger');
+					}
+					$('#div-alert').css('display', 'block');
+					$('#form-content')[0].reset();
+				},
+				error: function(xhr, status){
+					alert('Ha ocurrido un error...');
+				},
+				complete: function(xhr, status){
+					fcnFinishLoading(); //Finaliza el div Loading
+					setTimeout(function(){ $('#div-alert').css('display', 'none'); }, 5000); //Finaliza el mensaje de alerta
+				}
+			});
+		}
+		
+		return false;
+	});
+
+
+	$(document).on('click', '#btn-guardar-business', function(){
+
+		var a = '#'+$(this).parents('.form-horizontal').prop('id'), cont = 0;
+
+		$(a).find('.form-control').each(function(index, value){
+			var id = '#'+$(this).prop('id'), val = $(id).attr('required');
+			$(id).attr('data-parsley-id',index);
+
+			if (!(typeof val == "undefined")) {
+				$('#parsley-id-'+index).remove();
+				if ($(id).val().length > 0) {
+					$(id).removeClass('parsley-error');
+				} else {
+					$(id).addClass('parsley-error').parent().append('<ul class="parsley-errors-list filled" id="parsley-id-'+index+'"><li class="parsley-required">Este campo es necesario.</li></ul>');
+				}
+			}
+		});
+
+		$(a).find('.parsley-errors-list').each(function(index, value){
+			cont++;
+		});
+
+		if (cont <= 0) {
+
+			var formData = new FormData($("#form-business")[0]);
+
+			$.ajax({
+			    url: './page/insertBusiness/',
+			    cache: false, //necesario para subir archivos via ajax
+			    data: formData, // Form data: datos del formulario
+			    type: 'POST',
+			    contentType: false,
+			    processData: false,
+			    dataType: 'json',
+			    beforeSend: function(){
+			    	fcnLoading(); //Inicializa el div Loading
+			    },
+				success: function(data){
+					console.log(data);
+					$('.text-message').html(data.result.message);
+					$('#div-message').removeClass('alert-info alert-danger');
+					if (data.result.success == 1) {
+						$('#div-message').addClass('alert-info');
+						
+						//Actualizar TableBusiness
+						$('#content-table-business').html(data.result.datatable);
+					} else {
+						$('#div-message').addClass('alert-danger');
+					}
+					$('#div-alert').css('display', 'block');
+					$('#btn-guardar-business').html(data.result.nameboton);
+					$('#form-business')[0].reset();
+				},
+				error: function(xhr, status){
+					alert('Ha ocurrido un error...');
+				},
+				complete: function(xhr, status){
+					fcnFinishLoading(); //Finaliza el div Loading
+					setTimeout(function(){ $('#div-alert').css('display', 'none'); }, 5000); //Finaliza el mensaje de alerta
+				}
+			});
+		}
+
+		return false;
+	});
+
+
 	$(document).on('click', '#btn-guardar-type-user', function(){
 
 		var a = '#'+$(this).parents('.form-horizontal').prop('id'), cont = 0;
@@ -788,6 +917,54 @@ $(document).ready(function(){
 
 	/********************      EDIT     ********************/
 
+	$(document).on('click', '.btn-business-edit', function(){
+
+		var idbusiness = $(this).attr('idbusiness');
+
+		$.ajax({
+			async: true,
+			url: './page/updateBusiness/'+idbusiness+'/',
+			cache: false,
+			data: { },
+			type: 'POST',
+			dataType: 'json',
+			beforeSend: function(){
+				fcnLoading(); //Inicializa el div Loading
+			},
+			success: function(data){
+				// Función que Limpia los campos
+				fcnClearInput('#form-business');
+
+				console.log(data);
+				$('.text-message').html(data.result.message);
+				$('#div-message').removeClass('alert-info alert-danger');
+				if (data.result.success == 1) {
+					$('#div-message').addClass('alert-info');
+					$('#business-id').val(data.result.objBusiness.idbusiness);
+					$('#business-name-bck').val(data.result.objBusiness.business_name);
+					$('#business-name').val(data.result.objBusiness.business_name);
+					$('#ruc').val(data.result.objBusiness.ruc);
+					$('#address').val(data.result.objBusiness.address);
+					$('#btn-guardar-business').html(data.result.nameboton);
+
+					//Actualizar TableBusiness
+					$('#content-table-business').html(data.result.datatable);
+				} else {
+					$('#div-message').addClass('alert-danger');
+				}
+				$('#div-alert').css('display', 'block');
+			},
+			error: function(xhr, status){
+				alert('Ha ocurrido un error...');
+			},
+			complete: function(xhr, status){
+				fcnFinishLoading(); //Finaliza el div Loading
+				setTimeout(function(){ $('#div-alert').css('display', 'none'); }, 5000); //Finaliza el mensaje de alerta
+			}
+		});
+	});
+
+
 	$(document).on('click', '.btn-user-edit', function(){
 
 		var iduser = $(this).attr('iduser');
@@ -1040,6 +1217,45 @@ $(document).ready(function(){
 
 
 	/********************     REMOVE    ********************/
+
+	$(document).on('click', '.btn-business-remove', function(){
+
+		var idbusiness = $(this).attr('idbusiness');
+
+		$.ajax({
+			async: true,
+			url: './page/deleteBusiness/'+idbusiness+'/',
+			cache: false,
+			data: { },
+			type: 'POST',
+			dataType: 'json',
+			beforeSend: function(){
+				fcnLoading(); //Inicializa el div Loading
+			},
+			success: function(data){
+				console.log(data);
+				$('.text-message').html(data.result.message);
+				$('#div-message').removeClass('alert-info alert-danger');
+				if (data.result.success == 1) {
+					$('#div-message').addClass('alert-info');
+					
+					//Actualizar TableBusiness
+					$('#content-table-business').html(data.result.datatable);
+				} else {
+					$('#div-message').addClass('alert-danger');
+				}
+				$('#div-alert').css('display', 'block');
+				$('#form-business')[0].reset();
+			},
+			error: function(xhr, status){
+				alert('Ha ocurrido un error...');
+			},
+			complete: function(xhr, status){
+				fcnFinishLoading(); //Finaliza el div Loading
+				setTimeout(function(){ $('#div-alert').css('display', 'none'); }, 5000); //Finaliza el mensaje de alerta
+			}
+		});
+	});
 
 	$(document).on('click', '.btn-user-remove', function(){
 
@@ -1324,7 +1540,50 @@ $(document).ready(function(){
 		$('#registry-description').val(text_product+' '+text_version);
 	});
 
+
+	$(document).on('input', '#business-name', function(){
+
+		var business_name = fcnValidateExpReg($(this).val(), exp_letras_latinas);
+    	$(this).val(business_name);
+
+		$.ajax({
+			async: true,
+			url: './ajax/validateBusiness/'+business_name+'/',
+			cache: false,
+			data: { },
+			type: 'POST',
+			dataType: 'json',
+			beforeSend: function(){
+			},
+			success: function(data){
+				if (data.result.success) {
+					$('#business-name').addClass('parsley-error').attr('data-parsley-id', 2).parent().append('<ul class="parsley-errors-list filled" id="parsley-id-2"><li class="parsley-required">'+data.result.message+'</li></ul>');
+
+					var business_name = $('#business-name').val().toLowerCase(),
+						business_name_bck = $('#business-name-bck').val().toLowerCase();
+
+					if (business_name == business_name_bck && business_name != '') {
+						$('#business-name').removeClass('parsley-error');
+						$("#parsley-id-2").remove();
+					}
+				} else {
+					$('#business-name').removeClass('parsley-error');
+					$("#parsley-id-2").remove();
+
+					if ($('#business-name').val().length == 0) {
+						$('#business-name').addClass('parsley-error').attr('data-parsley-id', 2).parent().append('<ul class="parsley-errors-list filled" id="parsley-id-2"><li class="parsley-required">Este campo es necesario.</li></ul>');
+					}
+				}
+			},
+			error: function(xhr, status){
+				alert('Ha ocurrido un error...');
+			},
+			complete: function(xhr, status){
+			}
+		});
+	});
 	
+
 	$(document).on('input', '#user-name', function(){
 
 		var user_name = fcnValidateExpReg($(this).val(), exp_letras);

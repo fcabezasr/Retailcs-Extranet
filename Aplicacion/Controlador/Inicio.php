@@ -304,6 +304,12 @@ class Inicio extends Nucleo\Includes\Controlador{
 	public function menuAdmin(){
 
 		return '<li>
+			<a><i class="fa fa-briefcase"></i> Empresa <span class="fa fa-chevron-down"></span></a>
+        	<ul class="nav child_menu">
+            	<li><a href="javascript:void(0)" class="gestion-admin" page="empresa" section="nuevo">Nueva Empresa</a></li>
+            </ul>
+        </li>
+        <li>
 			<a><i class="fa fa-users"></i> Usuario <span class="fa fa-chevron-down"></span></a>
         	<ul class="nav child_menu">
             	<li><a href="javascript:void(0)" class="gestion-admin" page="usuario" section="nuevo">Nuevo Usuario</a></li>
@@ -398,10 +404,9 @@ class Inicio extends Nucleo\Includes\Controlador{
 
 		$m_product = $this->modelo('Mproduct');
 		$result = $m_product->selectProduct();
+		$arrayProduct = array();
 
 		if ($result['result']['success']) {
-			$arrayProduct = array();
-
 			foreach ($result['result']['arrayProduct'] as $key => $productData) {
 				$data['idproduct'] = $productData->idproduct;
 				$data['product_name'] = $productData->product_name;

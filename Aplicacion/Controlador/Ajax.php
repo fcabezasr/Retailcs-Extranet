@@ -76,4 +76,13 @@ class Ajax extends Nucleo\Includes\Controlador{
 		echo json_encode($result);
 	}
 
+	public function validateBusiness($business_name = null){
+
+		$m_business = $this->modelo('Mbusiness');
+		$m_business->setBusinessName($business_name);
+		$result = $m_business->validateBusiness();
+
+		echo json_encode($result);
+	}
+
 }
