@@ -34,25 +34,20 @@
             <!-- sidebar menu -->
             <div id="sidebar-menu" class="main_menu_side hidden-print main_menu">
               <div class="menu_section">
-                <h3>Servicios</h3>
+                <h3 class="lang-h3-ser">services</h3>
                 <ul class="nav side-menu" id="menu-product">
-                  
                   <?php echo $menu_product; ?>
-                
                 </ul>
               </div>
               
               <?php if ($_SESSION['User']['Type'] == 1) { ?>
               <div class="menu_section">
-                <h3>Admin</h3>
+                <h3 class="lang-h3-adm">administrator</h3>
                 <ul class="nav side-menu" id="menu-admin">
-
                   <?php echo $menu_admin; ?>
-                  
                 </ul>
               </div>
               <?php } ?>
-
             </div>
             <!-- /sidebar menu -->
 
@@ -82,6 +77,13 @@
               <div class="nav toggle">
                 <a id="menu_toggle"><i class="fa fa-bars"></i></a>
               </div>
+              <div class="lang-main" idbusiness="<?php echo $_SESSION['Business']['Id']; ?>">
+                <span class="language lang-en">En</span>
+                <div class="language lang-father">
+                  <div class="lang-child <?php echo $_SESSION['Business']['Language']; ?>">&nbsp;</div>
+                </div>
+                <span class="language lang-es">Es</span>
+              </div>
 
               <ul class="nav navbar-nav navbar-right">
                 <li class="">
@@ -99,11 +101,11 @@
                       </a>
                     </li>
                     -->
-                    <li><a href="javascript:void(0);">Ayuda</a></li>
-                    <li><a href="javascript:void(0);" id="logout"><i class="fa fa-sign-out pull-right"></i> Cerrar Sesión</a></li>
+                    <li><a href="javascript:void(0);" class="li-business"><?php echo $_SESSION['Business']['Name']; ?></a></li>
+                    <li><a href="javascript:void(0);"><span class="lang-a-help">Help</span></a></li>
+                    <li><a href="javascript:void(0);" id="logout"><i class="fa fa-sign-out pull-right"></i> <span class="lang-a-logout">Logout</span></a></li>
                   </ul>
                 </li>
-
 
                 <li role="redes-sociales" class="redes-sociales">
                   <div class="product_social">
@@ -206,10 +208,11 @@
     <script src="./Static/vendors/jquery/dist/jquery.min.js"></script>
     <script src="./Static/vendors/bootstrap/dist/js/bootstrap.min.js"></script>
     <!-- Datatables -->
-    <script src="./Static/vendors/datatables.net/js/jquery.dataTables.min.js"></script>
+    <script src="./Static/vendors/datatables.net/js/jquery.dataTables_<?php echo $_SESSION['Business']['Language']; ?>.min.js"></script>
     <script src="./Static/vendors/datatables.net-bs/js/dataTables.bootstrap.min.js"></script>
     <!-- Custom Theme Scripts -->
     <script src="./Static/build/js/custom.min.js"></script>
+    <script src="./Static/js/language/<?php echo $_SESSION['Business']['Language']; ?>.js"></script>
     <script src="./Static/js/retailcs.js"></script>
 
   </body>

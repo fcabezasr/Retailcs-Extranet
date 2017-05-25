@@ -15,7 +15,7 @@ class Ajax extends Nucleo\Includes\Controlador{
 	}
 
 
-	public function contentPdf($idcontent = null, $description = null, $product = null, $version = null){
+	public function contentPdf($idcontent = null, $description = null, $product = null, $version = null, $language = null){
 
 		$result = array(
 			'result' => array(
@@ -24,7 +24,8 @@ class Ajax extends Nucleo\Includes\Controlador{
 				'idcontent' => $idcontent,
 				'description' => $description,
 				'product' => $product,
-				'version' => $version
+				'version' => $version,
+				'language' => $language
 			)
 		);
 
@@ -76,11 +77,23 @@ class Ajax extends Nucleo\Includes\Controlador{
 		echo json_encode($result);
 	}
 
+
 	public function validateBusiness($business_name = null){
 
 		$m_business = $this->modelo('Mbusiness');
 		$m_business->setBusinessName($business_name);
 		$result = $m_business->validateBusiness();
+
+		echo json_encode($result);
+	}
+
+
+	public function changeLanguage($idbusiness = null, $lang = null){
+
+		$m_business = $this->modelo('Mbusiness');
+		$m_business->setIdBusiness($idbusiness);
+		$m_business->setLanguage($lang);
+		$result = $m_business->changeLanguage();
 
 		echo json_encode($result);
 	}

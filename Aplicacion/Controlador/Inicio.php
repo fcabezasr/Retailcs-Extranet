@@ -119,7 +119,12 @@ class Inicio extends Nucleo\Includes\Controlador{
 						if ($ct_result['result']['success']) {
 							$object_content_type = $ct_result['result']['object_content_type'];
 							$array_content_type['ContentType']['Id'] = $object_content_type->idcontent_type;
-							$array_content_type['ContentType']['Description'] = $object_content_type->content_description;
+							
+							if ($_SESSION['Business']['Language'] == 'en') {
+								$array_content_type['ContentType']['Description'] = $object_content_type->content_description_en;
+							} else {
+								$array_content_type['ContentType']['Description'] = $object_content_type->content_description;	
+							}							
 							$array_content_type['ContentType']['Short'] = $object_content_type->name_short;
 							$array_content_type['ContentType']['ArrayVersion'] = array();
 
@@ -219,7 +224,11 @@ class Inicio extends Nucleo\Includes\Controlador{
 						if ($ft_result['result']['success']) {
 							$object_file_type = $ft_result['result']['object_file_type'];
 							$array_file_type['FileType']['Id'] = $object_file_type->idfile_type;
-							$array_file_type['FileType']['Description'] = $object_file_type->file_description;
+							if ($_SESSION['Business']['Language'] == 'en') {
+								$array_file_type['FileType']['Description'] = $object_file_type->file_description_en;
+							} else {
+								$array_file_type['FileType']['Description'] = $object_file_type->file_description;	
+							}
 							$array_file_type['FileType']['Short'] = $object_file_type->name_short;
 							$array_file_type['FileType']['ArrayVersion'] = array();
 							
@@ -303,34 +312,7 @@ class Inicio extends Nucleo\Includes\Controlador{
 
 	public function menuAdmin(){
 
-		return '<li>
-			<a><i class="fa fa-briefcase"></i> Empresa <span class="fa fa-chevron-down"></span></a>
-        	<ul class="nav child_menu">
-            	<li><a href="javascript:void(0)" class="gestion-admin" page="empresa" section="nuevo">Nueva Empresa</a></li>
-            </ul>
-        </li>
-        <li>
-			<a><i class="fa fa-users"></i> Usuario <span class="fa fa-chevron-down"></span></a>
-        	<ul class="nav child_menu">
-            	<li><a href="javascript:void(0)" class="gestion-admin" page="usuario" section="nuevo">Nuevo Usuario</a></li>
-                <li><a href="javascript:void(0)" class="gestion-admin" page="usuario" section="tipo">Tipo Usuario</a></li>
-            </ul>
-        </li>
-		<li><a><i class="fa fa-tags"></i> Producto <span class="fa fa-chevron-down"></span></a>
-			<ul class="nav child_menu">
-				<li><a href="javascript:void(0)" class="gestion-admin" page="producto" section="nuevo">Registrar Producto</a></li>
-				<li><a href="javascript:void(0)" class="gestion-admin" page="producto" section="version">Registrar Versión</a></li>
-				<li><a href="javascript:void(0)" class="gestion-admin" page="producto" section="vinculo">Vincular Versión & Producto</a></li>
-			</ul>
-		</li>
-		<li><a><i class="fa fa-file-text-o"></i> Contenido <span class="fa fa-chevron-down"></span></a>
-			<ul class="nav child_menu">
-				<li><a href="javascript:void(0)" class="gestion-admin" page="contenido" section="actualizacion">Registrar Actualización</a></li>
-				<li><a href="javascript:void(0)" class="gestion-admin" page="contenido" section="correcion">Registrar Corrección</a></li>
-				<li><a href="javascript:void(0)" class="gestion-admin" page="archivo" section="manual">Registrar Manual</a></li>
-				<li><a href="javascript:void(0)" class="gestion-admin" page="archivo" section="video">Registrar Video</a></li>
-			</ul>
-		</li>';
+		return printMenuAdmin();
 	}
 
 

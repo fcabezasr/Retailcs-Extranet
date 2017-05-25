@@ -15,7 +15,7 @@
 	<div class="row">
 		<div class="col-md-12">
 			<blockquote>
-				<p class="title"><?php echo $file_type->file_description; ?></p>
+				<p class="title"><?php if($_SESSION['Business']['Language']=='en'){ echo $file_type->file_description_en; } else { echo $file_type->file_description; } ?></p>
 				<div class="subtitle"><?php echo $product->product_name; ?></div>
 			</blockquote>
 		</div>
@@ -51,7 +51,7 @@
 				?>
 
 				<div class="x_content">
-					<h2>Versión <?php echo $version->version_description; ?><small>&nbsp;</small></h2>
+					<h2><span class="lang-span-version">Version</span> <?php echo $version->version_description; ?><small>&nbsp;</small></h2>
 					<div class="row">
 
 						<?php
@@ -63,7 +63,7 @@
                         	<div class="thumbnail">
                     			<div class="caption caption-video">
 									<p><strong><?php echo utf8_encode($value_f->file_name); ?></strong></p>
-									<p>Subido el <?php echo formatDate($value_f->publication_date); ?></p>
+									<p><span class="lang-span-published">Published the</span> <?php echo formatDate($value_f->publication_date); ?></p>
 								</div>
                           		<div class="image view view-first">
                             		<iframe class="iframe-video" width="100%" height="100%" src="<?php echo $value_f->file_url; ?>" frameborder="0" allowfullscreen></iframe>

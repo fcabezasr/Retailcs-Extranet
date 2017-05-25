@@ -4,6 +4,7 @@ class Mversion {
 
 	private $padre;
 	private $db;
+	private $session;
 	private $result;
 
 	/** VARIABLES **/
@@ -20,6 +21,7 @@ class Mversion {
 		
 		$this->padre = $el;
 		$this->db = $this->padre->lib('DB');
+		$this->session = $this->padre->lib('Session');
 		$this->result = array('result' => array('success' => 0, 'message' => '', 'id' => null));
 	}
 
@@ -27,6 +29,8 @@ class Mversion {
 	/********************* MÉTODOS *********************/
 
 	public function selectVersion(){
+
+		$this->session->start();
 
 		$sql = $this->db->_query("SELECT idversion, version_description, version_order, DATE_FORMAT(registry_date, '%d-%m-%Y') AS registry_date, state FROM tbl_version WHERE 1");
 		$array_version = array();
@@ -37,12 +41,22 @@ class Mversion {
 
 		if($array_version){
 			$this->result['result']['success'] = 1;
-			$this->result['result']['message'] = 'La consulta se realizó satisfactoriamente.';
 			$this->result['result']['arrayVersion'] = $array_version;
+
+			if ($_SESSION['Business']['Language']=='en') {
+				$this->result['result']['message'] = 'The query was successful.';
+			} else {
+				$this->result['result']['message'] = 'La consulta se realizó satisfactoriamente.';
+			}
 		}else{
 			$this->result['result']['success'] = 0;
-			$this->result['result']['message'] = 'Ocurrió un error al realizar la consulta.';
 			$this->result['result']['arrayVersion'] = null;
+
+			if ($_SESSION['Business']['Language']=='en') {
+				$this->result['result']['message'] = 'An error occurred while performing the query.';
+			} else {
+				$this->result['result']['message'] = 'Ocurrió un error al realizar la consulta.';
+			}
 		}
 
 		return $this->result;
@@ -50,17 +64,29 @@ class Mversion {
 
 
 	public function selectVersionxIdVersion(){
+
+		$this->session->start();
 		
 		$sql = $this->db->_query("SELECT idversion, version_description FROM tbl_version WHERE idversion = ".$this->getIdVersion()." AND state = 1")->fetch_object();
 
 		if($sql){
 			$this->result['result']['success'] = 1;
-			$this->result['result']['message'] = 'La consulta se realizó satisfactoriamente.';
 			$this->result['result']['object_version'] = $sql;
+
+			if ($_SESSION['Business']['Language']=='en') {
+				$this->result['result']['message'] = 'The query was successful.';
+			} else {
+				$this->result['result']['message'] = 'La consulta se realizó satisfactoriamente.';
+			}
 		}else{
 			$this->result['result']['success'] = 0;
-			$this->result['result']['message'] = 'Ocurrió un error al realizar la consulta.';
 			$this->result['result']['object_version'] = null;
+
+			if ($_SESSION['Business']['Language']=='en') {
+				$this->result['result']['message'] = 'An error occurred while performing the query.';
+			} else {
+				$this->result['result']['message'] = 'Ocurrió un error al realizar la consulta.';
+			}
 		}
 
 		return $this->result;
@@ -68,17 +94,29 @@ class Mversion {
 
 
 	public function selectVersionxIdVersionMenu(){
+
+		$this->session->start();
 		
 		$sql = $this->db->_query("SELECT idversion, version_description, version_order FROM tbl_version WHERE idversion = ".$this->getIdVersion()." AND state = 1")->fetch_object();
 		
 		if($sql){
 			$this->result['result']['success'] = 1;
-			$this->result['result']['message'] = 'La consulta se realizó satisfactoriamente.';
 			$this->result['result']['object_version'] = $sql;
+
+			if ($_SESSION['Business']['Language']=='en') {
+				$this->result['result']['message'] = 'The query was successful.';
+			} else {
+				$this->result['result']['message'] = 'La consulta se realizó satisfactoriamente.';
+			}
 		}else{
 			$this->result['result']['success'] = 0;
-			$this->result['result']['message'] = 'Ocurrió un error al realizar la consulta.';
 			$this->result['result']['object_version'] = null;
+
+			if ($_SESSION['Business']['Language']=='en') {
+				$this->result['result']['message'] = 'An error occurred while performing the query.';
+			} else {
+				$this->result['result']['message'] = 'Ocurrió un error al realizar la consulta.';
+			}
 		}
 
 		return $this->result;
@@ -86,34 +124,60 @@ class Mversion {
 
 
 	public function insertVersion(){
+
+		$this->session->start();
 		
 		if ($this->getIdVersion()!='' || $this->getIdVersion()!=null) {
 			$sql = $this->db->_query("UPDATE tbl_version SET version_description = '".$this->getVersionDescription()."', update_date = '".$this->getUpdateDate()."', state = 1 WHERE idversion = ".$this->getIdVersion()."");
 
 			if($sql){
 				$this->result['result']['success'] = 1;
-				$this->result['result']['message'] = 'Los datos de la versión "<strong>'.$this->getVersionDescription().'</strong>" se han actualizado satisfactoriamente.';
 				$this->result['result']['id'] = $this->getIdVersion();
 				$this->result['result']['version'] = $this->getVersionDescription();
-				$this->result['result']['nameboton'] = 'Guardar';
+				
+				if ($_SESSION['Business']['Language']=='en') {
+					$this->result['result']['message'] = 'The data for the "<strong>'.$this->getVersionDescription().'</strong>" version has been updated successfully.';
+					$this->result['result']['nameboton'] = 'Save';	
+				} else {
+					$this->result['result']['message'] = 'Los datos de la versión "<strong>'.$this->getVersionDescription().'</strong>" se han actualizado satisfactoriamente.';
+					$this->result['result']['nameboton'] = 'Guardar';
+				}
 			} else {
 				$this->result['result']['success'] = 0;
-				$this->result['result']['message'] = 'Ocurrió un error, los datos de la versión "<strong>'.$this->getVersionDescription().'</strong>" no se ha actualizado.';
-				$this->result['result']['nameboton'] = 'Actualizar';
+				
+				if ($_SESSION['Business']['Language']=='en') {
+					$this->result['result']['message'] = 'An error occurred, the data from the "<strong>'.$this->getVersionDescription().'</strong>" version was not updated.';
+					$this->result['result']['nameboton'] = 'Update';					
+				} else {
+					$this->result['result']['message'] = 'Ocurrió un error, los datos de la versión "<strong>'.$this->getVersionDescription().'</strong>" no se ha actualizado.';
+					$this->result['result']['nameboton'] = 'Actualizar';
+				}
 			}
 		} else {
 			$sql = $this->db->_query("INSERT INTO tbl_version (version_description, update_date) VALUES ('".$this->getVersionDescription()."', '".$this->getUpdateDate()."')");
 			
 			if($sql){
 				$this->result['result']['success'] = 1;
-				$this->result['result']['message'] = 'La versión "<strong>'.$this->getVersionDescription().'</strong>" se ha registrado satisfactoriamente.';
 				$this->result['result']['id'] = $this->db->mysql()->insert_id;
 				$this->result['result']['version'] = $this->getVersionDescription();
-				$this->result['result']['nameboton'] = 'Guardar';
+
+				if ($_SESSION['Business']['Language']=='en') {
+					$this->result['result']['message'] = 'The "<strong>'.$this->getVersionDescription().'</strong>" version has been successfully registered.';
+					$this->result['result']['nameboton'] = 'Save';	
+				} else {
+					$this->result['result']['message'] = 'La versión "<strong>'.$this->getVersionDescription().'</strong>" se ha registrado satisfactoriamente.';
+					$this->result['result']['nameboton'] = 'Guardar';
+				}
 			}else{
 				$this->result['result']['success'] = 0;
-				$this->result['result']['message'] = 'Ocurrió un error, la versión "<strong>'.$this->getVersionDescription().'</strong>"" no se ha registrado.';
-				$this->result['result']['nameboton'] = 'Guardar';
+				
+				if ($_SESSION['Business']['Language']=='en') {
+					$this->result['result']['message'] = 'An error occurred, the "<strong>'.$this->getVersionDescription().'</strong>" version was not registered.';
+					$this->result['result']['nameboton'] = 'Save';	
+				} else {
+					$this->result['result']['message'] = 'Ocurrió un error, la versión "<strong>'.$this->getVersionDescription().'</strong>" no se ha registrado.';
+					$this->result['result']['nameboton'] = 'Guardar';
+				}
 			}
 		}
 
@@ -123,18 +187,32 @@ class Mversion {
 
 	public function updateVersion(){
 
+		$this->session->start();
+
 		$sql = $this->db->_query("SELECT * FROM tbl_version WHERE idversion = ".$this->getIdVersion()."")->fetch_object();
 	
 		if($sql){
 			$this->result['result']['success'] = 1;
-			$this->result['result']['message'] = 'Actualice los datos correspondientes.';
 			$this->result['result']['objVersion'] = $sql;
-			$this->result['result']['nameboton'] = 'Actualizar';
+
+			if ($_SESSION['Business']['Language']=='en') {
+				$this->result['result']['message'] = 'Update the corresponding data.';
+				$this->result['result']['nameboton'] = 'Update';
+			} else {
+				$this->result['result']['message'] = 'Actualice los datos correspondientes.';
+				$this->result['result']['nameboton'] = 'Actualizar';
+			}
 		} else {
 			$this->result['result']['success'] = 0;
-			$this->result['result']['message'] = 'Ocurrió un error al realizar la consulta.';
 			$this->result['result']['objVersion'] = '';
-			$this->result['result']['nameboton'] = 'Guardar';
+			
+			if ($_SESSION['Business']['Language']=='en') {
+				$this->result['result']['message'] = 'An error occurred while performing the query.';
+				$this->result['result']['nameboton'] = 'Save';
+			} else {
+				$this->result['result']['message'] = 'Ocurrió un error al realizar la consulta.';
+				$this->result['result']['nameboton'] = 'Guardar';
+			}
 		}
 
 		return $this->result;
@@ -143,21 +221,38 @@ class Mversion {
 
 	public function deleteVersion(){
 
+		$this->session->start();
+
 		$sql = $this->db->_query("SELECT idproduct, idversion FROM tbl_version_product WHERE idversion = ".$this->getIdVersion()." AND state = 1");
 
 		if ($sql->num_rows > 0) {
 			$this->result['result']['success'] = 0;
-			$this->result['result']['message'] = '<strong>Alerta!</strong> La Versión está vinculado a algún Producto, por ende no puede eliminarlo.';
+			
+			if ($_SESSION['Business']['Language']=='en') {
+				$this->result['result']['message'] = '<strong>Alert!</strong> The Version is linked to some Product, therefore can not delete it.';
+			} else {
+				$this->result['result']['message'] = '<strong>Alerta!</strong> La Versión está vinculado a algún Producto, por ende no puede eliminarlo.';
+			}
 		} else {
 			$sql = $this->db->_query("UPDATE tbl_version SET state = 0 WHERE idversion = ".$this->getIdVersion()."");
 
 			if($sql){
 				$this->result['result']['success'] = 1;
-				$this->result['result']['message'] = 'La versión se ha <strong>deshabilitado</strong> correctamente.';
 				$this->result['result']['id'] = $this->getIdVersion();
+
+				if ($_SESSION['Business']['Language']=='en') {
+					$this->result['result']['message'] = 'The version has been successfully <strong>disabled</strong>.';
+				} else {
+					$this->result['result']['message'] = 'La versión se ha <strong>deshabilitado</strong> correctamente.';
+				}
 			} else {
 				$this->result['result']['success'] = 0;
-				$this->result['result']['message'] = 'Ocurrió un error, vuelva a realizar la acción.';
+				
+				if ($_SESSION['Business']['Language']=='en') {
+					$this->result['result']['message'] = 'An error occurred, redo the action.';
+				} else {
+					$this->result['result']['message'] = 'Ocurrió un error, vuelva a realizar la acción.';
+				}
 			}
 		}
 
@@ -180,14 +275,26 @@ class Mversion {
 
 	public function validateVersion(){
 
+		$this->session->start();
+
 		$sql = $this->db->_query("SELECT idversion FROM tbl_version WHERE version_description = '".$this->getVersionDescription()."'")->fetch_object();
 		
 		if($sql){
 			$this->result['result']['success'] = 1;
-			$this->result['result']['message'] = 'La versión "<strong>'.$this->getVersionDescription().'</strong>" ya existe.';
+			
+			if ($_SESSION['Business']['Language']=='en') {
+				$this->result['result']['message'] = 'The "<strong>'.$this->getVersionDescription().'</strong>" version already exists.';
+			} else {
+				$this->result['result']['message'] = 'La versión "<strong>'.$this->getVersionDescription().'</strong>" ya existe.';
+			}
 		}else{
 			$this->result['result']['success'] = 0;
-			$this->result['result']['message'] = 'Ocurrió un error al realizar la consulta.';
+			
+			if ($_SESSION['Business']['Language']=='en') {
+				$this->result['result']['message'] = 'An error occurred while performing the query.';
+			} else {
+				$this->result['result']['message'] = 'Ocurrió un error al realizar la consulta.';
+			}
 		}
 
 		return $this->result;

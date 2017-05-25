@@ -31,7 +31,7 @@
 
 			<div class="x_panel">
 				<div class="x_title">
-					<h2>Registrar <?php echo $name; ?> <small>Complete los campos</small></h2>
+					<h2><span class="lang-h2-register">Register</span> <?php echo $name; ?> <small class="lang-small-texto">Complete the fields</small></h2>
 					<ul class="nav navbar-right panel_toolbox">
 						<li class="chevron-up-right">
 							<a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
@@ -50,37 +50,37 @@
 				<div class="x_content">
 					<form id="form-file" class="form-horizontal form-label-left" enctype="multipart/form-data" method="post" autocomplete="off">
 						<div class="form-group">
-							<label class="control-label col-md-3 col-sm-3 col-xs-12" for="idproduct">Producto <span class="required">*</span></label>
+							<label class="control-label col-md-3 col-sm-3 col-xs-12" for="idproduct"><span class="lang-label-product">Product</span> <span class="required">*</span></label>
 							<div class="col-md-6 col-sm-6 col-xs-12">
 								<select id="idproduct" name="idproduct" class="form-control" required="required">
-		                            <option value="">-- Seleccione --</option>
+		                            <option value="" class="lang-option-select">-- Select --</option>
 		                            <?php echo $listProduct; ?>
 	                          	</select>
 							</div>
 						</div>
 						<div class="form-group">
-							<label class="control-label col-md-3 col-sm-3 col-xs-12" for="idversion-product">Versión <span class="required">*</span></label>
+							<label class="control-label col-md-3 col-sm-3 col-xs-12" for="idversion-product"><span class="lang-label-version">Version</span> <span class="required">*</span></label>
 							<div class="col-md-6 col-sm-6 col-xs-12">
 								<select id="idversion-product" name="idversion-product" class="form-control" required="required">
-		                            <option value="">-- Seleccione --</option>
+		                            <option value="" class="lang-option-select">-- Select --</option>
 		                            <?php //echo $listVersion; ?>
 	                          	</select>
 							</div>
 						</div>
 						<div class="form-group">
-							<label class="control-label col-md-3 col-sm-3 col-xs-12" for="file-name">Nombre de Archivo <span class="required">*</span></label>
+							<label class="control-label col-md-3 col-sm-3 col-xs-12" for="file-name"><span class="lang-label-filename">Filename</span> <span class="required">*</span></label>
 							<div class="col-md-6 col-sm-6 col-xs-12">
 								<input type="text" id="file-name" name="file-name" required="required" class="form-control">
 							</div>
 						</div>
 						<div class="form-group">
-							<label class="control-label col-md-3 col-sm-3 col-xs-12" for="file-name">Cargar Archivo <span class="required">*</span></label>
+							<label class="control-label col-md-3 col-sm-3 col-xs-12" for="gender"><span class="lang-label-file-upload">File Upload</span> <span class="required">*</span></label>
 							<div class="col-md-6 col-sm-6 col-xs-12">
 								<label for="id-file" class="span-div">
-									<input type="radio" class="flat upload-file" name="gender" id="id-file" value="file" checked="checked" required="required" /> Subir Archivo
+									<input type="radio" class="flat upload-file" name="gender" id="id-file" value="file" checked="checked" required="required" /> <span class="lang-span-file">Upload File</span>
 								</label>
 								<label for="id-url" class="span-div">
-									<input type="radio" class="flat upload-file" name="gender" id="id-url" value="url" /> Desde URL
+									<input type="radio" class="flat upload-file" name="gender" id="id-url" value="url" /> <span class="lang-span-url">From URL</span>
 								</label>
 							</div>
 						</div>
@@ -99,7 +99,7 @@
 							</div>
 						</div>
 						<div class="form-group">
-							<label class="control-label col-md-3 col-sm-3 col-xs-12">Fecha Registro <span class="required">*</span></label>
+							<label class="control-label col-md-3 col-sm-3 col-xs-12" for="registry-date"><span class="lang-label-registration-date">Registration Date</span> <span class="required">*</span></label>
 							<div class="col-md-6 col-sm-6 col-xs-12">
 								<input type="date" id="registry-date" name="registry-date" class="form-control" required="required" style="padding-left: 45px; box-sizing: border-box;" value="<?php echo $fechaActual; ?>">
 								<span class="fa fa-calendar-o form-control-feedback left" aria-hidden="true"></span>
@@ -108,8 +108,8 @@
 						<div class="ln_solid"></div>
 						<div class="form-group">
 							<div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
-								<button class="btn btn-primary" id="btn-reset-file" type="reset">Limpiar</button>
-								<button class="btn btn-success" id="btn-guardar-file" type="button">Guardar</button>
+								<button class="btn btn-primary lang-button-reset" id="btn-reset-file" type="reset">Reset</button>
+								<button class="btn btn-success lang-button-save" id="btn-guardar-file" type="button">Save</button>
 								<input type="hidden" id="idfile-type" name="idfile-type" value="<?php echo $idfile_type; ?>">
 							</div>
 						</div>

@@ -23,6 +23,10 @@ body .side-menu > li > a {
     text-transform: lowercase !important;
 }
 
+.x_panel .x_title h2 span {
+    color: #73879C !important;
+}
+
 table.table-bordered thead>tr>th, 
 table.table-bordered tfoot>tr>th {
     text-align: center !important;
@@ -245,8 +249,16 @@ textarea.form-control {
     resize: vertical !important;
 }
 
+.gestion-admin {
+    text-transform: capitalize;
+}
 
 /************* Page Inicio *************/
+
+.li-business {
+    font-weight: bold !important;
+    text-transform: uppercase;
+}
 
 .info-reciente .x_title small {
     text-transform: none !important;
@@ -319,4 +331,77 @@ textarea.form-control {
 .table.table-correccion tbody tr td:nth-child(3),
 .table.table-actualizacion tbody tr td:nth-child(3) {
     text-align: justify !important;
+}
+
+
+/********* LANGUAGE *********/
+
+.lang-main {
+    float: left;
+    margin: 0;
+    padding-top: 16px;
+    /*width: 70px;*/
+    cursor: pointer;
+}
+
+.lang-main .language {
+    float: left;
+    display: inline-block;
+}
+
+.lang-main span.language {
+    line-height: 30px;
+    width: 20px;
+    display: block;
+    text-align: left;
+    font-weight: bold;
+}
+
+.lang-main .lang-es {
+    text-align: right !important;
+}
+
+.lang-main .lang-father {
+    width: 50px;
+    background: #26B99A;
+    border-radius: 50px;
+    height: 20px;
+    margin: 5px 0;
+    position: relative;
+    border: 1px solid #ccc;
+}
+
+.lang-main .lang-father .lang-child {
+    height: 30px;
+    width: 30px;
+    background: rgba(247, 247, 247, 0.95);
+    margin: 0px;
+    padding: 0px;
+    position: absolute;
+    top: -6px;
+    border-radius: 50%;
+    border: 1px solid #CCCCCC;
+}
+
+.lang-main .lang-father .lang-child.en {
+    left: 0px;
+}
+
+.lang-main .lang-father .lang-child.es {
+    left: 20px;
+}
+
+.lang-button-delete, 
+.lang-button-edit {
+    line-height: 0 !important;
+}
+
+.collapse-link span,
+.collapse-list span,
+.collapse-grilla span {
+    color: #777 !important;
+}
+
+ul.widget_tally li:hover {
+    background: rgba(26, 187, 156, 0.30) !important;
 }

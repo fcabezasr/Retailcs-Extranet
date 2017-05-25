@@ -27,7 +27,7 @@
 
 			<div class="x_panel">
 				<div class="x_title">
-					<h2>Nuevo producto <small>Complete los campos</small></h2>
+					<h2><span class="lang-h2-new-product">new product</span> <small class="lang-small-texto">Complete the fields</small></h2>
 					<ul class="nav navbar-right panel_toolbox">
 						<li class="chevron-up-right">
 							<a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
@@ -46,13 +46,13 @@
 						</div>
 
 						<div class="form-group">
-							<label class="control-label col-md-3 col-sm-3 col-xs-12" for="product-name">Nombre <span class="required">*</span></label>
+							<label class="control-label col-md-3 col-sm-3 col-xs-12" for="product-name"><span class="lang-label-name">Name</span> <span class="required">*</span></label>
 							<div class="col-md-6 col-sm-6 col-xs-12">
 								<input type="text" id="product-name" name="product-name" required="required" placeholder="" class="form-control col-md-7 col-xs-12">
 							</div>
 						</div>
 						<div class="form-group">
-							<label class="control-label col-md-3 col-sm-3 col-xs-12" for="product-icono">Icono <span class="required">*</span></label>
+							<label class="control-label col-md-3 col-sm-3 col-xs-12" for="product-icono"><span class="lang-label-icon">Icon</span> <span class="required">*</span></label>
 							<div class="col-md-6 col-sm-6 col-xs-12">
 								<ul class="list-icono">
 									<li>
@@ -94,8 +94,8 @@
 						<div class="ln_solid"></div>
 						<div class="form-group">
 							<div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
-								<button class="btn btn-primary" id="btn-reset" type="reset">Limpiar</button>
-								<button class="btn btn-success" id="btn-guardar-product" type="button">Guardar</button>
+								<button class="btn btn-primary lang-button-reset" id="btn-reset" type="reset">Reset</button>
+								<button class="btn btn-success lang-button-save" id="btn-guardar-product" type="button">Save</button>
 							</div>
 						</div>
 					</form>
@@ -104,7 +104,7 @@
 
 			<div class="x_panel">
 				<div class="x_title">
-					<h2>Lista de productos <small>&nbsp;</small></h2>
+					<h2><span class="lang-h2-list-product">list of products</span> <small>&nbsp;</small></h2>
 					<ul class="nav navbar-right panel_toolbox">
 						<li class="chevron-up-right">
 							<a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
@@ -123,7 +123,7 @@
 			
 			<div class="x_panel">
 				<div class="x_title">
-					<h2>Nueva versión <small>Complete los campos</small></h2>
+					<h2><span class="lang-h2-new-version">new version</span> <small class="lang-small-texto">Complete the fields</small></h2>
 					<ul class="nav navbar-right panel_toolbox">
 						<li class="chevron-up-right">
 							<a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
@@ -142,7 +142,7 @@
 						</div>
 
 						<div class="form-group">
-							<label class="control-label col-md-3 col-sm-3 col-xs-12" for="version-description">Versión <span class="required">*</span></label>
+							<label class="control-label col-md-3 col-sm-3 col-xs-12" for="version-description"><span class="lang-label-version">Version</span> <span class="required">*</span></label>
 							<div class="col-md-6 col-sm-6 col-xs-12">
 								<input type="text" id="version-description" name="version-description" required="required" placeholder="ej. 9.0" class="form-control col-md-7 col-xs-12">
 							</div>
@@ -150,8 +150,8 @@
 						<div class="ln_solid"></div>
 						<div class="form-group">
 							<div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
-								<button class="btn btn-primary" id="btn-reset" type="reset">Limpiar</button>
-								<button class="btn btn-success" id="btn-guardar-version" type="button">Guardar</button>
+								<button class="btn btn-primary lang-button-reset" id="btn-reset" type="reset">Reset</button>
+								<button class="btn btn-success lang-button-save" id="btn-guardar-version" type="button">Save</button>
 							</div>
 						</div>
 					</form>
@@ -160,7 +160,7 @@
 
 			<div class="x_panel">
 				<div class="x_title">
-					<h2>Lista de versiones <small>&nbsp;</small></h2>
+					<h2><span class="lang-h2-list-version">list of versions</span> <small>&nbsp;</small></h2>
 					<ul class="nav navbar-right panel_toolbox">
 						<li class="chevron-up-right">
 							<a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
@@ -179,7 +179,7 @@
 			
 			<div class="x_panel">
 				<div class="x_title">
-					<h2>Vincular versión x producto <small>Complete los campos</small></h2>
+					<h2><span class="lang-h2-link-version-product">link version x product</span> <small class="lang-small-texto">Complete the fields</small></h2>
 					<ul class="nav navbar-right panel_toolbox">
 						<li class="chevron-up-right">
 							<a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
@@ -198,25 +198,25 @@
 						</div>
 
 						<div class="form-group">
-							<label class="control-label col-md-3 col-sm-3 col-xs-12" for="idproduct_pv">Producto <span class="required">*</span></label>
+							<label class="control-label col-md-3 col-sm-3 col-xs-12" for="idproduct_pv"><span class="lang-label-product">Product</span> <span class="required">*</span></label>
 							<div class="col-md-6 col-sm-6 col-xs-12">
 								<select id="idproduct_pv" name="idproduct_pv" class="form-control" required="required">
-		                            <option value="">-- Seleccione --</option>
+		                            <option value="" class="lang-option-select">-- Select --</option>
 		                            <?php echo $listProduct; ?>
 	                          	</select>
 							</div>
 						</div>
 						<div class="form-group">
-							<label class="control-label col-md-3 col-sm-3 col-xs-12" for="idversion_pv">Versión <span class="required">*</span></label>
+							<label class="control-label col-md-3 col-sm-3 col-xs-12" for="idversion_pv"><span class="lang-label-version">Version</span> <span class="required">*</span></label>
 							<div class="col-md-6 col-sm-6 col-xs-12">
 								<select id="idversion_pv" name="idversion_pv" class="form-control" required="required">
-		                            <option value="">-- Seleccione --</option>
+		                            <option value="" class="lang-option-select">-- Select --</option>
 		                            <?php echo $listVersion; ?>
 	                          	</select>
 							</div>
 						</div>
 						<div class="form-group">
-							<label class="control-label col-md-3 col-sm-3 col-xs-12" for="registry-description">Descripción</label>
+							<label class="control-label col-md-3 col-sm-3 col-xs-12" for="registry-description"><span class="lang-label-description">Description</span></label>
 							<div class="col-md-6 col-sm-6 col-xs-12">
 								<input type="text" id="registry-description" name="registry-description" placeholder="Descripción breve" class="form-control col-md-7 col-xs-12">
 							</div>
@@ -224,8 +224,8 @@
 						<div class="ln_solid"></div>
 						<div class="form-group">
 							<div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
-								<button class="btn btn-primary" id="btn-reset" type="reset">Limpiar</button>
-								<button class="btn btn-success" id="btn-guardar-version-product" type="button">Guardar</button>
+								<button class="btn btn-primary lang-button-reset" id="btn-reset" type="reset">Reset</button>
+								<button class="btn btn-success lang-button-save" id="btn-guardar-version-product" type="button">Save</button>
 							</div>
 						</div>
 					</form>
@@ -234,7 +234,7 @@
 
 			<div class="x_panel">
 				<div class="x_title">
-					<h2>Lista de versiones x productos <small>&nbsp;</small></h2>
+					<h2><span class="lang-h2-list-version-product">list of versions x products</span> <small>&nbsp;</small></h2>
 					<ul class="nav navbar-right panel_toolbox">
 						<li class="chevron-up-right">
 							<a class="collapse-link"><i class="fa fa-chevron-up"></i></a>

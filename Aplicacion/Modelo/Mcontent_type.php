@@ -4,12 +4,14 @@ class Mcontent_type {
 
 	private $padre;
 	private $db;
+	private $session;
 	private $result;
 
 	/** VARIABLES **/
 
 	private $IdContentType;
 	private $ContentDescription;
+	private $ContentDescriptionEn;
 	private $NameShort;
 	private $RegistryDate;
 	private $UpdateDate;
@@ -20,6 +22,7 @@ class Mcontent_type {
 		
 		$this->padre = $el;
 		$this->db = $this->padre->lib('DB');
+		$this->session = $this->padre->lib('Session');
 		$this->result = array('result' => array('success' => 0, 'message' => '', 'id' => null));
 	}
 
@@ -29,16 +32,28 @@ class Mcontent_type {
 
     public function selectContentTypexIdContentTypeMenu(){
 
-		$sql = $this->db->_query("SELECT idcontent_type, content_description, name_short FROM tbl_content_type WHERE idcontent_type = ".$this->getIdContentType()." AND state = 1")->fetch_object();
+    	$this->session->start();
+
+		$sql = $this->db->_query("SELECT idcontent_type, content_description, content_description_en, name_short FROM tbl_content_type WHERE idcontent_type = ".$this->getIdContentType()." AND state = 1")->fetch_object();
 
 		if($sql){
 			$this->result['result']['success'] = 1;
-			$this->result['result']['message'] = 'La consulta se realizó satisfactoriamente.';
 			$this->result['result']['object_content_type'] = $sql;
+
+			if ($_SESSION['Business']['Language']=='en') {
+				$this->result['result']['message'] = 'The query was successful.';
+			} else {
+				$this->result['result']['message'] = 'La consulta se realizó satisfactoriamente.';
+			}
 		}else{
 			$this->result['result']['success'] = 0;
-			$this->result['result']['message'] = 'Ocurrió un error al realizar la consulta.';
 			$this->result['result']['object_content_type'] = null;
+
+			if ($_SESSION['Business']['Language']=='en') {
+				$this->result['result']['message'] = 'An error occurred while performing the query.';
+			} else {
+				$this->result['result']['message'] = 'Ocurrió un error al realizar la consulta.';
+			}
 		}
 
 		return $this->result;
@@ -47,16 +62,28 @@ class Mcontent_type {
 
 	public function selectContentTypexDescription(){
 
-		$sql = $this->db->_query("SELECT idcontent_type, content_description FROM tbl_content_type WHERE content_description LIKE '%".$this->getContentDescription()."%' AND state = 1")->fetch_object();
+		$this->session->start();
+
+		$sql = $this->db->_query("SELECT idcontent_type, content_description, content_description_en FROM tbl_content_type WHERE content_description LIKE '%".$this->getContentDescription()."%' AND state = 1")->fetch_object();
 
 		if($sql){
 			$this->result['result']['success'] = 1;
-			$this->result['result']['message'] = 'La consulta se realizó satisfactoriamente.';
 			$this->result['result']['object_content_type'] = $sql;
+
+			if ($_SESSION['Business']['Language']=='en') {
+				$this->result['result']['message'] = 'The query was successful.';
+			} else {
+				$this->result['result']['message'] = 'La consulta se realizó satisfactoriamente.';
+			}
 		}else{
 			$this->result['result']['success'] = 0;
-			$this->result['result']['message'] = 'Ocurrió un error al realizar la consulta.';
 			$this->result['result']['object_content_type'] = null;
+
+			if ($_SESSION['Business']['Language']=='en') {
+				$this->result['result']['message'] = 'An error occurred while performing the query.';
+			} else {
+				$this->result['result']['message'] = 'Ocurrió un error al realizar la consulta.';
+			}
 		}
 
 		return $this->result;
@@ -83,6 +110,16 @@ class Mcontent_type {
 	public function getContentDescription(){
 		
 		return $this->ContentDescription;
+	}
+
+	public function setContentDescriptionEn($ContentDescriptionEn = null){
+
+		$this->ContentDescriptionEn = $ContentDescriptionEn;
+	}
+
+	public function getContentDescriptionEn(){
+		
+		return $this->ContentDescriptionEn;
 	}
 
 	public function setNameShort($NameShort = null){

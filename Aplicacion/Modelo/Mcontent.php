@@ -4,6 +4,7 @@ class Mcontent {
 
 	private $padre;
 	private $db;
+	private $session;
 	private $result;
 
 	/** VARIABLES **/
@@ -23,6 +24,7 @@ class Mcontent {
 		
 		$this->padre = $el;
 		$this->db = $this->padre->lib('DB');
+		$this->session = $this->padre->lib('Session');
 		$this->result = array('result' => array('success' => 0, 'message' => '', 'id' => null));
 	}
 
@@ -39,6 +41,8 @@ class Mcontent {
 
     public function selectContentxIdProductMenu(){
 
+    	$this->session->start();
+
     	$sql = $this->db->_query("SELECT idcontent, idcontent_type, idproduct, idversion  FROM tbl_content WHERE idproduct = ".$this->getIdProduct()." AND state = 1 ORDER BY idcontent_type");
 		$array_content = array();
 		
@@ -48,12 +52,22 @@ class Mcontent {
 
 		if($array_content){
 			$this->result['result']['success'] = 1;
-			$this->result['result']['message'] = 'La consulta se realizó satisfactoriamente.';
 			$this->result['result']['array_content'] = $array_content;
+
+			if ($_SESSION['Business']['Language']=='en') {
+				$this->result['result']['message'] = 'The query was successful.';
+			} else {
+				$this->result['result']['message'] = 'La consulta se realizó satisfactoriamente.';
+			}
 		}else{
 			$this->result['result']['success'] = 0;
-			$this->result['result']['message'] = 'Ocurrió un error al realizar la consulta.';
 			$this->result['result']['array_content'] = null;
+
+			if ($_SESSION['Business']['Language']=='en') {
+				$this->result['result']['message'] = 'An error occurred while performing the query.';
+			} else {
+				$this->result['result']['message'] = 'Ocurrió un error al realizar la consulta.';
+			}
 		}
 
 		return $this->result;
@@ -61,6 +75,8 @@ class Mcontent {
 
 
     public function selectContentxIdProductxIdContentTypeMenu(){
+
+    	$this->session->start();
 
     	$sql = $this->db->_query("SELECT idcontent, idcontent_type, idproduct, idversion  FROM tbl_content WHERE idproduct = ".$this->getIdProduct()." AND idcontent_type = ".$this->getIdContentType()." AND state = 1");
 		$array_content = array();
@@ -71,12 +87,22 @@ class Mcontent {
 
 		if($array_content){
 			$this->result['result']['success'] = 1;
-			$this->result['result']['message'] = 'La consulta se realizó satisfactoriamente.';
 			$this->result['result']['array_content'] = $array_content;
+
+			if ($_SESSION['Business']['Language']=='en') {
+				$this->result['result']['message'] = 'The query was successful.';
+			} else {
+				$this->result['result']['message'] = 'La consulta se realizó satisfactoriamente.';
+			}
 		}else{
 			$this->result['result']['success'] = 0;
-			$this->result['result']['message'] = 'Ocurrió un error al realizar la consulta.';
 			$this->result['result']['array_content'] = null;
+
+			if ($_SESSION['Business']['Language']=='en') {
+				$this->result['result']['message'] = 'An error occurred while performing the query.';
+			} else {
+				$this->result['result']['message'] = 'Ocurrió un error al realizar la consulta.';
+			}
 		}
 
 		return $this->result;
@@ -84,6 +110,8 @@ class Mcontent {
 
 
     public function selectContentxIdProductxIdVersionMenu(){
+
+    	$this->session->start();
 
     	$sql = $this->db->_query("SELECT idcontent, idcontent_type, idproduct, idversion FROM tbl_content WHERE idproduct = ".$this->getIdProduct()." AND idversion = ".$this->getIdVersion()." AND state = 1");
 		$array_content = array();
@@ -94,12 +122,22 @@ class Mcontent {
 
 		if($array_content){
 			$this->result['result']['success'] = 1;
-			$this->result['result']['message'] = 'La consulta se realizó satisfactoriamente.';
 			$this->result['result']['array_content'] = $array_content;
+
+			if ($_SESSION['Business']['Language']=='en') {
+				$this->result['result']['message'] = 'The query was successful.';
+			} else {
+				$this->result['result']['message'] = 'La consulta se realizó satisfactoriamente.';
+			}
 		}else{
 			$this->result['result']['success'] = 0;
-			$this->result['result']['message'] = 'Ocurrió un error al realizar la consulta.';
 			$this->result['result']['array_content'] = null;
+
+			if ($_SESSION['Business']['Language']=='en') {
+				$this->result['result']['message'] = 'An error occurred while performing the query.';
+			} else {
+				$this->result['result']['message'] = 'Ocurrió un error al realizar la consulta.';
+			}
 		}
 
 		return $this->result;
@@ -108,16 +146,28 @@ class Mcontent {
 
     public function selectContentxIdProductIdContentTypeIdVersion(){
 
+    	$this->session->start();
+
     	$sql = $this->db->_query("SELECT idcontent, publication_date FROM tbl_content WHERE idcontent_type = ".$this->getIdContentType()." AND idproduct = ".$this->getIdProduct()." AND idversion = ".$this->getIdVersion()." AND state = 1")->fetch_object();
 
 		if($sql){
 			$this->result['result']['success'] = 1;
-			$this->result['result']['message'] = 'La consulta se realizó satisfactoriamente.';
 			$this->result['result']['object_content'] = $sql;
+
+			if ($_SESSION['Business']['Language']=='en') {
+				$this->result['result']['message'] = 'The query was successful.';
+			} else {
+				$this->result['result']['message'] = 'La consulta se realizó satisfactoriamente.';
+			}
 		}else{
 			$this->result['result']['success'] = 0;
-			$this->result['result']['message'] = 'Ocurrió un error al realizar la consulta.';
 			$this->result['result']['object_content'] = null;
+
+			if ($_SESSION['Business']['Language']=='en') {
+				$this->result['result']['message'] = 'An error occurred while performing the query.';
+			} else {
+				$this->result['result']['message'] = 'Ocurrió un error al realizar la consulta.';
+			}
 		}
 
 		return $this->result;
@@ -125,6 +175,8 @@ class Mcontent {
 
 
     public function insertContent(){
+
+    	$this->session->start();
 
     	$content = $this->db->_query("SELECT idcontent FROM tbl_content WHERE idcontent_type = '".$this->getIdContentType()."' AND idproduct = '".$this->getIdProduct()."' AND idversion = '".$this->getIdVersion()."' AND state = 1")->fetch_object();
 
@@ -137,11 +189,21 @@ class Mcontent {
 
     	if ($idcontent) {
 			$this->result['result']['success'] = 1;
-			$this->result['result']['message'] = 'Los datos se han registrado satisfactoriamente.';
 			$this->result['result']['id'] = $idcontent;
+
+			if ($_SESSION['Business']['Language']=='en') {
+				$this->result['result']['message'] = 'Data has been successfully registered.';
+			} else {
+				$this->result['result']['message'] = 'Los datos se han registrado satisfactoriamente.';
+			}
 		} else {
 			$this->result['result']['success'] = 0;
-			$this->result['result']['message'] = 'Los datos no se han registrado, ocurrió un error.';
+			
+			if ($_SESSION['Business']['Language']=='en') {
+				$this->result['result']['message'] = 'The data has not been registered, an error occurred.';
+			} else {
+				$this->result['result']['message'] = 'Los datos no se han registrado, ocurrió un error.';
+			}
 		}
 
     	return $this->result;

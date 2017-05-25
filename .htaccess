@@ -1,3 +1,6 @@
+ErrorDocument 403 /apps/extranet/Aplicacion/Vista/pag_errores/page_403.phtml
+ErrorDocument 500 /apps/extranet/Aplicacion/Vista/pag_errores/page_500.phtml
+
 RewriteEngine on
 RewriteCond $1 !^(index\.php|resources|robots\.txt)
 RewriteCond %{REQUEST_FILENAME} !-f

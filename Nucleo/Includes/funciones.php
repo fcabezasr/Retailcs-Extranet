@@ -52,13 +52,21 @@
 
 	function formatDayDate($date){
 
-		$days = array('Mon' => 'Lunes', 'Tue' => 'Martes', 'Wed' => 'Miércoles', 'Thu' => 'Jueves', 'Fri' => 'Viernes', 'Sat' => 'Sábado', 'Sun' => 'Domingo');
-		$months = array('01' => 'Enero', '02' => 'Febrero', '03' => 'Marzo', '04' => 'Abril', '05' => 'Mayo', '06' => 'Junio', '07' => 'Julio', '08' => 'Agosto', '09' => 'Septiembre', '10' => 'Octubre', '11' => 'Noviembre', '12' => 'Diciembre');
+		if ($_SESSION['Business']['Language']=='en') {
+			$days = array('Mon' => 'Monday', 'Tue' => 'Tuesday', 'Wed' => 'Wednesday', 'Thu' => 'Thursday', 'Fri' => 'Friday', 'Sat' => 'Saturday', 'Sun' => 'Sunday');
+			$months = array('01' => 'January', '02' => 'February', '03' => 'March', '04' => 'April', '05' => 'May', '06' => 'June', '07' => 'July', '08' => 'August', '09' => 'September', '10' => 'October', '11' => 'November', '12' => 'December');
+			$from = 'from';
+		} else {
+			$days = array('Mon' => 'Lunes', 'Tue' => 'Martes', 'Wed' => 'Miércoles', 'Thu' => 'Jueves', 'Fri' => 'Viernes', 'Sat' => 'Sábado', 'Sun' => 'Domingo');
+			$months = array('01' => 'Enero', '02' => 'Febrero', '03' => 'Marzo', '04' => 'Abril', '05' => 'Mayo', '06' => 'Junio', '07' => 'Julio', '08' => 'Agosto', '09' => 'Septiembre', '10' => 'Octubre', '11' => 'Noviembre', '12' => 'Diciembre');			
+			$from = 'de';
+		}
+
 		$array_date = explode('-', $date);
 		$date = date_create($date);
 		$day = $days[date_format($date,"D")];
 		
-		return $day.' '.$array_date[2].', '.$months[$array_date[1]].' de '.$array_date[0];
+		return $day.' '.$array_date[2].', '.$months[$array_date[1]].' '.$from.' '.$array_date[0];
 	}
 
 
@@ -77,25 +85,27 @@
 				<td class="td-center">'.($key+1).'</td>
 				<td class="td-center">'.$business['business_name'].'</td>
 				<td class="td-center">'.$business['ruc'].'</td>
+				<td class="td-center">'.($business['language']=='en'?'Inglés':'Español').'</td>
 				<td class="td-center">'.$business['registry_date'].'</td>
 				<td class="td-center">'.($business['state']==1?'Habilitado':'Deshabilitado').'</td>
 				<td class="td-center">
-					<button class="btn btn-xs btn-info btn-business-edit" idbusiness="'.$business['idbusiness'].'" type="button"><i class="fa fa-pencil"></i> Editar </button>
-					<button class="btn btn-xs btn-danger btn-business-remove" idbusiness="'.$business['idbusiness'].'" type="button" '.($business['state']==1?'enabled':'disabled').'><i class="fa fa-trash-o"></i> Eliminar </button>
+					<button class="btn btn-xs btn-info btn-business-edit" idbusiness="'.$business['idbusiness'].'" type="button"><i class="fa fa-pencil"></i> <span class="lang-button-edit">Edit</span> </button>
+					<button class="btn btn-xs btn-danger btn-business-remove" idbusiness="'.$business['idbusiness'].'" type="button" '.($business['state']==1?'enabled':'disabled').'><i class="fa fa-trash-o"></i> <span class="lang-button-delete">Delete</span> </button>
 				</td>
 			</tr>';
 		}
 
-		$tableUser = 
+		$tableBusiness = 
 		'<table id="table-business" class="table table-striped table-bordered" cellspacing="0" width="100%">
 			<thead>
 				<tr>
-					<th>N°</th>
-					<th>Empresa</th>
-					<th>Ruc</th>
-					<th>Fecha Registro</th>
-					<th>Estado</th>
-					<th>Acciones</th>
+					<th class="lang-th-no">N°</th>
+					<th class="lang-th-business">Business</th>
+					<th class="lang-th-ruc">Ruc</th>
+					<th class="lang-th-language">Language</th>
+					<th class="lang-th-registration-date">Registration Date</th>
+					<th class="lang-th-state">State</th>
+					<th class="lang-th-actions">Actions</th>
 				</tr>
 			</thead>
 			<tbody>'.$tbody.'</tbody>
@@ -106,7 +116,7 @@
 			});
 		</script>';
 
-		return $tableUser;
+		return $tableBusiness;
 	}
 
 
@@ -123,8 +133,8 @@
 				<td class="td-center">'.$user['registry_date'].'</td>
 				<td class="td-center">'.($user['state']==1?'Habilitado':'Deshabilitado').'</td>
 				<td class="td-center">
-					<button class="btn btn-xs btn-info btn-user-edit" iduser="'.$user['iduser'].'" type="button"><i class="fa fa-pencil"></i> Editar </button>
-					<button class="btn btn-xs btn-danger btn-user-remove" iduser="'.$user['iduser'].'" type="button" '.($user['state']==1?'enabled':'disabled').'><i class="fa fa-trash-o"></i> Eliminar </button>
+					<button class="btn btn-xs btn-info btn-user-edit" iduser="'.$user['iduser'].'" type="button"><i class="fa fa-pencil"></i> <span class="lang-button-edit">Edit</span> </button>
+					<button class="btn btn-xs btn-danger btn-user-remove" iduser="'.$user['iduser'].'" type="button" '.($user['state']==1?'enabled':'disabled').'><i class="fa fa-trash-o"></i> <span class="lang-button-delete">Delete</span> </button>
 				</td>
 			</tr>';
 		}
@@ -133,13 +143,13 @@
 		'<table id="table-user" class="table table-striped table-bordered" cellspacing="0" width="100%">
 			<thead>
 				<tr>
-					<th>N°</th>
-					<th>Usuario</th>
-					<th>Tipo</th>
-					<th>Empresa</th>
-					<th>Fecha Registro</th>
-					<th>Estado</th>
-					<th>Acciones</th>
+					<th class="lang-th-no">N°</th>
+					<th class="lang-th-user">User</th>
+					<th class="lang-th-type">Type</th>
+					<th class="lang-th-business">Business</th>
+					<th class="lang-th-registration-date">Registration Date</th>
+					<th class="lang-th-state">State</th>
+					<th class="lang-th-actions">Actions</th>
 				</tr>
 			</thead>
 			<tbody>'.$tbody.'</tbody>
@@ -166,8 +176,8 @@
 				<td class="td-center">'.$typeUser['registry_date'].'</td>
 				<td class="td-center">'.($typeUser['state']==1?'Habilitado':'Deshabilitado').'</td>
 				<td class="td-center">
-					<button class="btn btn-xs btn-info btn-user-type-edit" idtypeuser="'.$typeUser['idtype_user'].'" type="button"><i class="fa fa-pencil"></i> Editar </button>
-					<button class="btn btn-xs btn-danger btn-user-type-remove" idtypeuser="'.$typeUser['idtype_user'].'" type="button" '.($typeUser['state']==1?'enabled':'disabled').'><i class="fa fa-trash-o"></i> Eliminar </button>			
+					<button class="btn btn-xs btn-info btn-user-type-edit" idtypeuser="'.$typeUser['idtype_user'].'" type="button"><i class="fa fa-pencil"></i> <span class="lang-button-edit">Edit</span> </button>
+					<button class="btn btn-xs btn-danger btn-user-type-remove" idtypeuser="'.$typeUser['idtype_user'].'" type="button" '.($typeUser['state']==1?'enabled':'disabled').'><i class="fa fa-trash-o"></i> <span class="lang-button-delete">Delete</span> </button>			
 				</td>
 			</tr>';
 		}
@@ -176,11 +186,11 @@
 		'<table id="table-type-user" class="table table-striped table-bordered" cellspacing="0" width="100%">
 			<thead>
 				<tr>
-					<th>N°</th>
-					<th>Descripción</th>
-					<th>Fecha Registro</th>
-					<th>Estado</th>
-					<th>Acciones</th>
+					<th class="lang-th-no">N°</th>
+					<th class="lang-th-description">Description</th>
+					<th class="lang-th-registration-date">Registration Date</th>
+					<th class="lang-th-state">State</th>
+					<th class="lang-th-actions">Actions</th>
 				</tr>
 			</thead>
 			<tbody>'.$tbody.'</tbody>
@@ -207,8 +217,8 @@
 				<td class="td-center">'.$product['registry_date'].'</td>
 				<td class="td-center">'.($product['state']==1?'Habilitado':'Deshabilitado').'</td>
 				<td class="td-center">
-					<button class="btn btn-xs btn-info btn-product-edit" idproduct="'.$product['idproduct'].'" type="button"><i class="fa fa-pencil"></i> Editar </button>
-					<button class="btn btn-xs btn-danger btn-product-remove" idproduct="'.$product['idproduct'].'" type="button" '.($product['state']==1?'enabled':'disabled').'><i class="fa fa-trash-o"></i> Eliminar </button>			
+					<button class="btn btn-xs btn-info btn-product-edit" idproduct="'.$product['idproduct'].'" type="button"><i class="fa fa-pencil"></i> <span class="lang-button-edit">Edit</span> </button>
+					<button class="btn btn-xs btn-danger btn-product-remove" idproduct="'.$product['idproduct'].'" type="button" '.($product['state']==1?'enabled':'disabled').'><i class="fa fa-trash-o"></i> <span class="lang-button-delete">Delete</span> </button>			
 				</td>
 			</tr>';
 		}
@@ -217,12 +227,12 @@
 		'<table id="table-product" class="table table-striped table-bordered" cellspacing="0" width="100%">
 			<thead>
 				<tr>
-					<th>N°</th>
-					<th>Icono</th>
-					<th>Nombre</th>
-					<th>Fecha Registro</th>
-					<th>Estado</th>
-					<th>Acciones</th>
+					<th class="lang-th-no">N°</th>
+					<th class="lang-th-icon">Icon</th>
+					<th class="lang-th-name">Name</th>
+					<th class="lang-th-registration-date">Registration Date</th>
+					<th class="lang-th-state">State</th>
+					<th class="lang-th-actions">Actions</th>
 				</tr>
 			</thead>
 			<tbody>'.$tbody.'</tbody>
@@ -249,8 +259,8 @@
 				<td class="td-center">'.$version['registry_date'].'</td>
 				<td class="td-center">'.($version['state']==1?'Habilitado':'Deshabilitado').'</td>
 				<td class="td-center">
-					<button class="btn btn-xs btn-info btn-version-edit" idversion="'.$version['idversion'].'" type="button"><i class="fa fa-pencil"></i> Editar </button>
-					<button class="btn btn-xs btn-danger btn-version-remove" idversion="'.$version['idversion'].'" type="button" '.($version['state']==1?'enabled':'disabled').'><i class="fa fa-trash-o"></i> Eliminar </button>
+					<button class="btn btn-xs btn-info btn-version-edit" idversion="'.$version['idversion'].'" type="button"><i class="fa fa-pencil"></i> <span class="lang-button-edit">Edit</span> </button>
+					<button class="btn btn-xs btn-danger btn-version-remove" idversion="'.$version['idversion'].'" type="button" '.($version['state']==1?'enabled':'disabled').'><i class="fa fa-trash-o"></i> <span class="lang-button-delete">Delete</span> </button>
 				</td>
 			</tr>';
 		}
@@ -259,11 +269,11 @@
 		'<table id="table-version" class="table table-striped table-bordered" cellspacing="0" width="100%">
 			<thead>
 				<tr>
-					<th>N°</th>
-					<th>Versión</th>
-					<th>Fecha Registro</th>
-					<th>Estado</th>
-					<th>Acciones</th>
+					<th class="lang-th-no">N°</th>
+					<th class="lang-th-version">Version</th>
+					<th class="lang-th-registration-date">Registration Date</th>
+					<th class="lang-th-state">State</th>
+					<th class="lang-th-actions">Actions</th>
 				</tr>
 			</thead>
 			<tbody>'.$tbody.'</tbody>
@@ -291,8 +301,8 @@
 				<td class="td-center">'.$version_product['registry_date'].'</td>
 				<td class="td-center">'.($version_product['state']==1?'Habilitado':'Deshabilitado').'</td>
 				<td class="td-center">
-					<button class="btn btn-xs btn-info btn-version-product-edit" idproduct="'.$version_product['idproduct'].'" idversion="'.$version_product['idversion'].'" type="button"><i class="fa fa-pencil"></i> Editar </button>
-					<button class="btn btn-xs btn-danger btn-version-product-remove" idproduct="'.$version_product['idproduct'].'" idversion="'.$version_product['idversion'].'" type="button" '.($version_product['state']==1?'enabled':'disabled').'><i class="fa fa-trash-o"></i> Eliminar </button>
+					<button class="btn btn-xs btn-info btn-version-product-edit" idproduct="'.$version_product['idproduct'].'" idversion="'.$version_product['idversion'].'" type="button"><i class="fa fa-pencil"></i> <span class="lang-button-edit">Edit</span> </button>
+					<button class="btn btn-xs btn-danger btn-version-product-remove" idproduct="'.$version_product['idproduct'].'" idversion="'.$version_product['idversion'].'" type="button" '.($version_product['state']==1?'enabled':'disabled').'><i class="fa fa-trash-o"></i> <span class="lang-button-delete">Delete</span> </button>
 				</td>
 			</tr>';
 		}
@@ -301,12 +311,12 @@
 		'<table id="table-version-product" class="table table-striped table-bordered" cellspacing="0" width="100%">
 			<thead>
 				<tr>
-					<th>N°</th>
-					<th>Producto</th>
-					<th>Versión</th>
-					<th>Fecha Registro</th>
-					<th>Estado</th>
-					<th>Acciones</th>
+					<th class="lang-th-no">N°</th>
+					<th class="lang-th-product">Product</th>
+					<th class="lang-th-version">Version</th>
+					<th class="lang-th-registration-date">Registration Date</th>
+					<th class="lang-th-state">State</th>
+					<th class="lang-th-actions">Actions</th>
 				</tr>
 			</thead>
 			<tbody>'.$tbody.'</tbody>
@@ -339,7 +349,7 @@
 						if (count($ContentType['ArrayVersion']) > 0) {
 							foreach ($ContentType['ArrayVersion'] as $key => $array_version) {
 								$Version = $array_version['Version'];
-								$menuProduct.= '<li><a href="javascript:void(0)" class="net-servicio" ver="'.$Version['Id'].'" order="'.$Version['Order'].'"> Versión '.$Version['Description'].' <span class="badge badge-success">'.$Version['Count'].'</span> </a></li>';
+								$menuProduct.= '<li><a href="javascript:void(0)" class="net-servicio" ver="'.$Version['Id'].'" order="'.$Version['Order'].'"> <span class="lang-span-version">Version</span> '.$Version['Description'].' <span class="badge badge-success">'.$Version['Count'].'</span> </a></li>';
 							}
 						}
 
@@ -356,7 +366,7 @@
 						if (count($FileType['ArrayVersion']) > 0) {
 							foreach ($FileType['ArrayVersion'] as $key => $array_version) {
 								$Version = $array_version['Version'];
-								$menuProduct.= '<li><a href="javascript:void(0)" class="net-servicio" ver="'.$Version['Id'].'" order="'.$Version['Order'].'"> Versión '.$Version['Description'].' <span class="badge badge-success">'.$Version['Count'].'</span> </a></li>';
+								$menuProduct.= '<li><a href="javascript:void(0)" class="net-servicio" ver="'.$Version['Id'].'" order="'.$Version['Order'].'"> <span class="lang-span-version">Version</span> '.$Version['Description'].' <span class="badge badge-success">'.$Version['Count'].'</span> </a></li>';
 							}
 						}
 
@@ -369,6 +379,39 @@
 		}
 
 		return $menuProduct;
+	}
+
+
+	function printMenuAdmin(){
+
+		return '<li>
+			<a><i class="fa fa-briefcase"></i> <span class="lang-span-business">business</span> <span class="fa fa-chevron-down"></span></a>
+        	<ul class="nav child_menu">
+            	<li><a href="javascript:void(0)" class="gestion-admin lang-a-new-business" page="empresa" section="nuevo">new business</a></li>
+            </ul>
+        </li>
+        <li>
+			<a><i class="fa fa-users"></i> <span class="lang-span-user">user</span> <span class="fa fa-chevron-down"></span></a>
+        	<ul class="nav child_menu">
+            	<li><a href="javascript:void(0)" class="gestion-admin lang-a-new-user" page="usuario" section="nuevo">new user</a></li>
+                <li><a href="javascript:void(0)" class="gestion-admin lang-a-user-type" page="usuario" section="tipo">user type</a></li>
+            </ul>
+        </li>
+		<li><a><i class="fa fa-tags"></i> <span class="lang-span-product">product</span> <span class="fa fa-chevron-down"></span></a>
+			<ul class="nav child_menu">
+				<li><a href="javascript:void(0)" class="gestion-admin lang-a-register-product" page="producto" section="nuevo">register product</a></li>
+				<li><a href="javascript:void(0)" class="gestion-admin lang-a-register-version" page="producto" section="version">register version</a></li>
+				<li><a href="javascript:void(0)" class="gestion-admin lang-a-link-version-product" page="producto" section="vinculo">link version & product</a></li>
+			</ul>
+		</li>
+		<li><a><i class="fa fa-file-text-o"></i> <span class="lang-span-content">content</span> <span class="fa fa-chevron-down"></span></a>
+			<ul class="nav child_menu">
+				<li><a href="javascript:void(0)" class="gestion-admin lang-a-register-update" page="contenido" section="actualizacion">register update</a></li>
+				<li><a href="javascript:void(0)" class="gestion-admin lang-a-register-correction" page="contenido" section="correcion">register correction</a></li>
+				<li><a href="javascript:void(0)" class="gestion-admin lang-a-register-manual" page="archivo" section="manual">register manual</a></li>
+				<li><a href="javascript:void(0)" class="gestion-admin lang-a-register-video" page="archivo" section="video">register video</a></li>
+			</ul>
+		</li>';
 	}
 
 
@@ -398,7 +441,7 @@
 									$infoRecentList.= 
 									'<li>
                                         <a href="javascript:void(0)" ver="'.$version['Id'].'" order="" class="info-recent">
-                                            <span class="month">Versión '.$version['Description'].'</span>
+                                            <span class="month"><span class="lang-span-version">Version</span> '.$version['Description'].'</span>
                                             <span class="count"><span class="badge badge-success">'.$version['Count'].'</span></span>
                                         </a>
                                     </li>';
@@ -451,7 +494,7 @@
 									$infoRecentList.= 
 									'<li>
                                         <a href="javascript:void(0)" ver="'.$version['Id'].'" order="" class="info-recent">
-                                            <span class="month">Versión '.$version['Description'].'</span>
+                                            <span class="month"><span class="lang-span-version">Version</span> '.$version['Description'].'</span>
                                             <span class="count"><span class="badge badge-success">'.$version['Count'].'</span></span>
                                         </a>
                                     </li>';

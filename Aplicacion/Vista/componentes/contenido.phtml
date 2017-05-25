@@ -31,7 +31,7 @@
 
 			<div class="x_panel">
 				<div class="x_title">
-					<h2>Registrar <?php echo $name; ?> <small>Complete los campos</small></h2>
+					<h2><span class="lang-h2-register">Register</span> <?php echo $name; ?> <small class="lang-small-texto">Complete the fields</small></h2>
 					<ul class="nav navbar-right panel_toolbox">
 						<li class="chevron-up-right">
 							<a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
@@ -50,31 +50,37 @@
 				<div class="x_content">
 					<form id="form-content" class="form-horizontal form-label-left" enctype="multipart/form-data" method="post" autocomplete="off">
 						<div class="form-group">
-							<label class="control-label col-md-3 col-sm-3 col-xs-12" for="idproduct">Producto <span class="required">*</span></label>
+							<label class="control-label col-md-3 col-sm-3 col-xs-12" for="idproduct"><span class="lang-label-product">Product</span> <span class="required">*</span></label>
 							<div class="col-md-6 col-sm-6 col-xs-12">
 								<select id="idproduct" name="idproduct" class="form-control" required="required">
-		                            <option value="">-- Seleccione --</option>
+		                            <option value="" class="lang-option-select">-- Select --</option>
 		                            <?php echo $listProduct; ?>
 	                          	</select>
 							</div>
 						</div>
 						<div class="form-group">
-							<label class="control-label col-md-3 col-sm-3 col-xs-12" for="idversion-product">Versión <span class="required">*</span></label>
+							<label class="control-label col-md-3 col-sm-3 col-xs-12" for="idversion-product"><span class="lang-label-version">Version</span> <span class="required">*</span></label>
 							<div class="col-md-6 col-sm-6 col-xs-12">
 								<select id="idversion-product" name="idversion-product" class="form-control" required="required">
-		                            <option value="">-- Seleccione --</option>
+		                            <option value="" class="lang-option-select">-- Select --</option>
 		                            <?php //echo $listVersion; ?>
 	                          	</select>
 							</div>
 						</div>
 						<div class="form-group">
-							<label class="control-label col-md-3 col-sm-3 col-xs-12">Descripción <span class="required">*</span></label>
+							<label class="control-label col-md-3 col-sm-3 col-xs-12" for="detail-description"><span class="lang-label-description">Description</span> <span class="required">*</span></label>
 							<div class="col-md-6 col-sm-6 col-xs-12">
-								<textarea id="detail-description" name="detail-description" class="form-control" rows="5" placeholder='' required="required"></textarea>
+								<textarea id="detail-description" name="detail-description" class="form-control" rows="5" placeholder='Write description in spanish...' required="required"></textarea>
 							</div>
 						</div>
 						<div class="form-group">
-							<label class="control-label col-md-3 col-sm-3 col-xs-12">Fecha Registro <span class="required">*</span></label>
+							<label class="control-label col-md-3 col-sm-3 col-xs-12" for="detail-description-en"><span class="lang-label-description-en">Description in English</span> <span class="required">*</span></label>
+							<div class="col-md-6 col-sm-6 col-xs-12">
+								<textarea id="detail-description-en" name="detail-description-en" class="form-control" rows="5" placeholder='Write description in english...' required="required"></textarea>
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="control-label col-md-3 col-sm-3 col-xs-12" for="registry-date"><span class="lang-label-registration-date">Registration Date</span> <span class="required">*</span></label>
 							<div class="col-md-6 col-sm-6 col-xs-12">
 								<input type="date" id="registry-date" name="registry-date" class="form-control" required="required" style="padding-left: 45px; box-sizing: border-box;" value="<?php echo $fechaActual; ?>">
 								<span class="fa fa-calendar-o form-control-feedback left" aria-hidden="true"></span>
@@ -83,8 +89,8 @@
 						<div class="ln_solid"></div>
 						<div class="form-group">
 							<div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
-								<button class="btn btn-primary" id="btn-reset-content" type="reset">Limpiar</button>
-								<button class="btn btn-success" id="btn-guardar-content" type="button">Guardar</button>
+								<button class="btn btn-primary lang-button-reset" id="btn-reset-content" type="reset">Reset</button>
+								<button class="btn btn-success lang-button-save" id="btn-guardar-content" type="button">Save</button>
 								<input type="hidden" id="idcontent-type" name="idcontent-type" value="<?php echo $idcontent_type; ?>">
 							</div>
 						</div>

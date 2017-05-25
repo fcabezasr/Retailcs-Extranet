@@ -1,7 +1,7 @@
 $(document).ready(function(){
 
 	/*** INICIO - FJ - EXPRESIÓNES REGULARES ***/
-	
+		
 	// Para números, útil para filtrar los famosos ids.
 	var exp_numeros = /^[0-9]+$/,
 		// Para números, útil para filtrar los famosos ids.
@@ -95,6 +95,8 @@ $(document).ready(function(){
 			},
 			success: function(data){
 				$('#principal').html(data);
+				// Cambia de Idioma
+				fncChangeLanguage();
 			},
 			error: function(xhr, status){
 				alert('Ha ocurrido un error...');
@@ -129,6 +131,8 @@ $(document).ready(function(){
 			},
 			success: function(data){
 				$('#principal').html(data);
+				// Cambia de Idioma
+				fncChangeLanguage();
 			},
 			error: function(xhr, status){
 				alert('Ha ocurrido un error...');
@@ -217,11 +221,12 @@ $(document).ready(function(){
 		var idcontent = $(this).attr('idcontent'),
 			description = $(this).attr('description'),
 			product = $(this).attr('product'),
-			version = $(this).attr('version');
+			version = $(this).attr('version'),
+			language = $(this).attr('language');
 
 		$.ajax({
 			async: true,
-			url: './ajax/contentPdf/'+idcontent+'/'+description+'/'+product+'/'+version+'/',
+			url: './ajax/contentPdf/'+idcontent+'/'+description+'/'+product+'/'+version+'/'+language+'/',
 			cache: false,
 			data: { },
 			type: 'POST',
@@ -233,9 +238,9 @@ $(document).ready(function(){
 				console.log(data);
 
 				if (data.result.success) {
-					window.location.href = './Files/fpdf/Pdf.php?idcontent='+data.result.idcontent+'&description='+data.result.description+'&product='+data.result.product+'&version='+data.result.version;
+					window.location.href = './Files/fpdf/Pdf.php?idcontent='+data.result.idcontent+'&description='+data.result.description+'&product='+data.result.product+'&version='+data.result.version+'&language='+data.result.language;
 				} else {
-					$('#principal').html('Ocurrió un error al generar el PDF, intentelo de nuevo.');
+					$('#principal').html(fcnReturnLanguage('pdf',''));
 				}
 			},
 			error: function(xhr, status){
@@ -263,7 +268,7 @@ $(document).ready(function(){
 				if ($(id).val().length > 0) {
 					$(id).removeClass('parsley-error');
 				} else {
-					$(id).addClass('parsley-error').parent().append('<ul class="parsley-errors-list filled" id="parsley-id-'+index+'"><li class="parsley-required">Este campo es necesario.</li></ul>');
+					$(id).addClass('parsley-error').parent().append('<ul class="parsley-errors-list filled" id="parsley-id-'+index+'"><li class="parsley-required">'+fcnReturnLanguage('campo','')+'</li></ul>');
 				}
 			}
 		});
@@ -277,12 +282,12 @@ $(document).ready(function(){
 				user_name = $('#user-name').val(),
 				password = $('#password').val(),
 				repeat_password = $('#repeat-password').val(),
-				business_name = $('#business-name').val(),
+				business_name = $('#business-name-sel').val(),
 				type_user = $('#type-user').val();
 			
 			if (password!=repeat_password) {
 				var id_rp = $('#repeat-password').attr('data-parsley-id');
-				$('#repeat-password').addClass('parsley-error').parent().append('<ul class="parsley-errors-list filled" id="parsley-id-'+id_rp+'"><li class="parsley-required">La contraseña no coincide.</li></ul>');
+				$('#repeat-password').addClass('parsley-error').parent().append('<ul class="parsley-errors-list filled" id="parsley-id-'+id_rp+'"><li class="parsley-required">'+fcnReturnLanguage('pass','')+'</li></ul>');
 			} else {
 				$.ajax({
 					async: true,
@@ -326,7 +331,7 @@ $(document).ready(function(){
 
 
 	$(document).on('keypress keyup change', '.form-horizontal .form-control', function(){
-		
+
 		// Asigna una posición a cada input
 		$(this).parents('form').find('.form-control').each(function(index, value){
 			$(this).attr('data-parsley-id', index);
@@ -340,7 +345,7 @@ $(document).ready(function(){
 			if ($(id).val().length > 0) {
 				$(id).removeClass('parsley-error');
 			} else {
-				$(id).addClass('parsley-error').parent().append('<ul class="parsley-errors-list filled" id="parsley-id-'+parsley+'"><li class="parsley-required">Este campo es necesario.</li></ul>');
+				$(id).addClass('parsley-error').parent().append('<ul class="parsley-errors-list filled" id="parsley-id-'+parsley+'"><li class="parsley-required">'+fcnReturnLanguage('campo','')+'</li></ul>');
 			}
 		}
 	});
@@ -361,7 +366,7 @@ $(document).ready(function(){
 				if ($(id).val().length > 0) {
 					$(id).removeClass('parsley-error');
 				} else {
-					$(id).addClass('parsley-error').parent().append('<ul class="parsley-errors-list filled" id="parsley-id-'+index+'"><li class="parsley-required">Este campo es necesario.</li></ul>');
+					$(id).addClass('parsley-error').parent().append('<ul class="parsley-errors-list filled" id="parsley-id-'+index+'"><li class="parsley-required">'+fcnReturnLanguage('campo','')+'</li></ul>');
 				}
 			}
 		});
@@ -428,7 +433,7 @@ $(document).ready(function(){
 				if ($(id).val().length > 0) {
 					$(id).removeClass('parsley-error');
 				} else {
-					$(id).addClass('parsley-error').parent().append('<ul class="parsley-errors-list filled" id="parsley-id-'+index+'"><li class="parsley-required">Este campo es necesario.</li></ul>');
+					$(id).addClass('parsley-error').parent().append('<ul class="parsley-errors-list filled" id="parsley-id-'+index+'"><li class="parsley-required">'+fcnReturnLanguage('campo','')+'</li></ul>');
 				}
 			}
 		});
@@ -494,7 +499,7 @@ $(document).ready(function(){
 				if ($(id).val().length > 0) {
 					$(id).removeClass('parsley-error');
 				} else {
-					$(id).addClass('parsley-error').parent().append('<ul class="parsley-errors-list filled" id="parsley-id-'+index+'"><li class="parsley-required">Este campo es necesario.</li></ul>');
+					$(id).addClass('parsley-error').parent().append('<ul class="parsley-errors-list filled" id="parsley-id-'+index+'"><li class="parsley-required">'+fcnReturnLanguage('campo','')+'</li></ul>');
 				}
 			}
 		});
@@ -567,7 +572,7 @@ $(document).ready(function(){
 				if ($(id).val().length > 0) {
 					$(id).removeClass('parsley-error');
 				} else {
-					$(id).addClass('parsley-error').parent().append('<ul class="parsley-errors-list filled" id="parsley-id-'+index+'"><li class="parsley-required">Este campo es necesario.</li></ul>');
+					$(id).addClass('parsley-error').parent().append('<ul class="parsley-errors-list filled" id="parsley-id-'+index+'"><li class="parsley-required">'+fcnReturnLanguage('campo','')+'</li></ul>');
 				}
 			}
 		});
@@ -633,7 +638,7 @@ $(document).ready(function(){
 				if ($(id).val().length > 0) {
 					$(id).removeClass('parsley-error');
 				} else {
-					$(id).addClass('parsley-error').parent().append('<ul class="parsley-errors-list filled" id="parsley-id-'+index+'"><li class="parsley-required">Este campo es necesario.</li></ul>');
+					$(id).addClass('parsley-error').parent().append('<ul class="parsley-errors-list filled" id="parsley-id-'+index+'"><li class="parsley-required">'+fcnReturnLanguage('campo','')+'</li></ul>');
 				}
 			}
 		});
@@ -699,7 +704,7 @@ $(document).ready(function(){
 						if ($(id).val().match(exp_url)) {
 							$(id).removeClass('parsley-error');
 						} else {
-							$(id).addClass('parsley-error').parent().append('<ul class="parsley-errors-list filled" id="parsley-id-'+index+'"><li class="parsley-required">URL inválido, no cumple el formato: Ej. <strong>"http://www.youtube.com/xxx"</strong>.</li></ul>');
+							$(id).addClass('parsley-error').parent().append('<ul class="parsley-errors-list filled" id="parsley-id-'+index+'"><li class="parsley-required">'+fcnReturnLanguage('url','')+'</li></ul>');
 						}
 					}
 
@@ -712,17 +717,17 @@ $(document).ready(function(){
 						if(siezekiloByte <= size_file_validate){
 							$(id).removeClass('parsley-error');
 						} else {
-							$(id).addClass('parsley-error').parent().append('<ul class="parsley-errors-list filled" id="parsley-id-'+index+'"><li class="parsley-required">El tamaño del archivo no debe ser mayor a <strong>"'+(size_file_validate/1024)+'MB"</strong>.</li></ul>');
+							$(id).addClass('parsley-error').parent().append('<ul class="parsley-errors-list filled" id="parsley-id-'+index+'"><li class="parsley-required">'+fcnReturnLanguage('file',(size_file_validate/1024))+'</li></ul>');
 						}
 
 						if(!existeUrl(url_file+file_upload.name)){
 							$(id).removeClass('parsley-error');
 						} else {
-							$(id).addClass('parsley-error').parent().append('<ul class="parsley-errors-list filled" id="parsley-id-'+index+'"><li class="parsley-required">El archivo <strong>"'+file_upload.name+'"</strong> ya existe.</li></ul>');
+							$(id).addClass('parsley-error').parent().append('<ul class="parsley-errors-list filled" id="parsley-id-'+index+'"><li class="parsley-required">'+fcnReturnLanguage('upload',file_upload.name)+'</li></ul>');
 						}
 					}
 				} else {
-					$(id).addClass('parsley-error').parent().append('<ul class="parsley-errors-list filled" id="parsley-id-'+index+'"><li class="parsley-required">Este campo es necesario.</li></ul>');
+					$(id).addClass('parsley-error').parent().append('<ul class="parsley-errors-list filled" id="parsley-id-'+index+'"><li class="parsley-required">'+fcnReturnLanguage('campo','')+'</li></ul>');
 				}
 			}
 		});
@@ -801,7 +806,7 @@ $(document).ready(function(){
 				if ($(id).val().length > 0) {
 					$(id).removeClass('parsley-error');
 				} else {
-					$(id).addClass('parsley-error').parent().append('<ul class="parsley-errors-list filled" id="parsley-id-'+index+'"><li class="parsley-required">Este campo es necesario.</li></ul>');
+					$(id).addClass('parsley-error').parent().append('<ul class="parsley-errors-list filled" id="parsley-id-'+index+'"><li class="parsley-required">'+fcnReturnLanguage('campo','')+'</li></ul>');
 				}
 			}
 		});
@@ -884,6 +889,7 @@ $(document).ready(function(){
 					$('#business-name').val(data.result.objBusiness.business_name);
 					$('#ruc').val(data.result.objBusiness.ruc);
 					$('#address').val(data.result.objBusiness.address);
+					$('#language').val(data.result.objBusiness.language);
 					$('#btn-guardar-business').html(data.result.nameboton);
 
 					//Actualizar TableBusiness
@@ -932,7 +938,7 @@ $(document).ready(function(){
 					$('#user-name').val(data.result.objUser.user_name);
 					$('#password').val(data.result.objUser.user_pass);
 					$('#repeat-password').val(data.result.objUser.user_pass);
-					$('#business-name').val(data.result.objUser.idbusiness);
+					$('#business-name-sel').val(data.result.objUser.idbusiness);
 					$('#type-user').val(data.result.objUser.idtype_user);
 					$('#btn-guardar-user').html(data.result.nameboton);
 
@@ -1510,7 +1516,7 @@ $(document).ready(function(){
 					$("#parsley-id-2").remove();
 
 					if ($('#business-name').val().length == 0) {
-						$('#business-name').addClass('parsley-error').attr('data-parsley-id', 2).parent().append('<ul class="parsley-errors-list filled" id="parsley-id-2"><li class="parsley-required">Este campo es necesario.</li></ul>');
+						$('#business-name').addClass('parsley-error').attr('data-parsley-id', 2).parent().append('<ul class="parsley-errors-list filled" id="parsley-id-2"><li class="parsley-required">'+fcnReturnLanguage('campo','')+'</li></ul>');
 					}
 				}
 			},
@@ -1553,7 +1559,7 @@ $(document).ready(function(){
 					$("#parsley-id-2").remove();
 
 					if ($('#user-name').val().length == 0) {
-						$('#user-name').addClass('parsley-error').attr('data-parsley-id', 2).parent().append('<ul class="parsley-errors-list filled" id="parsley-id-2"><li class="parsley-required">Este campo es necesario.</li></ul>');
+						$('#user-name').addClass('parsley-error').attr('data-parsley-id', 2).parent().append('<ul class="parsley-errors-list filled" id="parsley-id-2"><li class="parsley-required">'+fcnReturnLanguage('campo','')+'</li></ul>');
 					}
 				}
 			},
@@ -1596,7 +1602,7 @@ $(document).ready(function(){
 					$("#parsley-id-2").remove();
 
 					if ($('#product-name').val().length == 0) {
-						$('#product-name').addClass('parsley-error').attr('data-parsley-id', 2).parent().append('<ul class="parsley-errors-list filled" id="parsley-id-2"><li class="parsley-required">Este campo es necesario.</li></ul>');
+						$('#product-name').addClass('parsley-error').attr('data-parsley-id', 2).parent().append('<ul class="parsley-errors-list filled" id="parsley-id-2"><li class="parsley-required">'+fcnReturnLanguage('campo','')+'</li></ul>');
 					}
 				}
 			},
@@ -1639,7 +1645,7 @@ $(document).ready(function(){
 					$("#parsley-id-2").remove();
 
 					if ($('#version-description').val().length == 0) {
-						$('#version-description').addClass('parsley-error').attr('data-parsley-id', 2).parent().append('<ul class="parsley-errors-list filled" id="parsley-id-2"><li class="parsley-required">Este campo es necesario.</li></ul>');
+						$('#version-description').addClass('parsley-error').attr('data-parsley-id', 2).parent().append('<ul class="parsley-errors-list filled" id="parsley-id-2"><li class="parsley-required">'+fcnReturnLanguage('campo','')+'</li></ul>');
 					}
 				}
 			},
@@ -1682,7 +1688,7 @@ $(document).ready(function(){
 					$("#parsley-id-2").remove();
 
 					if ($('#description-type').val().length == 0) {
-						$('#description-type').addClass('parsley-error').attr('data-parsley-id', 2).parent().append('<ul class="parsley-errors-list filled" id="parsley-id-2"><li class="parsley-required">Este campo es necesario.</li></ul>');
+						$('#description-type').addClass('parsley-error').attr('data-parsley-id', 2).parent().append('<ul class="parsley-errors-list filled" id="parsley-id-2"><li class="parsley-required">'+fcnReturnLanguage('campo','')+'</li></ul>');
 					}
 				}
 			},
@@ -1693,6 +1699,13 @@ $(document).ready(function(){
 			}
 		});
 	});
+
+	
+	$(document).on('input', '#ruc', function(){
+		
+		var numeros = fcnValidateExpReg($(this).val(), exp_numeros);
+    	$(this).val(numeros);
+    });
 
 
 	$(document).on('input', 'input[type=password]', function(){
@@ -1728,6 +1741,8 @@ $(document).ready(function(){
 			},
 			success: function(data){
 				$('#principal').html(data);
+				// Cambia de Idioma
+				fncChangeLanguage();
 			},
 			error: function(xhr, status){
 				alert('Ha ocurrido un error...');
@@ -1740,6 +1755,23 @@ $(document).ready(function(){
 		});
 		
 		return false;
+	});
+
+
+	$(document).on('click', '.lang-main', function(){
+
+		var lang = 'en',
+			idbusiness = $(this).attr('idbusiness');
+
+		if($(this).find('.lang-child').hasClass('en')){
+			$(this).find('.lang-child').removeClass('en').addClass('es').animate({left: '20px'}, "slow");
+			lang = 'es';
+			fcnLanguage(idbusiness, lang);
+		} else {
+			$(this).find('.lang-child').removeClass('es').addClass('en').animate({left: '0px'}, "slow");
+			lang = 'en';
+			fcnLanguage(idbusiness, lang);
+		}
 	});
 
 
@@ -1795,6 +1827,63 @@ $(document).ready(function(){
 		http.open('HEAD', url, false);
 		http.send();
 		return http.status!=404;
+	}
+
+
+	function fcnLanguage(idbusiness, lang){
+
+		console.log(idbusiness, lang);
+		
+		$.ajax({
+			async: true,
+			url: './ajax/changeLanguage/'+idbusiness+'/'+lang+'/',
+			cache: false,
+			data: { },
+			type: 'POST',
+			dataType: 'json',
+			beforeSend: function(){
+				fcnLoading(); //Inicializa el div Loading
+			},
+			success: function(data){
+				console.log(data);
+				window.location.href = './';
+			},
+			error: function(xhr, status){
+				alert('Ha ocurrido un error...');
+			},
+			complete: function(xhr, status){
+				fcnFinishLoading(); //Finaliza el div Loading
+				setTimeout(function(){ $('#div-alert').css('display', 'none'); }, 5000); //Finaliza el mensaje de alerta
+			}
+		});	
+	}
+
+	function fcnReturnLanguage(indice, texto){
+
+		var msgSpanish = new Object();
+			msgSpanish.pdf = 'Ocurrió un error al generar el PDF, intentelo de nuevo.';
+			msgSpanish.campo = 'Este campo es necesario.';
+			msgSpanish.pass = 'La contraseña no coincide.';
+			msgSpanish.url = 'URL inválido, no cumple el formato: Ej. <strong>"http://www.youtube.com/xxx"</strong>.';
+			msgSpanish.file = 'El tamaño del archivo no debe ser mayor a <strong>"'+texto+'MB"</strong>.';
+			msgSpanish.upload = 'El archivo <strong>"'+texto+'"</strong> ya existe.';
+
+		var msgEnglish = new Object();
+			msgEnglish.pdf = 'There was an error generating the PDF, please try again.';
+			msgEnglish.campo = 'This field is required.';
+			msgEnglish.pass = 'Password does not match.';
+			msgEnglish.url = 'Invalid URL, does not meet the format: Eg. <strong>"http://www.youtube.com/xxx"</strong>.';
+			msgEnglish.file = 'File size should not exceed <strong>"'+texto+'MB"</strong>.';
+			msgEnglish.upload = 'The <strong>"'+texto+'"</strong> file already exists.';
+			
+		var msg = '';
+		if ($('.lang-child').hasClass('en')) {
+			msg = msgEnglish[indice];
+		} else {
+			msg = msgSpanish[indice];
+		}
+
+		return msg;
 	}
 
 });

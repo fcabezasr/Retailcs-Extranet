@@ -4,12 +4,14 @@ class Mfile_type {
 
 	private $padre;
 	private $db;
+	private $session;
 	private $result;
 
 	/** VARIABLES **/
 
 	private $IdFileType;
 	private $FileDescription;
+	private $FileDescriptionEn;
 	private $NameShort;
 	private $RegistryDate;
 	private $UpdateDate;
@@ -20,6 +22,7 @@ class Mfile_type {
 		
 		$this->padre = $el;
 		$this->db = $this->padre->lib('DB');
+		$this->session = $this->padre->lib('Session');
 		$this->result = array('result' => array('success' => 0, 'message' => '', 'id' => null));
 	}
 
@@ -29,16 +32,28 @@ class Mfile_type {
 
     public function selectFileTypexIdFileTypeMenu(){
 
-		$sql = $this->db->_query("SELECT idfile_type, file_description, name_short FROM tbl_file_type WHERE idfile_type = ".$this->getIdFileType()." AND state = 1")->fetch_object();
+    	$this->session->start();
+
+		$sql = $this->db->_query("SELECT idfile_type, file_description, file_description_en, name_short FROM tbl_file_type WHERE idfile_type = ".$this->getIdFileType()." AND state = 1")->fetch_object();
 
 		if($sql){
 			$this->result['result']['success'] = 1;
-			$this->result['result']['message'] = 'La consulta se realizó satisfactoriamente.';
 			$this->result['result']['object_file_type'] = $sql;
+
+			if ($_SESSION['Business']['Language']=='en') {
+				$this->result['result']['message'] = 'The query was successful.';
+			} else {
+				$this->result['result']['message'] = 'La consulta se realizó satisfactoriamente.';
+			}
 		}else{
 			$this->result['result']['success'] = 0;
-			$this->result['result']['message'] = 'Ocurrió un error al realizar la consulta.';
 			$this->result['result']['object_file_type'] = null;
+
+			if ($_SESSION['Business']['Language']=='en') {
+				$this->result['result']['message'] = 'An error occurred while performing the query.';
+			} else {
+				$this->result['result']['message'] = 'Ocurrió un error al realizar la consulta.';
+			}
 		}
 
 		return $this->result;
@@ -47,16 +62,28 @@ class Mfile_type {
 
 	public function selectFileTypexDescription(){
 
-		$sql = $this->db->_query("SELECT idfile_type, file_description FROM tbl_file_type WHERE file_description LIKE '%".$this->getFileDescription()."%' AND state = 1")->fetch_object();
+		$this->session->start();
+
+		$sql = $this->db->_query("SELECT idfile_type, file_description, file_description_en FROM tbl_file_type WHERE file_description LIKE '%".$this->getFileDescription()."%' AND state = 1")->fetch_object();
 
 		if($sql){
 			$this->result['result']['success'] = 1;
-			$this->result['result']['message'] = 'La consulta se realizó satisfactoriamente.';
 			$this->result['result']['object_file_type'] = $sql;
+
+			if ($_SESSION['Business']['Language']=='en') {
+				$this->result['result']['message'] = 'The query was successful.';
+			} else {
+				$this->result['result']['message'] = 'La consulta se realizó satisfactoriamente.';
+			}
 		}else{
 			$this->result['result']['success'] = 0;
-			$this->result['result']['message'] = 'Ocurrió un error al realizar la consulta.';
 			$this->result['result']['object_file_type'] = null;
+
+			if ($_SESSION['Business']['Language']=='en') {
+				$this->result['result']['message'] = 'An error occurred while performing the query.';
+			} else {
+				$this->result['result']['message'] = 'Ocurrió un error al realizar la consulta.';
+			}
 		}
 
 		return $this->result;		
@@ -83,6 +110,16 @@ class Mfile_type {
 	public function getFileDescription(){
 		
 		return $this->FileDescription;
+	}
+
+	public function setFileDescriptionEn($FileDescriptionEn = null){
+
+		$this->FileDescriptionEn = $FileDescriptionEn;
+	}
+
+	public function getFileDescriptionEn(){
+		
+		return $this->FileDescriptionEn;
 	}
 
 	public function setNameShort($NameShort = null){

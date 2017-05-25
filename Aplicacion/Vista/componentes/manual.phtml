@@ -17,7 +17,7 @@
 	<div class="row">
 		<div class="col-md-12">
 			<blockquote>
-				<p class="title"><?php echo $file_type->file_description; ?></p>
+				<p class="title"><?php if($_SESSION['Business']['Language']=='en'){ echo $file_type->file_description_en; } else { echo $file_type->file_description; } ?></p>
 				<div class="subtitle"><?php echo $product->product_name; ?></div>
 			</blockquote>
 		</div>
@@ -35,8 +35,8 @@
 				<div class="x_title">
 					<h2>&nbsp;<small>&nbsp;</small></h2>
 					<ul class="nav navbar-right panel_toolbox">
-						<li><a class="collapse-list"><i class="glyphicon glyphicon-th-list"></i> Ver Modo Lista</a></li>
-						<li><a class="collapse-grilla"><i class="glyphicon glyphicon-th"></i> Ver Modo Grilla</a></li>
+						<li><a class="collapse-list"><i class="glyphicon glyphicon-th-list"></i> <span class="lang-span-list">View List Mode</span></a></li>
+						<li><a class="collapse-grilla"><i class="glyphicon glyphicon-th"></i> <span class="lang-span-grid">View Grid Mode</span></a></li>
 					</ul>
 					<div class="clearfix"></div>
 				</div>
@@ -51,7 +51,7 @@
 				?>
 
 				<div class="x_content">
-					<h2>Versión <?php echo $version->version_description; ?><small>&nbsp;</small></h2>
+					<h2><span class="lang-span-version">Version</span> <?php echo $version->version_description; ?><small>&nbsp;</small></h2>
 					<div class="row">
 
 						<?php
@@ -67,10 +67,10 @@
 								<div class="caption">
 									<div class="caption-left">
 										<p><strong><?php echo utf8_encode($value_f->file_name); ?></strong></p>
-										<p>Publicado el <?php echo formatDate($value_f->publication_date); ?> <br class="br-list"> <?php if($value_f->file_size!=''){ echo $value_f->file_size; } ?></p>
+										<p><span class="lang-span-published">Published the</span> <?php echo formatDate($value_f->publication_date); ?> <br class="br-list"> <?php if($value_f->file_size!=''){ echo $value_f->file_size; } ?></p>
 									</div>
 									<div class="caption-right">
-										<p><a href="<?php echo $value_f->file_url; ?>" download="<?php echo utf8_encode($value_f->file_name); ?>" type="button" class="btn btn-primary"><i class="fa fa-download"></i> Descargar</a></p>	
+										<p><a href="<?php echo $value_f->file_url; ?>" download="<?php echo utf8_encode($value_f->file_name); ?>" type="button" class="btn btn-primary"><i class="fa fa-download"></i> <span class="lang-button-download">Download</span></a></p>
 									</div>
 									<div class="clearfix"></div>
 								</div>

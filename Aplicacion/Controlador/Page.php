@@ -48,7 +48,7 @@ class Page extends Nucleo\Includes\Controlador {
 					// VERSION PRODUCT -- Obtener los objects y id de las versiones asociados al product
 					$version_product = $this->modelo('Mversion_product');
 					$version_product->setIdProduct($r_product->idproduct);
-					$version_product->setIdVersion($version);			
+					$version_product->setIdVersion($version);
 					
 					//Aqui se realizará el cambio, construyendo un ARRAY VERSION x PRODUCT
 					$array_result_version_product = $version_product->selectVersionProductxIdProductxIdVersion();
@@ -312,6 +312,7 @@ class Page extends Nucleo\Includes\Controlador {
 				$business->setBusinessName($_POST['business-name']);
 				$business->setRuc($_POST['ruc']);
 				//$business->setAddress($_POST['address']);
+				$business->setLanguage($_POST['language']);
 				$business->setUpdateDate($fechaActual);
 				$result = $business->insertBusiness();
 
@@ -374,6 +375,7 @@ class Page extends Nucleo\Includes\Controlador {
 				$data['business_name'] = $businessData->business_name;
 				$data['ruc'] = $businessData->ruc;
 				//$data['address'] = $businessData->address;
+				$data['language'] = $businessData->language;
 				$data['registry_date'] = $businessData->registry_date;
 				$data['state'] = $businessData->state;
 

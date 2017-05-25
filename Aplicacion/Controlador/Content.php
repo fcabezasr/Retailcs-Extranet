@@ -34,6 +34,7 @@ class Content extends Nucleo\Includes\Controlador{
 				if ($result['result']['success']) {
 					$content_detail = $this->modelo('Mcontent_detail');
 					$content_detail->setDetailDescription(utf8_decode(addslashes($_POST['detail-description'])));
+					$content_detail->setDetailDescriptionEn(utf8_decode(addslashes($_POST['detail-description-en'])));
 					$content_detail->setRegistryDate($_POST['registry-date']);
 					$content_detail->setUpdateDate($dateUpdate);
 					$content_detail->setIdContent($result['result']['id']);

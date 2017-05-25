@@ -33,6 +33,8 @@ class Muser {
 
 	public function selectUser(){
 
+		$this->session->start();
+
 		$sql = $this->db->_query("SELECT iduser, user_name, user_pass, DATE_FORMAT(registry_date, '%d-%m-%Y') AS registry_date, state, idtype_user, idbusiness FROM tbl_user WHERE 1");
 		$arrayUser = array();
 	
@@ -42,12 +44,22 @@ class Muser {
 
 		if($arrayUser){
 			$this->result['result']['success'] = 1;
-			$this->result['result']['message'] = 'La consulta se realizó satisfactoriamente.';
 			$this->result['result']['arrayUser'] = $arrayUser;
+
+			if ($_SESSION['Business']['Language']=='en') {
+				$this->result['result']['message'] = 'The query was successful.';
+			} else {
+				$this->result['result']['message'] = 'La consulta se realizó satisfactoriamente.';
+			}
 		}else{
 			$this->result['result']['success'] = 0;
-			$this->result['result']['message'] = 'Ocurrió un error al realizar la consulta.';
 			$this->result['result']['arrayUser'] = null;
+
+			if ($_SESSION['Business']['Language']=='en') {
+				$this->result['result']['message'] = 'An error occurred while performing the query.';
+			} else {
+				$this->result['result']['message'] = 'Ocurrió un error al realizar la consulta.';
+			}
 		}
 
 		return $this->result;
@@ -55,38 +67,64 @@ class Muser {
 
 
 	public function insertUser(){
+
+		$this->session->start();
 		
 		if ($this->getIdUser()!='' || $this->getIdUser()!=null) {
 			$sql = $this->db->_query("UPDATE tbl_user SET user_name = '".$this->getUserName()."', user_pass = '".$this->getUserPass()."', update_date = '".$this->getUpdateDate()."', idtype_user = ".$this->getIdTypeUser().", idbusiness = ".$this->getIdBusiness().", state = 1 WHERE iduser = ".$this->getIdUser()."");
 
 			if($sql){
 				$this->result['result']['success'] = 1;
-				$this->result['result']['message'] = 'Los datos del usuario "<strong>'.$this->getUserName().'</strong>" se han actualizado satisfactoriamente.';
 				$this->result['result']['id'] = $this->getIdUser();
-				$this->result['result']['username'] = $this->getUserName();
-				$this->result['result']['nameboton'] = 'Guardar';
+				$this->result['result']['username'] = $this->getUserName();			
+
+				if ($_SESSION['Business']['Language']=='en') {
+					$this->result['result']['message'] = 'The user data "<strong>'.$this->getUserName().'</strong>" has been updated successfully.';
+					$this->result['result']['nameboton'] = 'Save';
+				} else {
+					$this->result['result']['message'] = 'Los datos del usuario "<strong>'.$this->getUserName().'</strong>" se han actualizado satisfactoriamente.';
+					$this->result['result']['nameboton'] = 'Guardar';
+				}
 			} else {
 				$this->result['result']['success'] = 0;
-				$this->result['result']['message'] = 'Ocurrió un error, los datos del usuario "<strong>'.$this->getUserName().'</strong>" no se ha actualizado.';
 				$this->result['result']['id'] = '';
 				$this->result['result']['username'] = '';
-				$this->result['result']['nameboton'] = 'Actualizar';
+				
+				if ($_SESSION['Business']['Language']=='en') { 
+					$this->result['result']['message'] = 'An error occurred, the user data "<strong>'.$this->getUserName().'</strong>" was not updated.';
+					$this->result['result']['nameboton'] = 'Update';
+				} else {
+					$this->result['result']['message'] = 'Ocurrió un error, los datos del usuario "<strong>'.$this->getUserName().'</strong>" no se ha actualizado.';
+					$this->result['result']['nameboton'] = 'Actualizar';
+				}
 			}			
 		} else {
 			$sql = $this->db->_query("INSERT INTO tbl_user (user_name, user_pass, update_date, idtype_user, idbusiness) VALUES ('".$this->getUserName()."', '".$this->getUserPass()."', '".$this->getUpdateDate()."', ".$this->getIdTypeUser().", ".$this->getIdBusiness().")");
 
 			if($sql){
 				$this->result['result']['success'] = 1;
-				$this->result['result']['message'] = 'El usuario "<strong>'.$this->getUserName().'</strong>" se ha registrado satisfactoriamente.';
 				$this->result['result']['id'] = $this->db->mysql()->insert_id;
 				$this->result['result']['username'] = $this->getUserName();
-				$this->result['result']['nameboton'] = 'Guardar';
+				
+				if ($_SESSION['Business']['Language']=='en') {
+					$this->result['result']['message'] = 'The user "<strong>'.$this->getUserName().'</strong>" has been successfully registered.';
+					$this->result['result']['nameboton'] = 'Save';
+				} else {
+					$this->result['result']['message'] = 'El usuario "<strong>'.$this->getUserName().'</strong>" se ha registrado satisfactoriamente.';
+					$this->result['result']['nameboton'] = 'Guardar';
+				}
 			} else {
 				$this->result['result']['success'] = 0;
-				$this->result['result']['message'] = 'Ocurrió un error, el usuario "<strong>'.$this->getUserName().'</strong>" no se ha registrado.';
 				$this->result['result']['id'] = '';
 				$this->result['result']['username'] = '';
-				$this->result['result']['nameboton'] = 'Guardar';
+				
+				if ($_SESSION['Business']['Language']=='en') {
+					$this->result['result']['message'] = 'An error occurred, the user "<strong>'.$this->getUserName().'</strong>" was not registered.';
+					$this->result['result']['nameboton'] = 'Save';
+				} else {
+					$this->result['result']['message'] = 'Ocurrió un error, el usuario "<strong>'.$this->getUserName().'</strong>" no se ha registrado.';
+					$this->result['result']['nameboton'] = 'Guardar';
+				}
 			}
 		}
 
@@ -96,18 +134,32 @@ class Muser {
 
 	public function updateUser(){
 
+		$this->session->start();
+
 		$sql = $this->db->_query("SELECT * FROM tbl_user WHERE iduser = ".$this->getIdUser()."")->fetch_object();
 	
 		if($sql){
 			$this->result['result']['success'] = 1;
-			$this->result['result']['message'] = 'Actualice los datos correspondientes.';
 			$this->result['result']['objUser'] = $sql;
-			$this->result['result']['nameboton'] = 'Actualizar';
+			
+			if ($_SESSION['Business']['Language']=='en') {
+				$this->result['result']['message'] = 'Update the corresponding data.';
+				$this->result['result']['nameboton'] = 'Update';
+			} else {
+				$this->result['result']['message'] = 'Actualice los datos correspondientes.';
+				$this->result['result']['nameboton'] = 'Actualizar';
+			}
 		} else {
 			$this->result['result']['success'] = 0;
-			$this->result['result']['message'] = 'Ocurrió un error al realizar la consulta.';
 			$this->result['result']['objUser'] = '';
-			$this->result['result']['nameboton'] = 'Guardar';
+			
+			if ($_SESSION['Business']['Language']=='en') {
+				$this->result['result']['message'] = 'An error occurred while performing the query.';
+				$this->result['result']['nameboton'] = 'Save';
+			} else {
+				$this->result['result']['message'] = 'Ocurrió un error al realizar la consulta.';
+				$this->result['result']['nameboton'] = 'Guardar';
+			}
 		}
 
 		return $this->result;
@@ -116,15 +168,27 @@ class Muser {
 
 	public function deleteUser(){
 
+		$this->session->start();
+
 		$sql = $this->db->_query("UPDATE tbl_user SET state = 0 WHERE iduser = ".$this->getIdUser()."");
 
 		if($sql){
 			$this->result['result']['success'] = 1;
-			$this->result['result']['message'] = 'El usuario se ha <strong>deshabilitado</strong> correctamente.';
 			$this->result['result']['id'] = $this->getIdUser();
+
+			if ($_SESSION['Business']['Language']=='en') {
+				$this->result['result']['message'] = 'The user has been successfully <strong>disabled</strong>.';
+			} else {
+				$this->result['result']['message'] = 'El usuario se ha <strong>deshabilitado</strong> correctamente.';
+			}
 		} else {
 			$this->result['result']['success'] = 0;
-			$this->result['result']['message'] = 'Ocurrió un error, vuelva a realizar la acción.';
+			
+			if ($_SESSION['Business']['Language']=='en') {
+				$this->result['result']['message'] = 'An error occurred, redo the action.';
+			} else {
+				$this->result['result']['message'] = 'Ocurrió un error, vuelva a realizar la acción.';
+			}
 		}
 
 		return $this->result;
@@ -133,14 +197,26 @@ class Muser {
 
 	public function validateUser(){
 
+		$this->session->start();
+
 		$sql = $this->db->_query("SELECT iduser FROM tbl_user WHERE user_name = '".$this->getUserName()."'")->fetch_object();
 		
 		if($sql){
 			$this->result['result']['success'] = 1;
-			$this->result['result']['message'] = 'El usuario "<strong>'.$this->getUserName().'</strong>" ya existe.';
+			
+			if ($_SESSION['Business']['Language']=='en') {
+				$this->result['result']['message'] = 'The user "<strong>'.$this->getUserName().'</strong>" already exists.';
+			} else {
+				$this->result['result']['message'] = 'El usuario "<strong>'.$this->getUserName().'</strong>" ya existe.';
+			}
 		}else{
 			$this->result['result']['success'] = 0;
-			$this->result['result']['message'] = 'Ocurrió un error al realizar la consulta.';
+			
+			if ($_SESSION['Business']['Language']=='en') {
+				$this->result['result']['message'] = 'An error occurred while performing the query.';
+			} else {
+				$this->result['result']['message'] = 'Ocurrió un error al realizar la consulta.';
+			}
 		}
 
 		return $this->result;
@@ -151,7 +227,7 @@ class Muser {
 
 		$this->session->start();
 		
-		$user_name = $this->db->_query("SELECT * FROM tbl_user WHERE user_name = '".$this->getUserName()."'")->fetch_object();
+		$user_name = $this->db->_query("SELECT * FROM tbl_user WHERE user_name = '".$this->getUserName()."' AND state = 1")->fetch_object();
 		
 		// State = 0 : Usuario y contraseña incorrectos
 		$this->result['result']['success'] = 0;
@@ -161,13 +237,18 @@ class Muser {
 			$this->result['result']['success'] = 2;
 			$this->result['result']['message'] = 'El usuario no existe.';		
 		} else {
-			$user = $this->db->_query("SELECT * FROM tbl_user WHERE user_name = '".$this->getUserName()."' AND user_pass = '".$this->getUserPass()."'")->fetch_object();
+			$user = $this->db->_query("SELECT * FROM tbl_user WHERE user_name = '".$this->getUserName()."' AND user_pass = '".$this->getUserPass()."' AND state = 1")->fetch_object();
 
 			if ($user) {
+
+				$business = $this->db->_query("SELECT * FROM tbl_business WHERE idbusiness = ".$user->idbusiness." AND state = 1")->fetch_object();
+				
 				$_SESSION['User']['Id'] = $user->iduser;
 				$_SESSION['User']['Name'] = $user->user_name;
 				$_SESSION['User']['Type'] = $user->idtype_user;
 				$_SESSION['Business']['Id'] = $user->idbusiness;
+				$_SESSION['Business']['Name'] = $business->business_name;
+				$_SESSION['Business']['Language'] = $business->language;
 
 				// State = 1 : Usuario correcto
 				$this->result['result']['success'] = 1;
